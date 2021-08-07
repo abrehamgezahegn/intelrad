@@ -25,7 +25,7 @@ const cssSnippets = {
   button: css`
     background-color: ${(props) => props.theme.secondary};
     color: ${(props) => props.theme.white};
-    padding: 24px;
+    padding: 18px;
     ${(props) => props.theme.medium_18};
   `,
 

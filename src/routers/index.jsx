@@ -2,6 +2,7 @@ import React from "react";
 import AuthRouter from "./Auth";
 import Radiologist from "./Radiologist";
 import { useAuth } from "../context/AuthProvider";
+import Doctor from "./Doctor";
 
 const IndexRoute = () => {
   const {
@@ -11,7 +12,7 @@ const IndexRoute = () => {
   const renderAppBasedOnRole = () => {
     switch (role) {
       case "doctor":
-        return <h1>doctor</h1>;
+        return <Doctor />;
       case "radiographer":
         return <h1>radiographer</h1>;
       case "radiologist":

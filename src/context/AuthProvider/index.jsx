@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import Spinner from "../../components/Spinner";
 
 const initialValues = {
   user: { role: "public" },
@@ -7,7 +8,7 @@ const initialValues = {
 const AuthContext = React.createContext(initialValues);
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ role: "radiologist" });
+  const [user, setUser] = useState({ role: "doctor" });
   const [state, setState] = useState("loading");
 
   const fetchUser = () => {
@@ -27,7 +28,19 @@ const AuthProvider = ({ children }) => {
   };
 
   if (state === "loading") {
-    return <h2>Loading....</h2>;
+    return (
+      <div
+        style={{
+          width: "98vw",
+          height: "98vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Spinner />
+      </div>
+    );
   } else if (state === "success") {
     return (
       <AuthContext.Provider value={{ user, login }}>
