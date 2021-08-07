@@ -5,8 +5,6 @@ export const Container = styled.div`
   justify-content: center;
   background-color: ${(props) => props.theme.secondary};
   color: ${(props) => props.theme.white};
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
 
   .logo {
     display: flex;

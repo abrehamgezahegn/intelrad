@@ -1,28 +1,77 @@
 import React from "react";
 import { Container } from "./styles";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+
+function CircularProgressWithLabel(props) {
+  return (
+    <Container riskPercentage={props.value}>
+      <Box position="relative" display="inline-flex">
+        <CircularProgress
+          variant="determinate"
+          size={54}
+          className="progress"
+          {...props}
+        />
+        <Box
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          position="absolute"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography
+            variant="caption"
+            component="div"
+            color={"textPrimary"}
+          >{`${Math.round(props.value)}%`}</Typography>
+        </Box>
+      </Box>
+    </Container>
+  );
+}
+
 const RiskCard = () => {
   return (
     <Container>
       <div className="risk_card">
-        <h2 className="title">Risk probabilities</h2>
+        <h2 className="main_title">Model prediction</h2>
         <div className="risk_inner">
-          <div>
-            <h2 className="title">Disease</h2>
-            <div>
-              <h3 className="item">Covid</h3>
-              <h3 className="item">Covid</h3>
-              <h3 className="item">Covid</h3>
-              <h3 className="item">Covid</h3>
+          <div className="w-100">
+            <div className="row justify-sb">
+              <h2 className="title">Disease</h2>
+              <h2 className="title">Risk</h2>
             </div>
-          </div>
-          <div>
-            <h2 className="title">Risk</h2>
-            <div>
-              <h3 className="item">90%</h3>
-              <h3 className="item">90%</h3>
-              <h3 className="item">90%</h3>
-              <h3 className="item">90%</h3>
+            <div className="w-100">
+              <div className="item-container row justify-sb">
+                <h3 className="item">Covid</h3>
+                <div className="item">
+                  <CircularProgressWithLabel value={90} />
+                </div>
+              </div>
+              <div className="item-container row justify-sb">
+                <h3 className="item">Covid</h3>
+                <div className="item">
+                  <CircularProgressWithLabel value={40} />
+                </div>
+              </div>{" "}
+              <div className="item-container row justify-sb">
+                <h3 className="item">Covid</h3>
+                <div className="item">
+                  <CircularProgressWithLabel value={75} />
+                </div>
+              </div>{" "}
+              <div className="item-container row justify-sb">
+                <h3 className="item">Covid</h3>
+                <div className="item">
+                  <CircularProgressWithLabel value={90} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

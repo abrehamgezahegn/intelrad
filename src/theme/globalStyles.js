@@ -4,7 +4,7 @@ import { theme } from "./theme";
 export const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
-    font-family: "Proxima Nova Medium", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Roboto", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     scroll-behavior: smooth;
     user-select: none;
   }
@@ -13,14 +13,14 @@ export const GlobalStyles = createGlobalStyle`
   *:before,
   *:after {
     box-sizing: inherit;
-    font-family: "Proxima Nova Medium", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Roboto", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     outline: 0;
   }
 
   body {
     margin: 0px;
     padding: 0px;
-    font-family: "Proxima Nova Medium", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Roboto", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: ${theme.grey2};
     background-color: ${theme.grey5};
   }
@@ -76,6 +76,14 @@ export const GlobalStyles = createGlobalStyle`
     align-items:center;
   }
 
+  .w-100 {
+    width: 100%;
+  }
+
+  .justify-sb {
+    justify-content: space-between;
+  }
+
   .link {
     color: ${theme.primary1};
     cursor: pointer;
@@ -114,6 +122,10 @@ export const GlobalStyles = createGlobalStyle`
    object-fit: cover;
   }
 
+
+  .MuiButton-label {
+    text-transform: none;
+  }
 
 
 `;

@@ -11,6 +11,9 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
+  .diagnosis_area {
+    width: 70%;
+  }
 
   .diagnosis-title {
     margin-bottom: 44px;
@@ -25,7 +28,8 @@ export const Container = styled.div`
   }
 
   .image {
-    width: 440px;
+    /* width: 540px; */
+    max-width: 80%;
     margin-right: 44px;
   }
   .text_area_container {
@@ -46,9 +50,13 @@ export const Container = styled.div`
     font-size: 24px;
   }
 
+  .textarea label {
+    /* font-size: 24px; */
+  }
+
   .right-content {
     margin-left: 80px;
-    margin-top: 92px;
+    /* margin-top: 92px; */
   }
 
   .risk_card {

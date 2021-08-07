@@ -5,8 +5,14 @@ export const Container = styled.div`
     ${(props) => props.theme.card};
   }
 
+  .main_title {
+    text-align: center;
+  }
+
   .title {
     text-align: center;
+    color: ${(props) => props.theme.grey3};
+    ${(props) => props.theme.medium_18};
   }
 
   .risk_inner {
@@ -16,10 +22,20 @@ export const Container = styled.div`
   }
 
   .title {
-    margin-bottom: 44px;
+    margin-bottom: 24px;
   }
 
   .item {
     margin-bottom: 24px;
+  }
+
+  .MuiCircularProgress-colorPrimary {
+    color: ${(props) => {
+      if (props.riskPercentage < 50) {
+        return "#2DCCA7";
+      } else if (props.riskPercentage > 50 && props.riskPercentage < 90) {
+        return "#F7D070";
+      } else return "#D64545";
+    }};
   }
 `;

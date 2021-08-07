@@ -18,7 +18,7 @@ const cssSnippets = {
     background-color: ${(props) => props.theme.white};
     box-shadow: 0 35px 25px -60px rgba(0, 0, 0, 0.2);
     padding: 44px;
-    border-radius: 8px;
+    border-radius: 24px;
     width: 100%;
   `,
 
