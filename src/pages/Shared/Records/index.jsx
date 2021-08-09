@@ -10,8 +10,10 @@ import { Button } from "@material-ui/core";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 // import FilterSelect from "./FilterSelect";
 import Select from "../../../components/Form/Select";
+import { useHistory } from "react-router-dom";
 
 const Records = () => {
+  const history = useHistory();
   return (
     <Container>
       <div className="inner">
@@ -65,7 +67,13 @@ const Records = () => {
                   ]}
                 />
               </div>
-              <Button color="primary" className="button">
+              <Button
+                onClick={() => {
+                  history.push("/request");
+                }}
+                color="primary"
+                className="button"
+              >
                 <AddOutlinedIcon /> New request
               </Button>
             </div>

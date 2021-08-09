@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 export const baseInput = css`
   padding: 7px 32px 7px 12px;
@@ -21,4 +21,16 @@ export const baseInput = css`
   }}
   outline: none;
   -webkit-appearance: none;
+`;
+
+export const StyledTextArea = styled.textarea`
+  ${baseInput}
+  resize: none;
+`;
+
+export const StyledLabel = styled.label`
+  ${(props) => props.theme.medium_14};
+  color: ${(props) => props.theme.secondary};
+  margin-bottom: 7px;
+  display: inline-block;
 `;

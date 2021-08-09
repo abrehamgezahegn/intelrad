@@ -4,6 +4,8 @@ import IndexRoute from "./routers";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme/theme";
 import { GlobalStyles } from "./theme/globalStyles";
+import "./index.css";
+
 // import ApolloClientProvider from "./context/ApolloProvider/ApolloProvider";
 
 function App() {
