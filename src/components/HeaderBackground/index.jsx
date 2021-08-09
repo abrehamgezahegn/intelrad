@@ -1,28 +1,5 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  margin-bottom: 100px;
-
-  .nav-container {
-    padding: 36px 64px;
-  }
-
-  .app-content {
-    margin: auto;
-    margin-top: -40px;
-    margin-bottom: 24px;
-  }
-
-  @media (max-width: 800px) {
-    .app-content {
-    }
-
-    .nav-container {
-      padding: 24px 34px;
-    }
-  }
-`;
-
 export const HeaderBackground = styled.div`
   position: absolute;
   top: 0;

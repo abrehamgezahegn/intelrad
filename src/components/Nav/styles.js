@@ -23,8 +23,6 @@ export const Container = styled.div`
   }
   .nav-items a {
     color: ${(props) => props.theme.gray2};
-    /* opacity: 0.8; */
-    /* color: ${(props) => props.theme.white}; */
   }
 
   .nav_item__active {

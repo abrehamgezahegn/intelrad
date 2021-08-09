@@ -31,4 +31,12 @@ export const Container = styled.div`
   .tr:hover {
     box-shadow: -1px 5px 5px 1px rgba(0, 0, 0, 0.1);
   }
+
+  .status_button {
+    width: 120px;
+  }
+
+  .status_button button {
+    text-transform: capitalize;
+  }
 `;

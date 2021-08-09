@@ -8,6 +8,8 @@ import NoteOutlinedIcon from "@material-ui/icons/NoteOutlined";
 import DataCard from "./DataCard";
 import { Button } from "@material-ui/core";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
+// import FilterSelect from "./FilterSelect";
+import Select from "../../../components/Form/Select";
 
 const Records = () => {
   return (
@@ -52,9 +54,21 @@ const Records = () => {
         <div>
           <div className="row d_header">
             <h1>Diagnosis</h1>
-            <Button color="primary" className="button">
-              <AddOutlinedIcon /> New patient
-            </Button>
+            <div className="row">
+              <div className="select">
+                <Select
+                  options={[
+                    { label: "All", value: "all" },
+                    { label: "Diagnosed", value: "diagnosed" },
+                    { label: "Requested", value: "requested" },
+                    { label: "New", value: "new" },
+                  ]}
+                />
+              </div>
+              <Button color="primary" className="button">
+                <AddOutlinedIcon /> New request
+              </Button>
+            </div>
           </div>
           <RecordList />
         </div>

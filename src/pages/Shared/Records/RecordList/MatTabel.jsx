@@ -9,6 +9,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { StyledTableRow } from "./styles";
+import { Button, ButtonOutlined } from "../../../../components/Button";
+
+import { useTheme } from "styled-components";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
@@ -18,6 +21,7 @@ const columns = [
   { id: "radiologist", label: "Radiologist", minWidth: 170 },
   { id: "radiographer", label: "Radiographer", minWidth: 170 },
   { id: "condition", label: "Condition", minWidth: 170 },
+  { id: "status", label: "Status", minWidth: 170 },
 ];
 
 const rows = [
@@ -29,7 +33,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    opened: false,
+    status: "requested",
   },
   {
     name: "Abebech Bersabeh",
@@ -39,7 +43,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    opened: true,
+    status: "diagnosed",
   },
   {
     name: "Abebech Bersabeh",
@@ -49,7 +53,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    opened: false,
+    status: "requested",
   },
   {
     name: "Abebech Bersabeh",
@@ -59,28 +63,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    opened: true,
-  },
-
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    opened: true,
-  },
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    opened: false,
+    status: "viewed",
   },
 
   {
@@ -91,7 +74,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    opened: true,
+    status: "diagnosed",
   },
   {
     name: "Abebech Bersabeh",
@@ -101,7 +84,28 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    opened: true,
+    status: "requested",
+  },
+
+  {
+    name: "Abebech Bersabeh",
+    phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "viewed",
+  },
+  {
+    name: "Abebech Bersabeh",
+    phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "viewed",
   },
 ];
 
@@ -128,6 +132,11 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  const getButtonColor = (value) => {
+    if (value === "requested") return "yellow";
+    else if (value === "diagnosed") return "green";
+  };
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
@@ -148,7 +157,7 @@ export default function StickyHeadTable() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .sort((item) => (item.opened ? 1 : -1))
+              .sort((item) => (item.status !== "diagnosed" ? 1 : -1))
               .map((row) => {
                 return (
                   <StyledTableRow
@@ -156,8 +165,7 @@ export default function StickyHeadTable() {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.code}
-                    opened={row.opened}
+                    opened={row.status !== "diagnosed"}
                   >
                     {columns.map((column, index) => {
                       const value = row[column.id];
@@ -166,9 +174,16 @@ export default function StickyHeadTable() {
                         return (
                           <TableCell key={column.id} align={column.align}>
                             <div className="row">
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
+                              <div className="status_button">
+                                <ButtonOutlined
+                                  style={{ borderRadius: 24 }}
+                                  color={getButtonColor(value)}
+                                >
+                                  {column.format && typeof value === "number"
+                                    ? column.format(value)
+                                    : value}
+                                </ButtonOutlined>
+                              </div>
                               <DeleteIcon
                                 className="icon"
                                 color={"#fff"}

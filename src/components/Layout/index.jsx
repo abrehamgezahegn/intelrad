@@ -1,12 +1,17 @@
 import React from "react";
 import Nav from "../Nav";
-import { Container } from "./styles";
+import { Container, HeaderBackground } from "./styles";
 
 const Layout = ({ children }) => {
   return (
     <Container>
-      <Nav />
-      {children}
+      <HeaderBackground />
+      <div className="layout-content">
+        <div className="nav-container">
+          <Nav />
+        </div>
+        <div className="app-content">{children}</div>
+      </div>
     </Container>
   );
 };

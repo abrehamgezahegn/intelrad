@@ -34,4 +34,9 @@ export const Container = styled.div`
   .button:hover {
     background-color: ${(props) => props.theme.secondary};
   }
+
+  .select {
+    margin-right: 24px;
+    width: 200px;
+  }
 `;
