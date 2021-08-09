@@ -17,4 +17,10 @@ export const Container = styled.div`
   .item span {
     opacity: 0.6;
   }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50px;
+  }
 `;

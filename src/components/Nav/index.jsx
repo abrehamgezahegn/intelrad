@@ -4,9 +4,12 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Container } from "./styles";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { useAuth } from "../../context/AuthProvider";
 
 const Nav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const auth = useAuth();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,7 +44,12 @@ const Nav = () => {
           </NavLink>
         </div>
 
-        <div className="user-items">
+        <div className="user-items row">
+          <img
+            src="https://assets.newglue.com/assets/avatar_placeholder-c4a9963ad86c68649100b476add586667aaaf4672a3dbfd6abf0e7338f4f5337.jpg"
+            alt="ava"
+            className="avatar"
+          />
           <div className="menu">
             <Button
               aria-controls="simple-menu"
@@ -58,9 +66,16 @@ const Nav = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  auth.logout();
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </div>
+          <ExpandMoreIcon />
         </div>
       </div>
     </Container>

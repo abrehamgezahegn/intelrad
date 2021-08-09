@@ -11,7 +11,10 @@ const Login = () => {
   };
   return (
     <Container>
-      <LoginForm onSubmit={onSubmit} />
+      <div className="bar" />
+      <div className="inner">
+        <LoginForm onSubmit={onSubmit} />
+      </div>
     </Container>
   );
 };

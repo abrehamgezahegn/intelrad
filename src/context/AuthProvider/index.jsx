@@ -24,7 +24,11 @@ const AuthProvider = ({ children }) => {
 
   const login = (data) => {
     console.log("inside auth do firebase", data);
-    setUser({ role: "radiologist" });
+    setUser({ role: data.email });
+  };
+
+  const logout = () => {
+    setUser({ role: "public" });
   };
 
   if (state === "loading") {
@@ -43,7 +47,7 @@ const AuthProvider = ({ children }) => {
     );
   } else if (state === "success") {
     return (
-      <AuthContext.Provider value={{ user, login }}>
+      <AuthContext.Provider value={{ user, login, logout }}>
         {children}
       </AuthContext.Provider>
     );

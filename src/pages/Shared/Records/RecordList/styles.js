@@ -22,14 +22,14 @@ export const Container = styled.div`
   }
 
   .tr {
-    border-bottom: solid rgba(0, 0, 0, 0.1) 1px;
+    border-bottom: solid ${(props) => props.theme.borderColor} 1px;
     height: 64px;
     cursor: pointer;
     transition: all ease-in-out 0.2s;
   }
 
   .tr:hover {
-    box-shadow: -1px 5px 5px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: -1px 5px 5px 1px ${(props) => props.theme.borderColor};
   }
 
   .status_button {

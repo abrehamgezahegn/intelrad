@@ -5,7 +5,7 @@ import { Container, HeaderBackground } from "./styles";
 const Layout = ({ children }) => {
   return (
     <Container>
-      <HeaderBackground />
+      {/* <HeaderBackground /> */}
       <div className="layout-content">
         <div className="nav-container">
           <Nav />

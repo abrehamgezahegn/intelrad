@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Container } from "./styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
+import { Button } from "../Button";
+import { StyledInput } from "../Form/Input";
 
 const LoginForm = (props) => {
   const [email, setEmail] = React.useState("");
@@ -24,8 +25,11 @@ const LoginForm = (props) => {
             console.log("submitting ");
           }}
         >
-          <h2 className="title">Login</h2>
-          <TextField
+          <div className="logo">
+            <h1>INTELRAD</h1>
+          </div>
+          <p className="subtitle">Login to your account</p>
+          <StyledInput
             id="outlined-basic"
             label="Email"
             variant="outlined"
@@ -34,7 +38,7 @@ const LoginForm = (props) => {
               setEmail(e.target.value);
             }}
           />
-          <TextField
+          <StyledInput
             id="outlined-basic"
             label="Password"
             type="password"

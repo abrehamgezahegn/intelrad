@@ -7,12 +7,12 @@ const baseButton = css`
   border: none;
   border-radius: 10px;
   background: ${(props) => props.theme.primary1};
-  padding: 7px 6px;
+  padding: 12px 4px;
   color: ${(props) => props.theme.white};
   ${(props) => props.theme.bold_16};
   cursor: pointer;
-  height: 36px;
-  width: 100%;
+  height: 42px;
+  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;

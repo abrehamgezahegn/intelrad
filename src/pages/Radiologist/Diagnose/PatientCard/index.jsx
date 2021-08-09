@@ -5,7 +5,8 @@ const PatientCard = () => {
   return (
     <Container>
       <div className="patient_card">
-        <h2 className="title">Patient Profile</h2>
+        {/* <h2 className="title">Patient Profile</h2> */}
+        <img className="avatar" alt="some" src="" />
         <div>
           <h3 className="item">
             <span> Name: </span> Jhon Doe

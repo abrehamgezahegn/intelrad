@@ -20,6 +20,7 @@ const theme = {
   warning: "#F7D070",
   error: "#D64545",
   scrollBarColor: "rgba(0, 0, 0, .2)",
+  borderColor: "rgba(0, 0, 0, 0.1)",
 
   mobileBreakPoint: {
     SP: `380px`,

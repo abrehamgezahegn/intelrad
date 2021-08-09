@@ -176,7 +176,7 @@ export default function StickyHeadTable() {
                             <div className="row">
                               <div className="status_button">
                                 <ButtonOutlined
-                                  style={{ borderRadius: 24 }}
+                                  style={{ borderRadius: 22, width: "100%" }}
                                   color={getButtonColor(value)}
                                 >
                                   {column.format && typeof value === "number"

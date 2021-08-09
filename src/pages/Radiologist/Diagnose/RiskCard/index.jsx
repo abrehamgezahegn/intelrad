@@ -49,25 +49,25 @@ const RiskCard = () => {
             </div>
             <div className="w-100">
               <div className="item-container row justify-sb">
-                <h3 className="item">Covid</h3>
+                <h3 className="item">Covid19</h3>
                 <div className="item">
                   <CircularProgressWithLabel value={90} />
                 </div>
               </div>
               <div className="item-container row justify-sb">
-                <h3 className="item">Covid</h3>
+                <h3 className="item">Viral Puemonia</h3>
                 <div className="item">
                   <CircularProgressWithLabel value={40} />
                 </div>
               </div>{" "}
               <div className="item-container row justify-sb">
-                <h3 className="item">Covid</h3>
+                <h3 className="item">Bacterial Puemonia</h3>
                 <div className="item">
                   <CircularProgressWithLabel value={75} />
                 </div>
               </div>{" "}
               <div className="item-container row justify-sb">
-                <h3 className="item">Covid</h3>
+                <h3 className="item">TB</h3>
                 <div className="item">
                   <CircularProgressWithLabel value={90} />
                 </div>

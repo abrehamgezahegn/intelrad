@@ -32,10 +32,10 @@ export const Container = styled.div`
   .MuiCircularProgress-colorPrimary {
     color: ${(props) => {
       if (props.riskPercentage < 50) {
-        return "#2DCCA7";
+        return props.theme.success;
       } else if (props.riskPercentage > 50 && props.riskPercentage < 90) {
-        return "#F7D070";
-      } else return "#D64545";
+        return props.theme.warning;
+      } else return props.theme.error;
     }};
   }
 `;

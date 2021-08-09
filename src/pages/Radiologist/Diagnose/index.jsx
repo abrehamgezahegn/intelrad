@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import RiskCard from "./RiskCard";
 import PatientCard from "./PatientCard";
+import { ButtonDark } from "../../../components/Button";
 
 const Diagnose = () => {
   const getFullScreen = () => {};
@@ -12,10 +13,8 @@ const Diagnose = () => {
     <Container>
       <div className="inner">
         <div className="diagnosis_area">
-          {/* <h1 className="diagnosis-title">X-Ray Images</h1> */}
           <div className="images">
             <div>
-              {/* <h2 className="image_label">Original</h2> */}
               <img
                 onClick={() => {
                   getFullScreen();
@@ -48,7 +47,9 @@ const Diagnose = () => {
                 className="textarea"
               />
             </div>
-            <Button className="submit">Submit report</Button>
+            <div className="button-container">
+              <ButtonDark className="submit">Submit report</ButtonDark>
+            </div>
           </div>
         </div>
         <div className="right-content">

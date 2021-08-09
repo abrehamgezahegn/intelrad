@@ -28,7 +28,6 @@ export const Container = styled.div`
   }
 
   .image {
-    /* width: 540px; */
     max-width: 80%;
     margin-right: 44px;
   }
@@ -50,13 +49,8 @@ export const Container = styled.div`
     font-size: 24px;
   }
 
-  .textarea label {
-    /* font-size: 24px; */
-  }
-
   .right-content {
     margin-left: 80px;
-    /* margin-top: 92px; */
   }
 
   .risk_card {
@@ -69,4 +63,6 @@ export const Container = styled.div`
   .submit:hover {
     background-color: ${(props) => props.theme.secondary};
   }
+
+  .button-container
 `;

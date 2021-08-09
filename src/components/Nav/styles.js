@@ -5,6 +5,9 @@ export const Container = styled.div`
   justify-content: center;
   background-color: ${(props) => props.theme.secondary};
   color: ${(props) => props.theme.white};
+  border-radius: 24px;
+  position: sticky;
+  top: 0;
 
   .logo {
     display: flex;
@@ -12,6 +15,11 @@ export const Container = styled.div`
   }
   .logo a {
     color: ${(props) => props.theme.white};
+  }
+
+  .nav-items {
+    display: flex;
+    align-items: center;
   }
 
   .inner {
@@ -22,12 +30,12 @@ export const Container = styled.div`
     margin: 20px;
   }
   .nav-items a {
-    color: ${(props) => props.theme.gray2};
+    color: ${(props) => props.theme.grey3};
   }
 
   .nav_item__active {
     color: ${(props) => props.theme.white};
-    opacity: 1;
+    color: red;
   }
 
   .menu-trigger {
@@ -39,5 +47,12 @@ export const Container = styled.div`
     margin-left: 12px;
     margin-bottom: 0px;
     ${(props) => props.theme.medium_18};
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
   }
 `;
