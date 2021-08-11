@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Container } from "./styles";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import RiskCard from "./RiskCard";
-import PatientCard from "./PatientCard";
+import PatientCard from "../../../components/PatientCard";
 import { ButtonDark } from "../../../components/Button";
 
 const Diagnose = () => {

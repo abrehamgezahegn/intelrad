@@ -8,7 +8,7 @@ const initialValues = {
 const AuthContext = React.createContext(initialValues);
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ role: "doctor" });
+  const [user, setUser] = useState({ role: "radiologist" });
   const [state, setState] = useState("loading");
 
   const fetchUser = () => {

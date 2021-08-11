@@ -16,7 +16,7 @@ const Doctor = () => {
         <Switch>
           <Route exact path="/" component={Records} />
           <Route exact path="/request" component={RequestImaging} />
-          {/* <Redirect to="/" /> */}
+          <Redirect to="/" />
         </Switch>
       </Layout>
     </Router>
