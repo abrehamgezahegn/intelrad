@@ -1,10 +1,11 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { Container } from "./styles";
 import TextField from "@material-ui/core/TextField";
 import RiskCard from "./RiskCard";
 import PatientCard from "../../../components/PatientCard";
 import { ButtonDark } from "../../../components/Button";
 import { useAuth } from "../../../context/AuthProvider";
+import imageZoom from "../../../utils/imageZoom";
 
 const Diagnose = () => {
   const getFullScreen = () => {};
@@ -19,6 +20,10 @@ const Diagnose = () => {
     return true;
   };
 
+  useEffect(() => {
+    imageZoom("myimage", "myresult");
+  }, []);
+
   return (
     <Container>
       <div className="inner">
@@ -29,21 +34,15 @@ const Diagnose = () => {
                 onClick={() => {
                   getFullScreen();
                 }}
-                id="x-ray-image"
+                id="myimage"
                 alt=""
                 className="image"
                 src="https://images.unsplash.com/photo-1616012480717-fd9867059ca0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8eCUyMHJheXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
+                // src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
               />
             </div>
 
-            {/* <div>
-              <h2 className="image_label">Sailency map</h2>
-              <img
-                alt=""
-                className="image"
-                src="https://images.unsplash.com/photo-1616012480717-fd9867059ca0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8eCUyMHJheXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
-              />
-            </div> */}
+            <div id="myresult" class="img-zoom-result"></div>
           </div>
           {showSubmitForm() && (
             <div>

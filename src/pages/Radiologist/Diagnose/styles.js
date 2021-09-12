@@ -21,6 +21,21 @@ export const Container = styled.div`
 
   .images {
     display: flex;
+    position: relative;
+  }
+
+  .img-zoom-lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    /*set the size of the lens:*/
+    width: 100px;
+    height: 100px;
+  }
+
+  .img-zoom-result {
+    border: 1px solid #d4d4d4;
+    width: 600px;
+    height: 600px;
   }
 
   .image_label {
@@ -28,7 +43,9 @@ export const Container = styled.div`
   }
 
   .image {
-    max-width: 80%;
+    /* max-width: 70%; */
+    width: 600px;
+    height: 600px;
     margin-right: 44px;
   }
   .text_area_container {
@@ -63,6 +80,4 @@ export const Container = styled.div`
   .submit:hover {
     background-color: ${(props) => props.theme.secondary};
   }
-
-  .button-container
 `;
