@@ -7,14 +7,16 @@ import {
 } from "react-router-dom";
 import Layout from "../components/Layout";
 import Diagnose from "../pages/Radiologist/Diagnose";
+import Home from "../pages/Radiologist/Home";
 
 const Radiologist = () => {
   return (
     <Router>
       <Layout>
         <Switch>
-          <Route path="/diagnose" component={Diagnose} />
-          <Redirect to="/diagnose" />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/diagnose/:recordId" component={Diagnose} />
+          <Redirect to="/" />
         </Switch>
       </Layout>
     </Router>

@@ -42,6 +42,7 @@ const UploadXRay = () => {
                 const file = e.target.files[0];
                 if (file) {
                   const src = URL.createObjectURL(file);
+                  console.log("src", src);
                   setImage(src);
                 }
               }}
