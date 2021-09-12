@@ -6,6 +6,7 @@ import PatientDataCard from "./PatientDataCard";
 import { storage } from "../../../utils/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import LinearProgressWithLabel from "../../../components/LinearProgress";
+import CustomizedSnackbar from "../../../components/Snackbar";
 
 const requestData = {
   name: "Abebech Bersabeh",
@@ -28,6 +29,7 @@ const UploadXRay = () => {
   const [image, setImage] = useState();
   const [fileData, setFileData] = useState();
   const [progress, setProgress] = useState(0);
+  const [snackBarOpen, toggleSnackbar] = useState(false);
 
   const handleUpload = () => {
     const storageRef = ref(storage, `images/${fileData.name}`);
@@ -63,76 +65,84 @@ const UploadXRay = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
         });
+        toggleSnackbar(true);
       }
     );
   };
 
   return (
-    <Container>
-      <div className="flex justify-center">
-        <div className="mt-12 w-screen max-w-screen-lg flex justify-between">
-          <div>
-            <PatientDataCard requestData={requestData} />
-            <input
-              type="file"
-              id="fileElem"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  const src = URL.createObjectURL(file);
-                  setImage(src);
-                  setFileData(file);
-                  setProgress(0);
-                }
-              }}
-            />
-            <ButtonDark
-              className="mt-12"
-              onClick={() => {
-                const fileElem = document.getElementById("fileElem");
-                fileElem.click();
-              }}
-            >
-              <div className="mr-2">Upload X-Ray </div> <AttachFileIcon />
-            </ButtonDark>
-          </div>
-
-          <div>
-            {!image && (
-              <div>
-                {" "}
-                <h3 className="text-lg font-bold">
-                  Please upload X-Ray image
-                </h3>{" "}
-              </div>
-            )}
+    <>
+      <Container>
+        <div className="flex justify-center">
+          <div className="mt-12 w-screen max-w-screen-lg flex justify-between">
             <div>
-              {image && (
-                <img className="w-102 h-102 mb-8" src={image} alt="x-ray" />
-              )}
-              {image && progress > 0 && (
-                <div className="mb-12 -mt-4 progress-container">
-                  <LinearProgressWithLabel value={progress} />
+              <PatientDataCard requestData={requestData} />
+              <input
+                type="file"
+                id="fileElem"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const src = URL.createObjectURL(file);
+                    setImage(src);
+                    setFileData(file);
+                    setProgress(0);
+                  }
+                }}
+              />
+              <ButtonDark
+                className="mt-12"
+                onClick={() => {
+                  const fileElem = document.getElementById("fileElem");
+                  fileElem.click();
+                }}
+              >
+                <div className="mr-2">Upload X-Ray </div> <AttachFileIcon />
+              </ButtonDark>
+            </div>
+
+            <div>
+              {!image && (
+                <div>
+                  {" "}
+                  <h3 className="text-lg font-bold">
+                    Please upload X-Ray image
+                  </h3>{" "}
                 </div>
               )}
-              {image && (
-                <ButtonDark
-                  onClick={() => {
-                    console.log("submit image");
-                    handleUpload();
-                  }}
-                  className="submit-button"
-                >
-                  Submit
-                </ButtonDark>
-              )}
+              <div>
+                {image && (
+                  <img className="w-102 h-102 mb-8" src={image} alt="x-ray" />
+                )}
+                {image && progress > 0 && (
+                  <div className="mb-12 -mt-4 progress-container">
+                    <LinearProgressWithLabel value={progress} />
+                  </div>
+                )}
+                {image && (
+                  <ButtonDark
+                    onClick={() => {
+                      console.log("submit image");
+                      handleUpload();
+                    }}
+                    className="submit-button"
+                  >
+                    Submit
+                  </ButtonDark>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+      <CustomizedSnackbar
+        type="success"
+        message="Successfully uploaded image"
+        isOpen={snackBarOpen}
+      />
+    </>
   );
 };
 
