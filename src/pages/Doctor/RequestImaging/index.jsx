@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { ButtonDark } from "../../../components/Button";
 import Select from "../../../components/Form/Select";
 import {
@@ -52,7 +53,9 @@ const RequestImaging = () => {
               <StyledLabel>Message</StyledLabel>
               <StyledTextArea className="text_area" />
             </div>
-            <ButtonDark>Submit Request</ButtonDark>
+            <Link to="/">
+              <ButtonDark>Submit Request</ButtonDark>
+            </Link>
           </div>
           <div>
             <PatientCard />

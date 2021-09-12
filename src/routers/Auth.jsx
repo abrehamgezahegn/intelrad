@@ -12,7 +12,6 @@ const AuthRouter = () => {
     <Router>
       <Switch>
         <Route exact path="/" render={() => <Redirect to="/login" />} />
-
         <Route path="/login" component={Login} />
         <Redirect to="/login" />
       </Switch>

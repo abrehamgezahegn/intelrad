@@ -69,7 +69,7 @@ const RiskCard = () => {
               <div className="item-container row justify-sb">
                 <h3 className="item">TB</h3>
                 <div className="item">
-                  <CircularProgressWithLabel value={90} />
+                  <CircularProgressWithLabel value={67} />
                 </div>
               </div>
             </div>

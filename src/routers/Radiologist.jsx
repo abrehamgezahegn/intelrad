@@ -14,7 +14,7 @@ const Radiologist = () => {
       <Layout>
         <Switch>
           <Route path="/diagnose" component={Diagnose} />
-          <Redirect to="/" />
+          <Redirect to="/diagnose" />
         </Switch>
       </Layout>
     </Router>

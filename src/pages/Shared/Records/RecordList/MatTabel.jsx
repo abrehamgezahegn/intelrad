@@ -10,8 +10,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { StyledTableRow } from "./styles";
 import { Button, ButtonOutlined } from "../../../../components/Button";
+import AlertDialog from "../../../../components/AlertDialog";
 
 import { useTheme } from "styled-components";
+import { useHistory } from "react-router";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
@@ -63,7 +65,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    status: "viewed",
+    status: "Imaged",
   },
 
   {
@@ -95,7 +97,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    status: "viewed",
+    status: "Imaged",
   },
   {
     name: "Abebech Bersabeh",
@@ -105,7 +107,7 @@ const rows = [
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
-    status: "viewed",
+    status: "Imaged",
   },
 ];
 
@@ -122,6 +124,8 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const history = useHistory();
+  const [isAlertOPen, toggleAlert] = React.useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -137,8 +141,26 @@ export default function StickyHeadTable() {
     else if (value === "diagnosed") return "green";
   };
 
+  const openAlert = (record) => {
+    toggleAlert(true);
+  };
+
+  const onDelete = () => {
+    console.log("deleting record");
+    // fetch fresh records
+    toggleAlert(false);
+  };
+
   return (
     <Paper className={classes.root}>
+      <AlertDialog
+        open={isAlertOPen}
+        onCancel={() => {
+          toggleAlert(false);
+        }}
+        onConfirm={onDelete}
+        title="Are you sure you want to delete this record?"
+      />
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -185,9 +207,16 @@ export default function StickyHeadTable() {
                                 </ButtonOutlined>
                               </div>
                               <DeleteIcon
+                                onClick={() => {
+                                  console.log("delete click");
+                                  openAlert(row);
+                                }}
                                 className="icon"
                                 color={"#fff"}
-                                style={{ color: "#D64545", marginLeft: 48 }}
+                                style={{
+                                  color: "#D64545",
+                                  marginLeft: 48,
+                                }}
                               />
                             </div>
                           </TableCell>
@@ -195,6 +224,10 @@ export default function StickyHeadTable() {
                       }
                       return (
                         <TableCell
+                          onClick={() => {
+                            if (row.status === "diagnosed")
+                              history.push("/diagnose");
+                          }}
                           style={{
                             color: !row.opened && "#000",
                           }}
