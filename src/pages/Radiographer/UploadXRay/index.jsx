@@ -110,10 +110,10 @@ const UploadXRay = () => {
             )}
             <div>
               {image && (
-                <img className="w-96 h-96 mb-8" src={image} alt="x-ray" />
+                <img className="w-102 h-102 mb-8" src={image} alt="x-ray" />
               )}
               {image && progress > 0 && (
-                <div className="mb-12 -mt-4">
+                <div className="mb-12 -mt-4 progress-container">
                   <LinearProgressWithLabel value={progress} />
                 </div>
               )}
@@ -123,6 +123,7 @@ const UploadXRay = () => {
                     console.log("submit image");
                     handleUpload();
                   }}
+                  className="submit-button"
                 >
                   Submit
                 </ButtonDark>
