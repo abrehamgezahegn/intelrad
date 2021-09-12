@@ -7,7 +7,7 @@ const baseButton = css`
   border: none;
   border-radius: 10px;
   background: ${(props) => props.theme.primary1};
-  padding: 12px 4px;
+  padding: 12px 12px;
   color: ${(props) => props.theme.white};
   ${(props) => props.theme.bold_16};
   cursor: pointer;
@@ -58,12 +58,15 @@ const StyledOutlinedButton = styled.button`
   ${baseButton};
   background: ${(props) => props.theme.white};
   color: ${(props) => {
+    if (props.color === "red") return props.theme.error;
     if (props.color === "green") return props.theme.success;
     if (props.color === "yellow") return props.theme.warning;
     return props.theme.grey3;
   }};
   border: 2px solid
     ${(props) => {
+      if (props.color === "red") return props.theme.error;
+
       if (props.color === "green") return props.theme.success;
       if (props.color === "yellow") return props.theme.warning;
       return props.theme.grey3;

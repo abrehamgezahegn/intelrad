@@ -3,6 +3,7 @@ import AuthRouter from "./Auth";
 import Radiologist from "./Radiologist";
 import { useAuth } from "../context/AuthProvider";
 import Doctor from "./Doctor";
+import Radiographer from "./Radiographer";
 
 const IndexRoute = () => {
   const {
@@ -14,7 +15,7 @@ const IndexRoute = () => {
       case "doctor":
         return <Doctor />;
       case "radiographer":
-        return <h1>radiographer</h1>;
+        return <Radiographer />;
       case "radiologist":
         return <Radiologist />;
       case "admin":

@@ -7,12 +7,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { StyledTableRow } from "./styles";
-import { Button, ButtonOutlined } from "../../../../components/Button";
-import AlertDialog from "../../../../components/AlertDialog";
+import { ButtonOutlined } from "../../../../components/Button";
 
-import { useTheme } from "styled-components";
 import { useHistory } from "react-router";
 
 const columns = [
@@ -23,10 +20,8 @@ const columns = [
   { id: "priority", label: "Priority", minWidth: 120 },
   { id: "date", label: "Date", minWidth: 170 },
   { id: "visitTime", label: "Visit Time", minWidth: 170 },
-  { id: "radiologist", label: "Radiologist", minWidth: 170 },
-  { id: "radiographer", label: "Radiographer", minWidth: 170 },
-  { id: "condition", label: "Condition", minWidth: 170 },
-  { id: "status", label: "Status", minWidth: 170 },
+  { id: "doctor", label: "Doctor", minWidth: 170 },
+  // { id: "status", label: "Status", minWidth: 170 },
 ];
 
 const rows = [
@@ -35,11 +30,10 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "requested",
-    priority: "emergency",
+    priority: "low",
     age: 33,
     sex: "male",
   },
@@ -48,8 +42,7 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "diagnosed",
     priority: "emergency",
@@ -61,8 +54,7 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "requested",
     priority: "emergency",
@@ -74,11 +66,10 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "Imaged",
-    priority: "emergency",
+    priority: "high",
     age: 33,
     sex: "male",
   },
@@ -88,8 +79,7 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "diagnosed",
     priority: "emergency",
@@ -101,8 +91,7 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "requested",
     priority: "emergency",
@@ -115,11 +104,10 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "Imaged",
-    priority: "emergency",
+    priority: "medium",
     age: 33,
     sex: "male",
   },
@@ -128,11 +116,10 @@ const rows = [
     // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
+    doctor: "Dr.Someone",
     condition: "Bacterial Puemonia",
     status: "Imaged",
-    priority: "emergency",
+    priority: "low",
     age: 33,
     sex: "male",
   },
@@ -152,7 +139,6 @@ export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const history = useHistory();
-  const [isAlertOPen, toggleAlert] = React.useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -164,31 +150,13 @@ export default function StickyHeadTable() {
   };
 
   const getButtonColor = (value) => {
-    if (value === "requested") return "yellow";
-    else if (value === "diagnosed") return "green";
-  };
-
-  const openAlert = (record) => {
-    toggleAlert(true);
-  };
-
-  const onDelete = () => {
-    console.log("deleting record");
-    // fetch fresh records
-    toggleAlert(false);
+    if (value === "high" || value === "emergency") return "red";
+    else if (value === "medium") return "yellow";
+    else if (value === "low") return "green";
   };
 
   return (
     <Paper className={classes.root}>
-      <AlertDialog
-        open={isAlertOPen}
-        onCancel={() => {
-          toggleAlert(false);
-        }}
-        onConfirm={onDelete}
-        title="Are you sure you want to delete this record?"
-        description="Warning: The diagnosis data will be lost!"
-      />
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -215,13 +183,11 @@ export default function StickyHeadTable() {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    opened={row.status !== "diagnosed"}
                   >
                     {columns.map((column, index) => {
                       const value = row[column.id];
-                      console.log("columm", column);
 
-                      if (column.id === "status") {
+                      if (column.id === "priority") {
                         return (
                           <TableCell key={column.id} align={column.align}>
                             <div className="row">
@@ -235,18 +201,6 @@ export default function StickyHeadTable() {
                                     : value}
                                 </ButtonOutlined>
                               </div>
-                              <DeleteIcon
-                                onClick={() => {
-                                  console.log("delete click");
-                                  openAlert(row);
-                                }}
-                                className="icon"
-                                color={"#fff"}
-                                style={{
-                                  color: "#D64545",
-                                  marginLeft: 48,
-                                }}
-                              />
                             </div>
                           </TableCell>
                         );
@@ -254,11 +208,8 @@ export default function StickyHeadTable() {
                       return (
                         <TableCell
                           onClick={() => {
-                            if (row.status === "diagnosed")
-                              history.push("/diagnose");
-                          }}
-                          style={{
-                            color: !row.opened && "#000",
+                            console.log("to upload");
+                            history.push("/upload-x-ray/1111qad");
                           }}
                           key={column.id}
                           align={column.align}
