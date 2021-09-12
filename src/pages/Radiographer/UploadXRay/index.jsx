@@ -3,6 +3,14 @@ import { ButtonDark } from "../../../components/Button";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import { Container } from "./styles";
 import PatientDataCard from "./PatientDataCard";
+import { storage } from "../../../utils/firebase";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import LinearProgressWithLabel from "../../../components/LinearProgress";
 
 const requestData = {
   name: "Abebech Bersabeh",
@@ -17,20 +25,58 @@ const requestData = {
   sex: "male",
 };
 
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * max);
+};
+
 const UploadXRay = () => {
   const [image, setImage] = useState();
   const [fileData, setFileData] = useState();
+  const [progress, setProgress] = useState(0);
 
   const handleUpload = () => {
-    const fileElem = document.getElementById("fileElem");
-    fileElem.click();
+    const storageRef = ref(storage, `images/${fileData.name}`);
+
+    const uploadTask = uploadBytesResumable(storageRef, fileData);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+        if (progress === 0) {
+          setTimeout(() => {
+            setProgress(getRandomInt(10));
+          }, 1000);
+        } else {
+          setProgress(progress);
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+        });
+      }
+    );
   };
 
   return (
     <Container>
       <div className="flex justify-center">
-        <div className="mt-12 w-screen max-w-screen-xl flex">
-          <div className="mr-96">
+        <div className="mt-12 w-screen max-w-screen-lg flex justify-between">
+          <div>
             <PatientDataCard requestData={requestData} />
             <input
               type="file"
@@ -38,16 +84,22 @@ const UploadXRay = () => {
               accept="image/*"
               style={{ display: "none" }}
               onChange={(e) => {
-                console.log(e.target.files);
                 const file = e.target.files[0];
                 if (file) {
                   const src = URL.createObjectURL(file);
-                  console.log("src", src);
                   setImage(src);
+                  setFileData(file);
+                  setProgress(0);
                 }
               }}
             />
-            <ButtonDark className="mt-12" onClick={handleUpload}>
+            <ButtonDark
+              className="mt-12"
+              onClick={() => {
+                const fileElem = document.getElementById("fileElem");
+                fileElem.click();
+              }}
+            >
               <div className="mr-2">Upload X-Ray </div> <AttachFileIcon />
             </ButtonDark>
           </div>
@@ -65,10 +117,16 @@ const UploadXRay = () => {
               {image && (
                 <img className="w-96 h-96 mb-8" src={image} alt="x-ray" />
               )}
+              {image && progress > 0 && (
+                <div className="mb-12 -mt-4">
+                  <LinearProgressWithLabel value={progress} />
+                </div>
+              )}
               {image && (
                 <ButtonDark
                   onClick={() => {
                     console.log("submit image");
+                    handleUpload();
                   }}
                 >
                   Submit
