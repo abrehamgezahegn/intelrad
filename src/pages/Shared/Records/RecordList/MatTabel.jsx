@@ -17,97 +17,124 @@ import { useHistory } from "react-router";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
+  // { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
+  { id: "priority", label: "Priority", minWidth: 120 },
   { id: "date", label: "Date", minWidth: 170 },
   { id: "visitTime", label: "Visit Time", minWidth: 170 },
   { id: "radiologist", label: "Radiologist", minWidth: 170 },
   { id: "radiographer", label: "Radiographer", minWidth: 170 },
   { id: "condition", label: "Condition", minWidth: 170 },
+  { id: "age", label: "Age", minWidth: 80 },
+  { id: "sex", label: "Sex", minWidth: 100 },
   { id: "status", label: "Status", minWidth: 170 },
 ];
 
 const rows = [
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "requested",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "diagnosed",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "requested",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "Imaged",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
 
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "diagnosed",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "requested",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
 
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "Imaged",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
   {
     name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
+    // phoneNumber: "09124115125",
     date: "10-10-2021",
     visitTime: "12:40PM",
     radiologist: "Dr.Someone",
     radiographer: "Dr.Radiographer",
     condition: "Bacterial Puemonia",
     status: "Imaged",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
   },
 ];
 
@@ -160,6 +187,7 @@ export default function StickyHeadTable() {
         }}
         onConfirm={onDelete}
         title="Are you sure you want to delete this record?"
+        description="Warning: The diagnosis data will be lost!"
       />
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
@@ -191,8 +219,9 @@ export default function StickyHeadTable() {
                   >
                     {columns.map((column, index) => {
                       const value = row[column.id];
+                      console.log("columm", column);
 
-                      if (index === columns.length - 1) {
+                      if (column.id === "status") {
                         return (
                           <TableCell key={column.id} align={column.align}>
                             <div className="row">

@@ -53,10 +53,11 @@ const RequestImaging = () => {
                 )}
               </div>
             </div>
+            <div></div>
             <div>
               {showPatientFrom && (
                 <div className="mb-24">
-                  <StyledLabel>New Patient</StyledLabel>{" "}
+                  <h2 className="text-xl mb-4">New Patient</h2>{" "}
                   <PatientForm
                     onCancel={() => {
                       togglePatientForm(false);
@@ -64,6 +65,26 @@ const RequestImaging = () => {
                   />
                 </div>
               )}
+            </div>
+            <div className="mb-8">
+              <StyledLabel>Priority</StyledLabel>
+
+              <Select
+                options={[
+                  { label: "Emergency", value: "emergency" },
+
+                  { label: "High", value: "high" },
+                  { label: "Medium", value: "medium" },
+                  { label: "Low", value: "low" },
+                ]}
+                selectProps={{ className: "patient_select" }}
+                value={patient}
+                placeholder="priority"
+                onChange={(value) => {
+                  console.log("patient ", value);
+                  setPatient(value);
+                }}
+              />
             </div>
             <div className="flex flex-col">
               <StyledLabel>Message</StyledLabel>

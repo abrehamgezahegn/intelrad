@@ -11,6 +11,7 @@ import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 // import FilterSelect from "./FilterSelect";
 import Select from "../../../components/Form/Select";
 import { useHistory } from "react-router-dom";
+import { StyledInput } from "../../../components/Form/Input";
 
 const Records = () => {
   const history = useHistory();
@@ -57,6 +58,9 @@ const Records = () => {
           <div className="row d_header">
             <h1>Diagnosis</h1>
             <div className="row">
+              <div className="mr-5">
+                <StyledInput placeholder="Search" variant="outlined" />
+              </div>
               <div className="select">
                 <Select
                   options={[
