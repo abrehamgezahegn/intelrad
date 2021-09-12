@@ -27,9 +27,8 @@ export const Container = styled.div`
   .img-zoom-lens {
     position: absolute;
     border: 1px solid #d4d4d4;
-    /*set the size of the lens:*/
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
   }
 
   .img-zoom-result {
@@ -43,7 +42,6 @@ export const Container = styled.div`
   }
 
   .image {
-    /* max-width: 70%; */
     width: 600px;
     height: 600px;
     margin-right: 44px;

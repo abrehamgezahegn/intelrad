@@ -4,12 +4,7 @@ import AttachFileIcon from "@material-ui/icons/AttachFile";
 import { Container } from "./styles";
 import PatientDataCard from "./PatientDataCard";
 import { storage } from "../../../utils/firebase";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import LinearProgressWithLabel from "../../../components/LinearProgress";
 
 const requestData = {
