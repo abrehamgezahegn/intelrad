@@ -13,6 +13,7 @@ import PatientForm from "./PatientForm";
 
 const RequestImaging = () => {
   const [showPatientFrom, togglePatientForm] = React.useState(false);
+  const [patient, setPatient] = React.useState("");
 
   return (
     <Container>
@@ -21,31 +22,46 @@ const RequestImaging = () => {
           <div className="left_content">
             <div className="flex flex-row mb-12">
               <div className="flex-grow	">
-                <StyledLabel>Patient</StyledLabel>
-                <div className="flex">
-                  <Select
-                    options={[
-                      { label: "Jone Doe", value: "jhon" },
-                      { label: "Jone Doe", value: "jashon" },
-                      { label: "Jone Doe", value: "jhsfon" },
-                    ]}
-                    selectProps={{ className: "patient_select" }}
-                  />
-                  <div
-                    className="ml-8 cursor-pointer"
-                    onClick={() => {
-                      togglePatientForm(true);
-                    }}
-                  >
-                    <AddCircleRoundedIcon fontSize="large" />
-                  </div>
-                </div>
+                {!showPatientFrom && (
+                  <>
+                    <StyledLabel>Patient</StyledLabel>
+                    <div className="flex">
+                      <Select
+                        options={[
+                          { label: "Jone Doe", value: "jhon" },
+                          { label: "Jone Doe", value: "jashon" },
+                          { label: "Jone Doe", value: "jhsfon" },
+                        ]}
+                        selectProps={{ className: "patient_select" }}
+                        value={patient}
+                        onChange={(value) => {
+                          console.log("patient ", value);
+                          setPatient(value);
+                        }}
+                      />
+                      <div
+                        className="ml-8 cursor-pointer"
+                        onClick={() => {
+                          setPatient("");
+                          togglePatientForm(true);
+                        }}
+                      >
+                        <AddCircleRoundedIcon fontSize="large" />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
             <div>
               {showPatientFrom && (
                 <div className="mb-24">
-                  <StyledLabel>New Patient</StyledLabel> <PatientForm />
+                  <StyledLabel>New Patient</StyledLabel>{" "}
+                  <PatientForm
+                    onCancel={() => {
+                      togglePatientForm(false);
+                    }}
+                  />
                 </div>
               )}
             </div>
@@ -57,9 +73,11 @@ const RequestImaging = () => {
               <ButtonDark>Submit Request</ButtonDark>
             </Link>
           </div>
-          <div>
-            <PatientCard />
-          </div>
+          {patient && (
+            <div>
+              <PatientCard />
+            </div>
+          )}
         </div>
       </div>
     </Container>
