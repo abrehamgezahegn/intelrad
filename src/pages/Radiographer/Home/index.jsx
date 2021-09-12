@@ -1,15 +1,12 @@
 import React from "react";
 import RecordList from "./RecordList";
 import { Container } from "./styles";
-import { Button } from "@material-ui/core";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-// import FilterSelect from "./FilterSelect";
 import Select from "../../../components/Form/Select";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
 
 const Records = () => {
-  const history = useHistory();
+  // const history = useHistory();
   return (
     <Container>
       <div className="inner">

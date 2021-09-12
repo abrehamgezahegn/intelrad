@@ -9,10 +9,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { StyledTableRow } from "./styles";
-import { Button, ButtonOutlined } from "../../../../components/Button";
+import { ButtonOutlined } from "../../../../components/Button";
 import AlertDialog from "../../../../components/AlertDialog";
 
-import { useTheme } from "styled-components";
 import { useHistory } from "react-router";
 
 const columns = [
