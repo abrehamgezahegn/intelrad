@@ -29,6 +29,9 @@ const LoginForm = (props) => {
             <h1>INTELRAD</h1>
           </div>
           <p className="subtitle">Login to your account</p>
+          {props.errorMessage && (
+            <p className="text-red-700	mb-4 text-sm	">{props.errorMessage}</p>
+          )}
           <StyledInput
             id="outlined-basic"
             label="Email"
@@ -49,7 +52,11 @@ const LoginForm = (props) => {
             }}
           />
 
-          <Button onClick={submitForm} variant="contained">
+          <Button
+            loading={props.state === "loading"}
+            onClick={submitForm}
+            variant="contained"
+          >
             Login
           </Button>
         </form>

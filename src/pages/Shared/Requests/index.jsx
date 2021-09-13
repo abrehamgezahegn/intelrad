@@ -8,14 +8,12 @@ import { records as data } from "../../../utils/dummyData";
 
 const Requests = () => {
   // const history = useHistory();
-  const [allRecords, setAllRecords] = React.useState(data);
+  const [allRecords] = React.useState(data);
   const [records, setRecords] = React.useState(data);
-  const [searchTerm, setSearchTerm] = React.useState("");
   const [priority, setPriority] = React.useState("all");
 
   const handleFilter = (e) => {
     const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
 
     const filtered = allRecords.filter((item) => {
       if (
@@ -23,7 +21,7 @@ const Requests = () => {
         item.lastName.toLowerCase().includes(searchTerm)
       ) {
         return true;
-      }
+      } else return false;
     });
     setRecords(filtered);
   };
@@ -63,6 +61,7 @@ const Requests = () => {
               if (priority === "all" || priority === "") return true;
               if (item.priority.toLowerCase() === priority.toLowerCase())
                 return true;
+              else return false;
             })}
           />
         </div>

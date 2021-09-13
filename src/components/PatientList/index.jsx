@@ -139,6 +139,8 @@ const PatientList = ({ onRowClick }) => {
         item.lastName.toLowerCase().includes(searchTerm)
       ) {
         return true;
+      } else {
+        return false;
       }
     });
     setPatients(filtered);
@@ -211,9 +213,7 @@ const PatientList = ({ onRowClick }) => {
                     >
                       {columns.map((column, index) => {
                         const value = row[column.id];
-
-                        {
-                          /* if (column.id === "status") {
+                        /* if (column.id === "status") {
                         return (
                           <TableCell key={column.id} align={column.align}>
                             <div className="row">
@@ -243,7 +243,6 @@ const PatientList = ({ onRowClick }) => {
                           </TableCell>
                         );
                       } */
-                        }
                         return (
                           <TableCell
                             onClick={() => {

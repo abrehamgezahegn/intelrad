@@ -6,7 +6,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import Layout from "../components/Layout";
-import Home from "../pages/Radiographer/Home";
 import UploadXRay from "../pages/Radiographer/UploadXRay";
 import Requests from "../pages/Shared/Requests";
 

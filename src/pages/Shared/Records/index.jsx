@@ -12,19 +12,17 @@ import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Select from "../../../components/Form/Select";
 import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
-import { records } from "../../../utils/dummyData";
+import { records as data } from "../../../utils/dummyData";
 
 const Records = () => {
-  const [allRecords, setAllRecords] = React.useState(records);
-  const [records, setRecords] = React.useState(records);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [allRecords] = React.useState(data);
+  const [records, setRecords] = React.useState(data);
   const [status, setStatus] = React.useState("all");
 
   const history = useHistory();
 
   const handleFilter = (e) => {
     const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
 
     const filtered = allRecords.filter((item) => {
       if (
@@ -32,6 +30,8 @@ const Records = () => {
         item.lastName.toLowerCase().includes(searchTerm)
       ) {
         return true;
+      } else {
+        return false;
       }
     });
     setRecords(filtered);
@@ -116,6 +116,7 @@ const Records = () => {
               if (status === "all" || status === "") return true;
               if (item.status.toLowerCase() === status.toLowerCase())
                 return true;
+              return false;
             })}
           />
         </div>
