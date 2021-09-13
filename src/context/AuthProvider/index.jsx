@@ -7,8 +7,23 @@ const initialValues = {
 
 const AuthContext = React.createContext(initialValues);
 
+const users = {
+  doctor: {
+    name: "Dr.MCsqueezy",
+    role: "doctor",
+  },
+  radiologist: {
+    name: "Radiologist Scott",
+    role: "radiologist",
+  },
+  radiographer: {
+    name: "Radiographer Cole",
+    role: "radiographer",
+  },
+};
+
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ role: "doctor" });
+  const [user, setUser] = useState(users["radiographer"]);
   const [state, setState] = useState("loading");
 
   const fetchUser = () => {

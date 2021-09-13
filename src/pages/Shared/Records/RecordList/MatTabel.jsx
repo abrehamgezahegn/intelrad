@@ -99,7 +99,7 @@ export default function StickyHeadTable({ records = [] }) {
             {records.length === 0 && (
               <div className="w-full ml-4 mb-12">
                 <h1 className="whitespace-nowrap	text-lg text-center mt-8">
-                  No data found matching your search term
+                  No data found matching your filter
                   {/* <span className="font-bold">"{searchTerm}"</span> */}
                 </h1>
               </div>

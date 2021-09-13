@@ -11,6 +11,7 @@ import { StyledTableRow } from "./styles";
 import { ButtonOutlined } from "../../../../components/Button";
 
 import { useHistory } from "react-router";
+import { useAuth } from "../../../../context/AuthProvider";
 
 const columns = [
   { id: "firstName", label: "Name", minWidth: 170 },
@@ -39,6 +40,7 @@ export default function StickyHeadTable({ records }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const history = useHistory();
+  const auth = useAuth();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -116,8 +118,11 @@ export default function StickyHeadTable({ records }) {
                       return (
                         <TableCell
                           onClick={() => {
-                            console.log("to upload");
-                            history.push("/diagnose/12124");
+                            if (auth.user.role === "radiologist") {
+                              history.push("/diagnose/12124");
+                            } else if (auth.user.role === "radiographer") {
+                              history.push("/upload-x-ray/:requestId");
+                            }
                           }}
                           key={column.id}
                           align={column.align}

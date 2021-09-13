@@ -57,7 +57,7 @@ const Nav = () => {
               onClick={handleClick}
               className="menu-trigger"
             >
-              Rad. Never Given Name
+              {auth.user.name}
             </Button>
             <Menu
               id="simple-menu"

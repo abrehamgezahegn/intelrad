@@ -6,7 +6,7 @@ import Select from "../../../components/Form/Select";
 import { StyledInput } from "../../../components/Form/Input";
 import { records as data } from "../../../utils/dummyData";
 
-const Records = () => {
+const Requests = () => {
   // const history = useHistory();
   const [allRecords, setAllRecords] = React.useState(data);
   const [records, setRecords] = React.useState(data);
@@ -71,4 +71,4 @@ const Records = () => {
   );
 };
 
-export default Records;
+export default Requests;
