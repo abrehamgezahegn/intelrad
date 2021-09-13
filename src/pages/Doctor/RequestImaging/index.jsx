@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ButtonDark } from "../../../components/Button";
 import Select from "../../../components/Form/Select";
@@ -10,13 +10,31 @@ import { Container } from "./styles";
 import PatientCard from "../../../components/PatientCard";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import PatientForm from "./PatientForm";
+import Modal from "../../../components/Modal";
+import PatientList from "../../../components/PatientList";
 
 const RequestImaging = () => {
-  const [showPatientFrom, togglePatientForm] = React.useState(false);
-  const [patient, setPatient] = React.useState("");
+  const [showPatientFrom, togglePatientForm] = useState(false);
+  const [patient, setPatient] = useState();
+  const [priority, setPriority] = useState("");
+  const [message, setMessage] = useState("");
+  const [isModalOpen, toggleModal] = useState("");
 
   return (
     <Container>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          toggleModal(false);
+        }}
+      >
+        <PatientList
+          onRowClick={(patient) => {
+            setPatient(patient);
+            toggleModal(false);
+          }}
+        />
+      </Modal>
       <div className="inner">
         <div className="content">
           <div className="left_content">
@@ -25,20 +43,16 @@ const RequestImaging = () => {
                 {!showPatientFrom && (
                   <>
                     <StyledLabel>Patient</StyledLabel>
+
                     <div className="flex">
-                      <Select
-                        options={[
-                          { label: "Jone Doe", value: "jhon" },
-                          { label: "Jone Doe", value: "jashon" },
-                          { label: "Jone Doe", value: "jhsfon" },
-                        ]}
-                        selectProps={{ className: "patient_select" }}
-                        value={patient}
-                        onChange={(value) => {
-                          console.log("patient ", value);
-                          setPatient(value);
+                      <ButtonDark
+                        onClick={() => {
+                          toggleModal(true);
                         }}
-                      />
+                        className="w-full select-button"
+                      >
+                        Select Patient
+                      </ButtonDark>
                       <div
                         className="ml-8 cursor-pointer"
                         onClick={() => {
@@ -78,17 +92,22 @@ const RequestImaging = () => {
                   { label: "Low", value: "low" },
                 ]}
                 selectProps={{ className: "patient_select" }}
-                value={patient}
+                value={priority}
                 placeholder="priority"
                 onChange={(value) => {
                   console.log("patient ", value);
-                  setPatient(value);
+                  setPriority(value);
                 }}
               />
             </div>
             <div className="flex flex-col">
               <StyledLabel>Message</StyledLabel>
-              <StyledTextArea className="text_area" />
+              <StyledTextArea
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
+                className="text_area"
+              />
             </div>
             <Link to="/">
               <ButtonDark>Submit Request</ButtonDark>
@@ -96,7 +115,7 @@ const RequestImaging = () => {
           </div>
           {patient && (
             <div>
-              <PatientCard />
+              <PatientCard patient={patient} />
             </div>
           )}
         </div>

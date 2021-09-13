@@ -15,4 +15,9 @@ export const Container = styled.div`
   .submit-button {
     width: 100%;
   }
+
+  .x-ray-image {
+    width: 400px;
+    height: 400px;
+  }
 `;

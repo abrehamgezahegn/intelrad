@@ -18,4 +18,8 @@ export const Container = styled(BasicContainer)`
     height: 200px;
     margin-bottom: 24px;
   }
+
+  .select-button {
+    width: 100%;
+  }
 `;

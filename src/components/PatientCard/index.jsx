@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "./styles";
 
-const PatientCard = () => {
+const PatientCard = ({ patient = {} }) => {
   return (
     <Container>
       <div className="patient_card">
@@ -13,11 +13,11 @@ const PatientCard = () => {
         />
         <div>
           <h3 className="item">
-            <span> Name: </span> Jhon Doe
+            <span> Name: </span> {`${patient.firstName} ${patient.lastName}`}
           </h3>
           <h3 className="item">
             <span>Age:</span>
-            39
+            {patient.age}
           </h3>
 
           <h3 className="item">

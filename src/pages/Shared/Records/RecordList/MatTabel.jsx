@@ -258,6 +258,7 @@ export default function StickyHeadTable() {
                           }}
                           style={{
                             color: !row.opened && "#000",
+                            textTransform: "capitalize",
                           }}
                           key={column.id}
                           align={column.align}
