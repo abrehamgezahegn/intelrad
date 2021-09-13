@@ -17,6 +17,19 @@ function imageZoom(imgID, resultID) {
   lens.addEventListener("mousemove", moveLens);
   img.addEventListener("mousemove", moveLens);
 
+  // lens.addEventListener("mouseleave", () => {
+  //   console.log("mouse leave");
+  //   // setTimeout(() => {
+  //   result.style.display = "none";
+  //   // }, 500);
+  // });
+  // lens.addEventListener("mouseenter", () => {
+  //   console.log("mouse enter");
+  //   // setTimeout(() => {
+  //   result.style.display = "block";
+  //   // }, 500);
+  // });
+
   lens.addEventListener("touchmove", moveLens);
   img.addEventListener("touchmove", moveLens);
 

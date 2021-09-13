@@ -15,7 +15,8 @@ import AlertDialog from "../../../../components/AlertDialog";
 import { useHistory } from "react-router";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
+  { id: "firstName", label: "First Name", minWidth: 170 },
+  { id: "lastName", label: "Last Name", minWidth: 170 },
   { id: "age", label: "Age", minWidth: 80 },
   { id: "sex", label: "Sex", minWidth: 100 },
   // { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
@@ -28,115 +29,6 @@ const columns = [
   { id: "status", label: "Status", minWidth: 170 },
 ];
 
-const rows = [
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "requested",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "diagnosed",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "requested",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "Imaged",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "diagnosed",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "requested",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "Imaged",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-  {
-    name: "Abebech Bersabeh",
-    // phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "Imaged",
-    priority: "emergency",
-    age: 33,
-    sex: "male",
-  },
-];
-
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -146,7 +38,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable({ records = [] }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -204,7 +96,16 @@ export default function StickyHeadTable() {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {records.length === 0 && (
+              <div className="w-full ml-4 mb-12">
+                <h1 className="whitespace-nowrap	text-lg text-center mt-8">
+                  No data found matching your search term
+                  {/* <span className="font-bold">"{searchTerm}"</span> */}
+                </h1>
+              </div>
+            )}
+
+            {records
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .sort((item) => (item.status !== "diagnosed" ? 1 : -1))
               .map((row) => {
@@ -218,7 +119,6 @@ export default function StickyHeadTable() {
                   >
                     {columns.map((column, index) => {
                       const value = row[column.id];
-                      console.log("columm", column);
 
                       if (column.id === "status") {
                         return (
@@ -278,7 +178,7 @@ export default function StickyHeadTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={records.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

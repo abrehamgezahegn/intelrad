@@ -13,8 +13,146 @@ import Select from "../../../components/Form/Select";
 import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
 
+const rows = [
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "requested",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "diagnosed",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "requested",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "Imaged",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "diagnosed",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "requested",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "Imaged",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+  {
+    firstName: "Abebech",
+    lastName: "Bersabeh",
+    // phoneNumber: "09124115125",
+    date: "10-10-2021",
+    visitTime: "12:40PM",
+    radiologist: "Dr.Someone",
+    radiographer: "Dr.Radiographer",
+    condition: "Bacterial Puemonia",
+    status: "Imaged",
+    priority: "emergency",
+    age: 33,
+    sex: "male",
+  },
+];
+
 const Records = () => {
+  const [allRecords, setAllRecords] = React.useState(rows);
+  const [records, setRecords] = React.useState(rows);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [status, setStatus] = React.useState("all");
+
   const history = useHistory();
+
+  const handleFilter = (e) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
+
+    const filtered = allRecords.filter((item) => {
+      if (
+        item.firstName.toLowerCase().includes(searchTerm) ||
+        item.lastName.toLowerCase().includes(searchTerm)
+      ) {
+        return true;
+      }
+    });
+    setRecords(filtered);
+  };
+
   return (
     <Container>
       <div className="inner">
@@ -59,7 +197,11 @@ const Records = () => {
             <h1>Diagnosis</h1>
             <div className="row">
               <div className="mr-5">
-                <StyledInput placeholder="Search" variant="outlined" />
+                <StyledInput
+                  onChange={handleFilter}
+                  placeholder="Search"
+                  variant="outlined"
+                />
               </div>
               <div className="select">
                 <Select
@@ -69,6 +211,9 @@ const Records = () => {
                     { label: "Requested", value: "requested" },
                     { label: "New", value: "new" },
                   ]}
+                  onChange={(value) => {
+                    setStatus(value);
+                  }}
                 />
               </div>
               <Button
@@ -82,7 +227,13 @@ const Records = () => {
               </Button>
             </div>
           </div>
-          <RecordList />
+          <RecordList
+            records={records.filter((item) => {
+              if (status === "all" || status === "") return true;
+              if (item.status.toLowerCase() === status.toLowerCase())
+                return true;
+            })}
+          />
         </div>
       </div>
     </Container>
