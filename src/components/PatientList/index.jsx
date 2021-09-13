@@ -23,66 +23,66 @@ const columns = [
   { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
 ];
 
-const rows = [
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
+// const rows = [
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
 
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
 
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
-  {
-    firstName: "Abebech ",
-    lastName: " Bersabeh",
-    phoneNumber: "09124115125",
-    age: 33,
-    sex: "male",
-  },
-];
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
+//   {
+//     firstName: "Abebech ",
+//     lastName: " Bersabeh",
+//     phoneNumber: "09124115125",
+//     age: 33,
+//     sex: "male",
+//   },
+// ];
 
 const useStyles = makeStyles({
   root: {
@@ -95,7 +95,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PatientList = ({ onRowClick }) => {
+const PatientList = ({ onRowClick, patients: rows }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

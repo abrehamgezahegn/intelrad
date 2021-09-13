@@ -3,28 +3,64 @@ import { StyledInput } from "../../../../components/Form/Input";
 import { ButtonOutlined } from "../../../../components/Button";
 import Select from "../../../../components/Form/Select";
 import { StyledLabel } from "../../../../components/Form/StyledElements";
+import FormErrorMessage from "../../../../components/Form/FormErrorMessage";
 
-const PatientForm = ({ onCancel }) => {
+const PatientForm = ({ onCancel, setPatient, register, errors = {} }) => {
+  const handleChange = (e) => {
+    setPatient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
   return (
     <div>
-      <div className="flex row">
-        <div className="mr-6 mb-8">
-          <StyledInput variant="outlined" placeholder="First ame" />
+      <div className="flex flex-row">
+        <div style={{}} className="mr-6 mb-8">
+          <StyledInput
+            name="firstName"
+            variant="outlined"
+            placeholder="First name"
+            {...register("firstName", { required: "This is required field" })}
+            onChange={handleChange}
+            error={Boolean(errors.firstName)}
+          />
+          <FormErrorMessage errors={errors} name="firstName" />
         </div>{" "}
-        <div className="mr-6 mb-8">
-          <StyledInput variant="outlined" placeholder="Last name" />
+        <div style={{}} className="mr-6 mb-8">
+          <StyledInput
+            name="lastName"
+            variant="outlined"
+            placeholder="Last name"
+            {...register("lastName", { required: "This is a required field" })}
+            onChange={handleChange}
+            error={Boolean(errors.lastName)}
+          />
+          <FormErrorMessage errors={errors} name="lastName" />
         </div>
       </div>
-      <div className="flex row">
-        <div className="mb-8 mr-6">
-          <StyledInput type="number" variant="outlined" placeholder="Age" />
+      <div className="flex flex-row">
+        <div style={{}} className="mb-8 mr-6">
+          <StyledInput
+            name="age"
+            type="number"
+            variant="outlined"
+            placeholder="Age"
+            {...register("age", { required: "This is a required field" })}
+            onChange={handleChange}
+            error={Boolean(errors.age)}
+          />
+          <FormErrorMessage errors={errors} name="age" />
         </div>{" "}
-        <div className="mb-8">
+        <div style={{}} className="mb-8">
           <StyledInput
             type="number"
             variant="outlined"
             placeholder="Phone number"
+            name="phoneNumber"
+            {...register("phoneNumber", {
+              required: "This is a required field",
+            })}
+            onChange={handleChange}
+            error={Boolean(errors.phoneNumber)}
           />
+          <FormErrorMessage errors={errors} name="phoneNumber" />
         </div>
       </div>
       <div className="mb-8">
@@ -36,13 +72,20 @@ const PatientForm = ({ onCancel }) => {
             { label: "Female", value: "female" },
           ]}
           selectProps={{ className: "patient_select" }}
-          // value={patient}
-          placeholder="priority"
-          // onChange={(value) => {
-          //   console.log("patient ", value);
-          //   setPatient(value);
-          // }}
+          error={Boolean(errors.sex)}
+          selectProps={{
+            ...register("sex", {
+              required: "This is a required field",
+              minLength: 1,
+            }),
+          }}
+          placeholder="sex"
+          name="sex"
+          onChange={(value) => {
+            setPatient((prev) => ({ ...prev, sex: value }));
+          }}
         />
+        <FormErrorMessage errors={errors} name="sex" />
       </div>
       <ButtonOutlined onClick={onCancel}>Cancel</ButtonOutlined>
     </div>

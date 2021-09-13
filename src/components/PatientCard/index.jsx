@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "./styles";
 
-const PatientCard = ({ patient = {} }) => {
+const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
   return (
     <Container>
       <div className="patient_card">
@@ -13,16 +13,26 @@ const PatientCard = ({ patient = {} }) => {
         />
         <div>
           <h3 className="item">
-            <span> Name: </span> {`${patient.firstName} ${patient.lastName}`}
+            <span> Name: </span>{" "}
+            {`${patient.firstName || ""} ${patient.lastName || ""}`}
           </h3>
           <h3 className="item">
-            <span>Age:</span>
+            <span>Age: </span>
             {patient.age}
           </h3>
-
           <h3 className="item">
-            <span>Last Diagnosis:</span> Tue, 23 June, 2019
+            <span>Sex: </span>
+            {patient.sex}
           </h3>
+          <h3 className="item">
+            <span>Phone number: </span>
+            {patient.phoneNumber}
+          </h3>
+          {showLastDiagnosisDate && (
+            <h3 className="item">
+              <span>Last Diagnosis:</span> Tue, 23 June, 2019
+            </h3>
+          )}
         </div>
       </div>
     </Container>

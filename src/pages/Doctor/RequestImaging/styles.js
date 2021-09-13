@@ -16,7 +16,7 @@ export const Container = styled(BasicContainer)`
   .text_area {
     width: 560px;
     height: 200px;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
   }
 
   .select-button {

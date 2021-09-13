@@ -118,7 +118,13 @@ export const ButtonDark = ({
 }) => {
   return (
     <StyledDarkButton disabled={loading} {...buttonProps} type="submit">
-      {loading ? <Spinner color="light" size="S" /> : children}
+      {loading ? (
+        <div style={{ width: "100%" }}>
+          <CircularProgress size={24} thickness={4.2} color="inherit" />
+        </div>
+      ) : (
+        children
+      )}
     </StyledDarkButton>
   );
 };

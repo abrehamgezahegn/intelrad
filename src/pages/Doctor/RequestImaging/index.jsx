@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ButtonDark } from "../../../components/Button";
+import { useHistory } from "react-router-dom";
+import { ButtonDark, Button } from "../../../components/Button";
 import Select from "../../../components/Form/Select";
 import {
   StyledLabel,
@@ -12,13 +12,105 @@ import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import PatientForm from "./PatientForm";
 import Modal from "../../../components/Modal";
 import PatientList from "../../../components/PatientList";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../../utils/firebase";
+import { v4 as uuidv4 } from "uuid";
+import { useForm } from "react-hook-form";
+import FormErrorMessage from "../../../components/Form/FormErrorMessage";
+import { useAuth } from "../../../context/AuthProvider";
+import { useEffect } from "react";
 
 const RequestImaging = () => {
   const [showPatientFrom, togglePatientForm] = useState(false);
   const [patient, setPatient] = useState();
+  const [patients, setPatients] = useState([]);
   const [priority, setPriority] = useState("");
-  const [message, setMessage] = useState("");
+  const [requestNote, setRequestNote] = useState("");
   const [isModalOpen, toggleModal] = useState("");
+  const [status, setStatus] = useState("idle");
+  const [shouldCreatePatient, toggleShouldCretePatient] = useState(false);
+  const history = useHistory();
+
+  const auth = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const createPatient = async (data) => {
+    const docData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      age: data.age,
+      sex: data.sex,
+      phoneNumber: data.phoneNumber,
+      id: uuidv4(),
+      diagnosis: [
+        {
+          priority: data.priority,
+          doctor: auth.user,
+          status: "requested",
+          requestNote: data.requestNote,
+        },
+      ],
+    };
+    try {
+      console.log("doc data", docData);
+      await setDoc(doc(db, "patients", uuidv4()), docData);
+      setStatus("success");
+      history.push("/");
+    } catch (error) {
+      setStatus("error");
+      console.log("create user err: ", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const querySnapshot = await getDocs(collection(db, "patients"));
+      let patients = [];
+      querySnapshot.forEach((item) => {
+        patients = [...patients, item.data()];
+      });
+      setPatients(patients);
+    };
+    fetchPatients();
+  }, []);
+
+  const updatePatientHistory = async (data) => {
+    try {
+      await setDoc(doc(db, "patients", patient.id), {
+        ...patient,
+        diagnosis: [
+          ...patient.diagnosis,
+          {
+            priority: data.priority,
+            doctor: auth.user,
+            status: "requested",
+            requestNote: data.requestNote,
+          },
+        ],
+      });
+      setStatus("success");
+      history.push("/");
+    } catch (error) {
+      setStatus("error");
+      console.log("updatePatientHistory", error);
+    }
+  };
+
+  const submitRequest = (data) => {
+    if (!patient) return;
+    setStatus("loading");
+    if (shouldCreatePatient) {
+      createPatient(data);
+      return;
+    } else {
+      updatePatientHistory(data);
+    }
+  };
 
   return (
     <Container>
@@ -30,9 +122,12 @@ const RequestImaging = () => {
       >
         <PatientList
           onRowClick={(patient) => {
+            console.log("patient", patient);
             setPatient(patient);
+            toggleShouldCretePatient(false);
             toggleModal(false);
           }}
+          patients={patients}
         />
       </Modal>
       <div className="inner">
@@ -45,19 +140,20 @@ const RequestImaging = () => {
                     <StyledLabel>Patient</StyledLabel>
 
                     <div className="flex">
-                      <ButtonDark
+                      <Button
                         onClick={() => {
                           toggleModal(true);
                         }}
                         className="w-full select-button"
                       >
                         Select Patient
-                      </ButtonDark>
+                      </Button>
                       <div
                         className="ml-8 cursor-pointer"
                         onClick={() => {
-                          setPatient("");
+                          setPatient();
                           togglePatientForm(true);
+                          toggleShouldCretePatient(true);
                         }}
                       >
                         <AddCircleRoundedIcon fontSize="large" />
@@ -73,9 +169,14 @@ const RequestImaging = () => {
                 <div className="mb-24">
                   <h2 className="text-xl mb-4">New Patient</h2>{" "}
                   <PatientForm
+                    register={register}
                     onCancel={() => {
                       togglePatientForm(false);
+                      setPatient();
+                      toggleShouldCretePatient(false);
                     }}
+                    setPatient={setPatient}
+                    errors={errors}
                   />
                 </div>
               )}
@@ -85,37 +186,51 @@ const RequestImaging = () => {
 
               <Select
                 options={[
-                  { label: "Emergency", value: "emergency" },
-
-                  { label: "High", value: "high" },
-                  { label: "Medium", value: "medium" },
                   { label: "Low", value: "low" },
+                  { label: "Medium", value: "medium" },
+                  { label: "High", value: "high" },
+                  { label: "Emergency", value: "emergency" },
                 ]}
                 selectProps={{ className: "patient_select" }}
                 value={priority}
                 placeholder="priority"
+                selectProps={{
+                  ...register("priority", {
+                    required: "This is a required field",
+                    minLength: 1,
+                  }),
+                }}
                 onChange={(value) => {
                   console.log("patient ", value);
                   setPriority(value);
                 }}
               />
             </div>
-            <div className="flex flex-col">
-              <StyledLabel>Message</StyledLabel>
+            <div className="flex flex-col mb-8">
+              <StyledLabel>Request note</StyledLabel>
               <StyledTextArea
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                }}
                 className="text_area"
+                {...register("requestNote")}
+                name="requestNote"
+                onChange={(e) => {
+                  setRequestNote(e.target.value);
+                }}
               />
+              <FormErrorMessage errors={errors} name="requestNote" />
             </div>
-            <Link to="/">
-              <ButtonDark>Submit Request</ButtonDark>
-            </Link>
+            <ButtonDark
+              onClick={handleSubmit((data) => {
+                submitRequest({ ...data });
+              })}
+              style={{ width: "100%" }}
+              loading={status === "loading"}
+            >
+              Submit Request
+            </ButtonDark>
           </div>
           {patient && (
-            <div>
-              <PatientCard patient={patient} />
+            <div className="w-96">
+              <PatientCard showLastDiagnosisDate={false} patient={patient} />
             </div>
           )}
         </div>
