@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RecordList from "./RecordList";
 import { Container } from "./styles";
 import Select from "../../../components/Form/Select";
-// import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
-import { records as data } from "../../../utils/dummyData";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../utils/firebase";
 
 const Requests = () => {
-  // const history = useHistory();
-  const [allRecords] = React.useState(data);
-  const [records, setRecords] = React.useState(data);
+  const [allRecords, setAllRecords] = React.useState([]);
+  const [records, setRecords] = React.useState([]);
   const [priority, setPriority] = React.useState("all");
 
   const handleFilter = (e) => {
@@ -25,6 +24,29 @@ const Requests = () => {
     });
     setRecords(filtered);
   };
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const querySnapshot = await getDocs(collection(db, "patients"));
+      let data = [];
+      querySnapshot.forEach((item) => {
+        const dignosises = item.data().diagnosis.map((rec) => {
+          console.log("rec", rec);
+          const t = new Date(rec.createdAt.seconds);
+          // const t = new Date
+          console.log("t", t);
+          // const date = getDate(t);
+          // console.log("date", date);
+          return { ...rec, doctor: rec.doctor.name, ...item.data() };
+        });
+        data = [...data, ...dignosises];
+      });
+      console.log("data", data);
+      setAllRecords(data);
+      setRecords(data);
+    };
+    fetchPatients();
+  }, []);
 
   return (
     <Container>

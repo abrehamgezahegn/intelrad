@@ -22,7 +22,7 @@ const columns = [
   { id: "priority", label: "Priority", minWidth: 120 },
   { id: "date", label: "Date", minWidth: 170 },
   { id: "visitTime", label: "Visit Time", minWidth: 170 },
-  { id: "radiographer", label: "Radiographer", minWidth: 170 },
+  { id: "doctor", label: "Doctor", minWidth: 170 },
   // { id: "status", label: "Status", minWidth: 170 },
 ];
 
