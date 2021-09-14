@@ -125,7 +125,6 @@ export default function StickyHeadTable({ records = [] }) {
                   >
                     {columns.map((column, index) => {
                       const value = row[column.id];
-
                       if (column.id === "status") {
                         return (
                           <TableCell key={column.id} align={column.align}>
@@ -160,7 +159,9 @@ export default function StickyHeadTable({ records = [] }) {
                         <TableCell
                           onClick={() => {
                             if (row.status === "diagnosed")
-                              history.push("/diagnose");
+                              history.push(
+                                `/diagnose/${row.id}/${row.diagnosisId}`
+                              );
                           }}
                           style={{
                             color: !row.opened && "#000",

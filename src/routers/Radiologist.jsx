@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Layout from "../components/Layout";
-import Diagnose from "../pages/Radiologist/Diagnose";
+import Diagnose from "../pages/Shared/Diagnose";
 import Requests from "../pages/Shared/Requests";
 
 const Radiologist = () => {

@@ -45,16 +45,16 @@ const Records = () => {
       let data = [];
       querySnapshot.forEach((item) => {
         const dignosises = item.data().diagnosis.map((rec) => {
-          console.log("rec", rec);
-          const t = new Date(rec.createdAt.seconds);
-          // const t = new Date
-          console.log("t", t);
-          // const date = getDate(t);
-          // console.log("date", date);
-          return { ...rec, ...item.data() };
+          return {
+            ...rec,
+            ...item.data(),
+            radiographer: rec.radiographer.name,
+            radiologist: rec.radiologist.name,
+          };
         });
         data = [...data, ...dignosises];
       });
+      console.log("records ", data);
       setAllRecords(data);
       setRecords(data);
     };

@@ -62,6 +62,7 @@ const Diagnose = () => {
       try {
         const docRef = doc(db, "patients", params.patientId);
         const docSnap = await getDoc(docRef);
+        console.log("doc exists", docSnap.exists());
         if (docSnap.exists()) {
           const patient = docSnap.data();
           const diagnosis = patient.diagnosis.find(
