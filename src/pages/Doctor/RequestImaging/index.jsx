@@ -40,13 +40,14 @@ const RequestImaging = () => {
   } = useForm();
 
   const createPatient = async (data) => {
+    const patientId = uuidv4();
     const docData = {
       firstName: data.firstName,
       lastName: data.lastName,
       age: data.age,
       sex: data.sex,
       phoneNumber: data.phoneNumber,
-      id: uuidv4(),
+      id: patientId,
       createdAt: new Date(),
       updatedAt: new Date(),
       diagnosis: [
@@ -62,7 +63,7 @@ const RequestImaging = () => {
       ],
     };
     try {
-      await setDoc(doc(db, "patients", uuidv4()), docData);
+      await setDoc(doc(db, "patients", patientId), docData);
       setStatus("success");
       history.push("/");
     } catch (error) {

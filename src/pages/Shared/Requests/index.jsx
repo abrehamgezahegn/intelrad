@@ -5,11 +5,18 @@ import Select from "../../../components/Form/Select";
 import { StyledInput } from "../../../components/Form/Input";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
+import { useAuth } from "../../../context/AuthProvider";
+
+const filter = {
+  radiologist: "imaged",
+  radiographer: "requested",
+};
 
 const Requests = () => {
   const [allRecords, setAllRecords] = React.useState([]);
   const [records, setRecords] = React.useState([]);
   const [priority, setPriority] = React.useState("all");
+  const auth = useAuth();
 
   const handleFilter = (e) => {
     const searchTerm = e.target.value;
@@ -42,8 +49,12 @@ const Requests = () => {
         data = [...data, ...dignosises];
       });
       console.log("data", data);
-      setAllRecords(data);
-      setRecords(data);
+      const filteredData = data.filter(
+        (item) => item.status === filter[auth.user.role]
+      );
+      console.log("data", filteredData);
+      setAllRecords(filteredData);
+      setRecords(filteredData);
     };
     fetchPatients();
   }, []);

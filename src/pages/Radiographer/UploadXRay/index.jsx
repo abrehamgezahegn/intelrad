@@ -21,7 +21,6 @@ const getRandomInt = (max) => {
 const UploadXRay = () => {
   const [image, setImage] = useState();
   const [fileData, setFileData] = useState();
-  const [imageUrl, setImageUrl] = useState("");
   const [progress, setProgress] = useState(0);
   const [snackBarOpen, toggleSnackbar] = useState(false);
   const [requestData, setRequestData] = useState({});
@@ -47,13 +46,15 @@ const UploadXRay = () => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
-        if (progress === 0) {
-          setTimeout(() => {
-            setProgress(getRandomInt(10));
-          }, 1000);
-        } else {
-          setProgress(progress);
-        }
+        // if (progress === 0) {
+        //   setTimeout(() => {
+        //     setProgress(getRandomInt(10));
+        //   }, 1000);
+        // } else {
+        //   setProgress(progress);
+        // }
+        setProgress(progress);
+
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -68,18 +69,16 @@ const UploadXRay = () => {
       (error) => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImageUrl(downloadURL);
-          console.log("image uploaded", downloadURL);
-          updateDiagnosis();
+          console.log("upload done");
+          updateDiagnosis(downloadURL);
         });
         toggleSnackbar(true);
       }
     );
   };
 
-  const updateDiagnosis = async () => {
+  const updateDiagnosis = async (imageUrl) => {
     try {
-      console.log("patient ", patient);
       const updatedDiagnosis = patient.diagnosis.map((item) => {
         if (item.diagnosisId === diagnosis.diagnosisId)
           return {
@@ -90,8 +89,6 @@ const UploadXRay = () => {
           };
         else return item;
       });
-
-      console.log("update diagnosis", updatedDiagnosis);
 
       await setDoc(doc(db, "patients", patient.id), {
         ...patient,
@@ -113,6 +110,10 @@ const UploadXRay = () => {
       querySnapshot.forEach((item) => {
         if (item.data().id === params.patientId) patient = item.data();
       });
+      console.log("patuent", patient);
+      if (!patient) {
+        return;
+      }
       patient.diagnosis.forEach((item) => {
         if (item.diagnosisId === params.diagnosisId) diagnosis = item;
       });
@@ -194,7 +195,6 @@ const UploadXRay = () => {
                 {image && (
                   <ButtonDark
                     onClick={() => {
-                      console.log("submit image");
                       handleUpload();
                     }}
                     className="submit-button"
