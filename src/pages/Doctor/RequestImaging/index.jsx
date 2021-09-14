@@ -47,17 +47,20 @@ const RequestImaging = () => {
       sex: data.sex,
       phoneNumber: data.phoneNumber,
       id: uuidv4(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       diagnosis: [
         {
           priority: data.priority,
           doctor: auth.user,
           status: "requested",
           requestNote: data.requestNote,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
     };
     try {
-      console.log("doc data", docData);
       await setDoc(doc(db, "patients", uuidv4()), docData);
       setStatus("success");
       history.push("/");
@@ -83,6 +86,7 @@ const RequestImaging = () => {
     try {
       await setDoc(doc(db, "patients", patient.id), {
         ...patient,
+        updatedAt: new Date(),
         diagnosis: [
           ...patient.diagnosis,
           {
@@ -90,6 +94,8 @@ const RequestImaging = () => {
             doctor: auth.user,
             status: "requested",
             requestNote: data.requestNote,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
       });

@@ -69,6 +69,12 @@ export default function StickyHeadTable({ records = [] }) {
     toggleAlert(false);
   };
 
+  const showItem = (column, value) => {
+    if (!value) return "-";
+    if (column.format && typeof value === "number") return column.format(value);
+    return value;
+  };
+
   return (
     <Paper className={classes.root}>
       <AlertDialog
@@ -163,9 +169,7 @@ export default function StickyHeadTable({ records = [] }) {
                           key={column.id}
                           align={column.align}
                         >
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {showItem(column, value)}
                         </TableCell>
                       );
                     })}
