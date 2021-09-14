@@ -6,6 +6,7 @@ import { StyledInput } from "../../../components/Form/Input";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import { useAuth } from "../../../context/AuthProvider";
+import { getDate, getTime } from "../../../utils/dateFormat";
 
 const filter = {
   radiologist: "imaged",
@@ -38,13 +39,16 @@ const Requests = () => {
       let data = [];
       querySnapshot.forEach((item) => {
         const dignosises = item.data().diagnosis.map((rec) => {
-          console.log("rec", rec);
-          const t = new Date(rec.createdAt.seconds);
-          // const t = new Date
-          console.log("t", t);
-          // const date = getDate(t);
-          // console.log("date", date);
-          return { ...rec, doctor: rec.doctor.name, ...item.data() };
+          const date = getDate(rec.createdAt.seconds);
+          const time = getTime(rec.createdAt.seconds);
+
+          return {
+            ...rec,
+            doctor: rec.doctor.name,
+            ...item.data(),
+            date,
+            visitTime: time,
+          };
         });
         data = [...data, ...dignosises];
       });

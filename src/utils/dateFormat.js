@@ -13,17 +13,25 @@ const monthNames = [
   "De",
 ];
 
-const getDate = (date) => {
+const getDate = (seconds) => {
+  const date = new Date(seconds * 1000);
   const month = monthNames[date.getMonth()];
   const dateNum = date.getDate();
   const year = date.getFullYear();
   return `${dateNum} ${month}, ${year}`;
 };
 
-const secondsToDate = (seconds) => {
-  const t = new Date(1970, 0, 2); // Epoch
-  t.setSeconds(seconds);
-  return t;
+const getTime = (seconds) => {
+  const date = new Date(seconds * 1000);
+
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  var strTime = hours + ":" + minutes + " " + ampm;
+  return strTime;
 };
 
-export { getDate, secondsToDate };
+export { getDate, getTime };

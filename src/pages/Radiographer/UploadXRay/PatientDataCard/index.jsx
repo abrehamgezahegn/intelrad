@@ -8,7 +8,7 @@ const PatientDataCard = ({ requestData }) => {
         <div className="header">
           <h2 className="text-2xl	font-bold	text-center">Request</h2>
         </div>
-        <div className="flex flex-col items-center data-card-inter">
+        <div className="flex flex-col items-center p-8 pt-0">
           <div>
             <div className="flex  mb-4">
               <h3 className="mr-4">Name: </h3>

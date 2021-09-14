@@ -8,13 +8,12 @@ import NoteOutlinedIcon from "@material-ui/icons/NoteOutlined";
 import DataCard from "./DataCard";
 import { Button } from "@material-ui/core";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-// import FilterSelect from "./FilterSelect";
 import Select from "../../../components/Form/Select";
 import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
-// import { getDate, secondsToDate } from "../../../utils/dateFormat";
+import { getDate, getTime } from "../../../utils/dateFormat";
 
 const Records = () => {
   const [allRecords, setAllRecords] = React.useState([]);
@@ -45,11 +44,16 @@ const Records = () => {
       let data = [];
       querySnapshot.forEach((item) => {
         const dignosises = item.data().diagnosis.map((rec) => {
+          const date = getDate(rec.createdAt.seconds);
+          const time = getTime(rec.createdAt.seconds);
+          console.log("dateee", date);
           return {
             ...rec,
             ...item.data(),
-            radiographer: rec.radiographer.name,
-            radiologist: rec.radiologist.name,
+            radiographer: rec.radiographer?.name,
+            radiologist: rec.radiologist?.name,
+            date,
+            visitTime: time,
           };
         });
         data = [...data, ...dignosises];

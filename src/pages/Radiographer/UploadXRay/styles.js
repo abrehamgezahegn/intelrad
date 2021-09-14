@@ -21,9 +21,6 @@ export const Container = styled.div`
     width: 100%;
   }
 
-  .data-card-inner {
-  }
-
   .progress-container {
     ${(props) => props.theme.card}
     padding: 8px;

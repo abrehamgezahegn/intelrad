@@ -110,7 +110,6 @@ const UploadXRay = () => {
       querySnapshot.forEach((item) => {
         if (item.data().id === params.patientId) patient = item.data();
       });
-      console.log("patuent", patient);
       if (!patient) {
         return;
       }
@@ -161,6 +160,7 @@ const UploadXRay = () => {
               />
               <ButtonDark
                 className="mt-12 upload-button"
+                disabled={updateLoading}
                 onClick={() => {
                   const fileElem = document.getElementById("fileElem");
                   fileElem.click();

@@ -1,5 +1,6 @@
 import React from "react";
 import { Container } from "./styles";
+import { getDate } from "../../utils/dateFormat";
 
 const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
   console.log("patien in patien card", patient);
@@ -31,7 +32,7 @@ const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
           </h3>
           {showLastDiagnosisDate && (
             <h3 className="item">
-              <span>Last Diagnosis:</span> Tue, 23 June, 2019
+              <span>Last Diagnosis:</span> {getDate(patient.updatedAt.seconds)}
             </h3>
           )}
         </div>
