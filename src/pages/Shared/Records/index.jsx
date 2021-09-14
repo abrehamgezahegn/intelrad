@@ -147,7 +147,7 @@ const Records = () => {
                     { label: "All", value: "all" },
                     { label: "Diagnosed", value: "diagnosed" },
                     { label: "Requested", value: "requested" },
-                    { label: "New", value: "new" },
+                    { label: "Imaged", value: "imaged" },
                   ]}
                   onChange={(value) => {
                     setStatus(value);

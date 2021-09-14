@@ -124,16 +124,15 @@ const Diagnose = () => {
 
             <div id="myresult" class="img-zoom-result"></div>
           </div>
-          {/* {diagnosis.status === "imaged" && ( */}
-          {true && (
+          {diagnosis.status === "imaged" && (
             <div>
               <div className="mb-8 mt-16 select">
                 <StyledLabel>Condition</StyledLabel>
 
                 <Select
                   options={[
-                    // { label: "Covid19", value: "Covid19" },
-                    // { label: "Viral Pneumonia", value: "Viral Pneumonia" },
+                    { label: "Covid19", value: "Covid19" },
+                    { label: "Viral Pneumonia", value: "Viral Pneumonia" },
                     {
                       label: "Bacterial Pneumonia",
                       value: "Bacterial Pneumonia",
