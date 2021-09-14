@@ -15,7 +15,11 @@ const Radiologist = () => {
       <Layout>
         <Switch>
           <Route exact path="/" component={Requests} />
-          <Route exact path="/diagnose/:recordId" component={Diagnose} />
+          <Route
+            exact
+            path="/diagnose/:patientId/:diagnosisId"
+            component={Diagnose}
+          />
           <Redirect to="/" />
         </Switch>
       </Layout>

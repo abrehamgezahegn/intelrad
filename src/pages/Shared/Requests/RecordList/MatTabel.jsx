@@ -119,7 +119,9 @@ export default function StickyHeadTable({ records }) {
                         <TableCell
                           onClick={() => {
                             if (auth.user.role === "radiologist") {
-                              history.push("/diagnose/12124");
+                              history.push(
+                                `/diagnose/${row.id}/${row.diagnosisId}`
+                              );
                             } else if (auth.user.role === "radiographer") {
                               history.push(
                                 `/upload-x-ray/${row.id}/${row.diagnosisId}`

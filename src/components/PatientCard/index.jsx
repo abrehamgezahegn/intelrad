@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "./styles";
 
 const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
+  console.log("patien in patien card", patient);
   return (
     <Container>
       <div className="patient_card">

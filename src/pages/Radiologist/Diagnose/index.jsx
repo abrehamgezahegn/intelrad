@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Container } from "./styles";
 import TextField from "@material-ui/core/TextField";
 import RiskCard from "./RiskCard";
@@ -6,23 +7,100 @@ import PatientCard from "../../../components/PatientCard";
 import { ButtonDark } from "../../../components/Button";
 import { useAuth } from "../../../context/AuthProvider";
 import imageZoom from "../../../utils/imageZoom";
+import { useState } from "react";
+import Spinner from "../../../components/Spinner";
+import { useParams } from "react-router";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../../utils/firebase";
+import { useForm } from "react-hook-form";
+import FormErrorMessage from "../../../components/Form/FormErrorMessage";
 
 const Diagnose = () => {
   const getFullScreen = () => {};
   const auth = useAuth();
+  const [state, setState] = useState("loading");
+  const params = useParams();
+  const history = useHistory();
+  const [patient, setPatient] = useState();
+  const [diagnosis, setDiagnosis] = useState();
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const showSubmitForm = () => {
-    if (auth.user.role === "radiologist") return true;
-  };
+  const submitReport = async (data) => {
+    setUpdateLoading(true);
+    try {
+      const updatedDiagnosis = patient.diagnosis.map((item) => {
+        if (item.diagnosisId === diagnosis.diagnosisId)
+          return {
+            ...item,
+            status: "diagnosed",
+            diagnosisReport: data.diagnosisReport,
+            radiologist: auth.user,
+          };
+        else return item;
+      });
 
-  const showDiagnosisReport = () => {
-    // if there is a report
-    return true;
+      await setDoc(doc(db, "patients", patient.id), {
+        ...patient,
+        updatedAt: new Date(),
+        diagnosis: updatedDiagnosis,
+      });
+      setUpdateLoading(false);
+      history.push("/");
+    } catch (error) {
+      setUpdateLoading(false);
+      console.error("submit report err: ", error);
+    }
   };
 
   useEffect(() => {
-    imageZoom("myimage", "myresult");
+    const fetchDiagnosis = async () => {
+      try {
+        const docRef = doc(db, "patients", params.patientId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const patient = docSnap.data();
+          const diagnosis = patient.diagnosis.find(
+            (item) => item.diagnosisId === params.diagnosisId
+          );
+          if (!diagnosis) {
+            console.log("Diagnosis not found!");
+            history.push("/");
+            return;
+          }
+          setDiagnosis(diagnosis);
+          setPatient(patient);
+          setState("success");
+          imageZoom("myimage", "myresult");
+
+          console.log("diagnosis", diagnosis);
+        } else {
+          history.push("/");
+          console.log("No such document!");
+          return;
+        }
+      } catch (error) {
+        console.log("fetchDiagnosis error: ", error);
+      }
+    };
+
+    fetchDiagnosis();
   }, []);
+
+  if (state === "loading") {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "70vh" }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <Container>
@@ -37,14 +115,13 @@ const Diagnose = () => {
                 id="myimage"
                 alt=""
                 className="image"
-                src="https://images.unsplash.com/photo-1616012480717-fd9867059ca0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8eCUyMHJheXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
-                // src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg"
+                src={diagnosis.xrayUrl}
               />
             </div>
 
             <div id="myresult" class="img-zoom-result"></div>
           </div>
-          {showSubmitForm() && (
+          {diagnosis.status === "imaged" && (
             <div>
               <div className="text_area_container">
                 <TextField
@@ -55,24 +132,31 @@ const Diagnose = () => {
                   defaultValue=""
                   variant="outlined"
                   className="textarea"
+                  {...register("diagnosisReport", {
+                    required: "This is required field",
+                  })}
+                  error={Boolean(errors.diagnosisReport)}
                 />
+                <FormErrorMessage errors={errors} name="diagnosisReport" />
               </div>
               <div className="button-container">
-                <ButtonDark className="submit">Submit report</ButtonDark>
+                <ButtonDark
+                  onClick={handleSubmit((data) => {
+                    submitReport({ ...data });
+                  })}
+                  className="submit"
+                  loading={updateLoading}
+                >
+                  Submit report
+                </ButtonDark>
               </div>
             </div>
           )}
 
-          {showDiagnosisReport() && (
+          {diagnosis.status === "diagnosed" && (
             <div className="mt-12">
               <h3 className="text-3xl mb-4">Diagnosis report</h3>
-              <p className="text-2xl max-w-4xl	">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse
-              </p>
+              <p className="text-2xl max-w-4xl	">{diagnosis.diagnosisReport}</p>
             </div>
           )}
         </div>
@@ -80,7 +164,7 @@ const Diagnose = () => {
           <div className="risk_card">
             <RiskCard />
           </div>
-          <PatientCard />
+          <PatientCard patient={patient} />
         </div>
       </div>
     </Container>
