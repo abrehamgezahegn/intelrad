@@ -14,6 +14,8 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import { useForm } from "react-hook-form";
 import FormErrorMessage from "../../../components/Form/FormErrorMessage";
+import Select from "../../../components/Form/Select";
+import { StyledLabel } from "../../../components/Form/StyledElements";
 
 const Diagnose = () => {
   const getFullScreen = () => {};
@@ -23,6 +25,7 @@ const Diagnose = () => {
   const history = useHistory();
   const [patient, setPatient] = useState();
   const [diagnosis, setDiagnosis] = useState();
+  const [condition, setCondition] = useState();
   const [updateLoading, setUpdateLoading] = useState(false);
   const {
     register,
@@ -31,6 +34,7 @@ const Diagnose = () => {
   } = useForm();
 
   const submitReport = async (data) => {
+    console.log("data", data);
     setUpdateLoading(true);
     try {
       const updatedDiagnosis = patient.diagnosis.map((item) => {
@@ -50,7 +54,7 @@ const Diagnose = () => {
         diagnosis: updatedDiagnosis,
       });
       setUpdateLoading(false);
-      history.push("/");
+      // history.push("/");
     } catch (error) {
       setUpdateLoading(false);
       console.error("submit report err: ", error);
@@ -62,7 +66,6 @@ const Diagnose = () => {
       try {
         const docRef = doc(db, "patients", params.patientId);
         const docSnap = await getDoc(docRef);
-        console.log("doc exists", docSnap.exists());
         if (docSnap.exists()) {
           const patient = docSnap.data();
           const diagnosis = patient.diagnosis.find(
@@ -77,8 +80,6 @@ const Diagnose = () => {
           setPatient(patient);
           setState("success");
           imageZoom("myimage", "myresult");
-
-          console.log("diagnosis", diagnosis);
         } else {
           history.push("/");
           console.log("No such document!");
@@ -123,8 +124,40 @@ const Diagnose = () => {
 
             <div id="myresult" class="img-zoom-result"></div>
           </div>
-          {diagnosis.status === "imaged" && (
+          {/* {diagnosis.status === "imaged" && ( */}
+          {true && (
             <div>
+              <div className="mb-8 mt-16 select">
+                <StyledLabel>Condition</StyledLabel>
+
+                <Select
+                  options={[
+                    // { label: "Covid19", value: "Covid19" },
+                    // { label: "Viral Pneumonia", value: "Viral Pneumonia" },
+                    {
+                      label: "Bacterial Pneumonia",
+                      value: "Bacterial Pneumonia",
+                    },
+                    { label: "TB", value: "TB" },
+                    { label: "Healthy", value: "Healthy" },
+                  ]}
+                  placeholder="condition"
+                  // error={true}
+                  value={condition}
+                  onChange={(value) => {
+                    setCondition(value);
+                  }}
+                  selectProps={{
+                    ...register("condition", {
+                      required: "This is a required field",
+                      minLength: 1,
+                    }),
+
+                    name: "condition",
+                  }}
+                  name="condition"
+                />
+              </div>
               <div className="text_area_container">
                 <TextField
                   id="outlined-multiline-static"

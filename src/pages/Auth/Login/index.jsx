@@ -29,6 +29,8 @@ const Login = () => {
         setError("Invalid email");
       } else if (error.message === "Firebase: Error (auth/user-not-found).") {
         setError("Incorrect Email or password.");
+      } else {
+        setError("Incorrect Email or password.");
       }
     }
   };

@@ -78,4 +78,8 @@ export const Container = styled.div`
   .submit:hover {
     background-color: ${(props) => props.theme.secondary};
   }
+
+  .select {
+    width: 30%;
+  }
 `;

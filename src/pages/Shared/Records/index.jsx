@@ -14,11 +14,15 @@ import { StyledInput } from "../../../components/Form/Input";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import { getDate, getTime } from "../../../utils/dateFormat";
+import Spinner from "../../../components/Spinner";
 
 const Records = () => {
   const [allRecords, setAllRecords] = React.useState([]);
   const [records, setRecords] = React.useState([]);
+  const [patients, setPatients] = React.useState([]);
+  const [practitioners, setPractitioners] = React.useState([]);
   const [status, setStatus] = React.useState("all");
+  const [state, setState] = React.useState("loading");
 
   const history = useHistory();
 
@@ -42,11 +46,13 @@ const Records = () => {
     const fetchPatients = async () => {
       const querySnapshot = await getDocs(collection(db, "patients"));
       let data = [];
+      let patients = [];
+      let practitioners = [];
       querySnapshot.forEach((item) => {
+        patients = [...patients, item.data()];
         const dignosises = item.data().diagnosis.map((rec) => {
           const date = getDate(rec.createdAt.seconds);
           const time = getTime(rec.createdAt.seconds);
-          console.log("dateee", date);
           return {
             ...rec,
             ...item.data(),
@@ -58,12 +64,32 @@ const Records = () => {
         });
         data = [...data, ...dignosises];
       });
-      console.log("records ", data);
+
+      const usersQuerySnapshot = await getDocs(collection(db, "users"));
+      usersQuerySnapshot.forEach((item) => {
+        practitioners = [...practitioners, item.data()];
+      });
+
       setAllRecords(data);
       setRecords(data);
+      setPatients(patients);
+      setPractitioners(practitioners);
+
+      setState("success");
     };
     fetchPatients();
   }, []);
+
+  if (state === "loading") {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "70vh" }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <Container>
@@ -76,7 +102,7 @@ const Records = () => {
                   style={{ fontSize: 48, marginRight: 24, color: "#51BAF7" }}
                 />
               }
-              value={120}
+              value={allRecords.length}
               title="Records"
             />
           </div>
@@ -87,7 +113,7 @@ const Records = () => {
                   style={{ fontSize: 48, marginRight: 24, color: "#51BAF7" }}
                 />
               }
-              value={90}
+              value={patients.length}
               title="Patients"
             />{" "}
           </div>
@@ -99,7 +125,7 @@ const Records = () => {
                   style={{ fontSize: 48, marginRight: 24, color: "#51BAF7" }}
                 />
               }
-              value={8}
+              value={practitioners.length}
               title="Practitioners"
             />
           </div>
@@ -126,6 +152,7 @@ const Records = () => {
                   onChange={(value) => {
                     setStatus(value);
                   }}
+                  selectProps={{ placeholder: "Status" }}
                 />
               </div>
               <Button
