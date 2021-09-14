@@ -14,9 +14,9 @@ import { db } from "../../../utils/firebase";
 import Spinner from "../../../components/Spinner";
 import { useAuth } from "../../../context/AuthProvider";
 
-const getRandomInt = (max) => {
-  return Math.floor(Math.random() * max);
-};
+// const getRandomInt = (max) => {
+//   return Math.floor(Math.random() * max);
+// };
 
 const UploadXRay = () => {
   const [image, setImage] = useState();
@@ -124,7 +124,7 @@ const UploadXRay = () => {
     };
 
     fetchPatients();
-  }, []);
+  }, [params.diagnosisId, params.patientId]);
 
   if (state === "loading") {
     return (

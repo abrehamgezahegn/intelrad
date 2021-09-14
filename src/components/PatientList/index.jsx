@@ -7,9 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
-// import DeleteIcon from "@material-ui/icons/Delete";
 import { StyledTableRow } from "./styles";
-// import { ButtonOutlined } from "../Button";
 import AlertDialog from "../AlertDialog";
 
 import { useHistory } from "react-router";
@@ -22,67 +20,6 @@ const columns = [
   { id: "sex", label: "Sex", minWidth: 100 },
   { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
 ];
-
-// const rows = [
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-//   {
-//     firstName: "Abebech ",
-//     lastName: " Bersabeh",
-//     phoneNumber: "09124115125",
-//     age: 33,
-//     sex: "male",
-//   },
-// ];
 
 const useStyles = makeStyles({
   root: {
@@ -101,7 +38,7 @@ const PatientList = ({ onRowClick, patients: rows }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const history = useHistory();
   const [isAlertOPen, toggleAlert] = React.useState(false);
-  const [allPatients, setAllPatients] = React.useState(rows);
+  const [allPatients] = React.useState(rows);
   const [patients, setPatients] = React.useState(rows);
   const [searchTerm, setSearchTerm] = React.useState("");
 

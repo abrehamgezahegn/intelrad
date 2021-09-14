@@ -1,5 +1,4 @@
 import React from "react";
-import Spinner from "../Spinner";
 import styled, { css } from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 

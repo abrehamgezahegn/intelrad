@@ -77,13 +77,13 @@ const PatientForm = ({
             { label: "Male", value: "male" },
             { label: "Female", value: "female" },
           ]}
-          selectProps={{ className: "patient_select" }}
           error={Boolean(errors.sex)}
           selectProps={{
             ...register("sex", {
               required: "This is a required field",
               minLength: 1,
             }),
+            className: "patient_select",
           }}
           placeholder="sex"
           name="sex"

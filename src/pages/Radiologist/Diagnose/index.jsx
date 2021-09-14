@@ -89,6 +89,7 @@ const Diagnose = () => {
     };
 
     fetchDiagnosis();
+    // eslint-disable-next-line
   }, []);
 
   if (state === "loading") {

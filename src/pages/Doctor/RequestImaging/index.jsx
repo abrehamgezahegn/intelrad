@@ -25,7 +25,6 @@ const RequestImaging = () => {
   const [patient, setPatient] = useState();
   const [patients, setPatients] = useState([]);
   const [priority, setPriority] = useState("low");
-  const [requestNote, setRequestNote] = useState("");
   const [isModalOpen, toggleModal] = useState("");
   const [status, setStatus] = useState("idle");
   const [shouldCreatePatient, toggleShouldCretePatient] = useState(false);
@@ -201,7 +200,6 @@ const RequestImaging = () => {
                   { label: "High", value: "high" },
                   { label: "Emergency", value: "emergency" },
                 ]}
-                selectProps={{ className: "patient_select" }}
                 value={priority}
                 placeholder="priority"
                 selectProps={{
@@ -209,6 +207,7 @@ const RequestImaging = () => {
                     required: "This is a required field",
                     minLength: 1,
                   }),
+                  className: "patient_select",
                 }}
                 onChange={(value) => {
                   console.log("patient ", value);
@@ -222,9 +221,6 @@ const RequestImaging = () => {
                 className="text_area"
                 {...register("requestNote")}
                 name="requestNote"
-                onChange={(e) => {
-                  setRequestNote(e.target.value);
-                }}
               />
               <FormErrorMessage errors={errors} name="requestNote" />
             </div>

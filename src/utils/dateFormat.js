@@ -26,6 +26,4 @@ const secondsToDate = (seconds) => {
   return t;
 };
 
-const getTime = (date) => {};
-
 export { getDate, secondsToDate };

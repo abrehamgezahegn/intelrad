@@ -57,7 +57,7 @@ const Requests = () => {
       setRecords(filteredData);
     };
     fetchPatients();
-  }, []);
+  }, [auth.user.role]);
 
   return (
     <Container>

@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
-import { getDate, secondsToDate } from "../../../utils/dateFormat";
+// import { getDate, secondsToDate } from "../../../utils/dateFormat";
 
 const Records = () => {
   const [allRecords, setAllRecords] = React.useState([]);
