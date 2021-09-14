@@ -24,7 +24,7 @@ const RequestImaging = () => {
   const [showPatientFrom, togglePatientForm] = useState(false);
   const [patient, setPatient] = useState();
   const [patients, setPatients] = useState([]);
-  const [priority, setPriority] = useState("");
+  const [priority, setPriority] = useState("low");
   const [requestNote, setRequestNote] = useState("");
   const [isModalOpen, toggleModal] = useState("");
   const [status, setStatus] = useState("idle");
@@ -55,6 +55,7 @@ const RequestImaging = () => {
           doctor: auth.user,
           status: "requested",
           requestNote: data.requestNote,
+          diagnosisId: uuidv4(),
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -90,6 +91,7 @@ const RequestImaging = () => {
         diagnosis: [
           ...patient.diagnosis,
           {
+            diagnosisId: uuidv4(),
             priority: data.priority,
             doctor: auth.user,
             status: "requested",
@@ -183,6 +185,7 @@ const RequestImaging = () => {
                     }}
                     setPatient={setPatient}
                     errors={errors}
+                    patient={patient}
                   />
                 </div>
               )}

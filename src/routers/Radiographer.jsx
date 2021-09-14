@@ -15,7 +15,11 @@ const Radiographer = () => {
       <Layout>
         <Switch>
           <Route exact path="/" component={Requests} />
-          <Route exact path="/upload-x-ray/:requestId" component={UploadXRay} />
+          <Route
+            exact
+            path="/upload-x-ray/:patientId/:diagnosisId"
+            component={UploadXRay}
+          />
           <Redirect to="/" />
         </Switch>
       </Layout>

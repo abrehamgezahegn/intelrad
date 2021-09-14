@@ -5,7 +5,13 @@ import Select from "../../../../components/Form/Select";
 import { StyledLabel } from "../../../../components/Form/StyledElements";
 import FormErrorMessage from "../../../../components/Form/FormErrorMessage";
 
-const PatientForm = ({ onCancel, setPatient, register, errors = {} }) => {
+const PatientForm = ({
+  onCancel,
+  setPatient,
+  patient,
+  register,
+  errors = {},
+}) => {
   const handleChange = (e) => {
     setPatient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -81,6 +87,7 @@ const PatientForm = ({ onCancel, setPatient, register, errors = {} }) => {
           }}
           placeholder="sex"
           name="sex"
+          value={patient?.sex || "male"}
           onChange={(value) => {
             setPatient((prev) => ({ ...prev, sex: value }));
           }}

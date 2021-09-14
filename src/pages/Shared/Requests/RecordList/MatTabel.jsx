@@ -121,7 +121,9 @@ export default function StickyHeadTable({ records }) {
                             if (auth.user.role === "radiologist") {
                               history.push("/diagnose/12124");
                             } else if (auth.user.role === "radiographer") {
-                              history.push("/upload-x-ray/:requestId");
+                              history.push(
+                                `/upload-x-ray/${row.id}/${row.diagnosisId}`
+                              );
                             }
                           }}
                           key={column.id}

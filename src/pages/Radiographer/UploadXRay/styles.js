@@ -4,6 +4,24 @@ export const Container = styled.div`
   .data-card {
     ${(props) => props.theme.card}
     width: 400px;
+    padding: 0px;
+    padding-bottom: 28px;
+  }
+
+  .header {
+    padding: 12px;
+    background-color: ${(props) => props.theme.primary1};
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    color: ${(props) => props.theme.white};
+    margin-bottom: 24px;
+  }
+
+  .upload-button {
+    width: 100%;
+  }
+
+  .data-card-inner {
   }
 
   .progress-container {

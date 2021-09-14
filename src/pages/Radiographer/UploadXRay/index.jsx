@@ -7,19 +7,12 @@ import { storage } from "../../../utils/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import LinearProgressWithLabel from "../../../components/LinearProgress";
 import CustomizedSnackbar from "../../../components/Snackbar";
-
-const requestData = {
-  name: "Abebech Bersabeh",
-  // phoneNumber: "09124115125",
-  date: "10-10-2021",
-  visitTime: "12:40PM",
-  doctor: "Dr.Someone",
-  condition: "Bacterial Puemonia",
-  status: "requested",
-  priority: "emergency",
-  age: 33,
-  sex: "male",
-};
+import { useHistory, useParams } from "react-router";
+import { useEffect } from "react";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
+import { db } from "../../../utils/firebase";
+import Spinner from "../../../components/Spinner";
+import { useAuth } from "../../../context/AuthProvider";
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
@@ -28,10 +21,22 @@ const getRandomInt = (max) => {
 const UploadXRay = () => {
   const [image, setImage] = useState();
   const [fileData, setFileData] = useState();
+  const [imageUrl, setImageUrl] = useState("");
   const [progress, setProgress] = useState(0);
   const [snackBarOpen, toggleSnackbar] = useState(false);
+  const [requestData, setRequestData] = useState({});
+
+  const [patient, setPatient] = useState({});
+  const [diagnosis, setDiagnosis] = useState({});
+
+  const [state, setState] = useState("loading");
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const params = useParams();
+  const auth = useAuth();
+  const history = useHistory();
 
   const handleUpload = () => {
+    setUpdateLoading(true);
     const storageRef = ref(storage, `images/${fileData.name}`);
 
     const uploadTask = uploadBytesResumable(storageRef, fileData);
@@ -63,12 +68,73 @@ const UploadXRay = () => {
       (error) => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
+          setImageUrl(downloadURL);
+          console.log("image uploaded", downloadURL);
+          updateDiagnosis();
         });
         toggleSnackbar(true);
       }
     );
   };
+
+  const updateDiagnosis = async () => {
+    try {
+      console.log("patient ", patient);
+      const updatedDiagnosis = patient.diagnosis.map((item) => {
+        if (item.diagnosisId === diagnosis.diagnosisId)
+          return {
+            ...item,
+            xrayUrl: imageUrl,
+            status: "imaged",
+            radiographer: auth.user,
+          };
+        else return item;
+      });
+
+      console.log("update diagnosis", updatedDiagnosis);
+
+      await setDoc(doc(db, "patients", patient.id), {
+        ...patient,
+        updatedAt: new Date(),
+        diagnosis: updatedDiagnosis,
+      });
+      setUpdateLoading(false);
+      history.push("/");
+    } catch (error) {
+      console.log("updateDiagnosis", error);
+    }
+  };
+
+  useEffect(() => {
+    let patient;
+    let diagnosis;
+    const fetchPatients = async () => {
+      const querySnapshot = await getDocs(collection(db, "patients"));
+      querySnapshot.forEach((item) => {
+        if (item.data().id === params.patientId) patient = item.data();
+      });
+      patient.diagnosis.forEach((item) => {
+        if (item.diagnosisId === params.diagnosisId) diagnosis = item;
+      });
+      setPatient(patient);
+      setDiagnosis(diagnosis);
+      setRequestData({ ...patient, ...diagnosis });
+      setState("success");
+    };
+
+    fetchPatients();
+  }, []);
+
+  if (state === "loading") {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "70vh" }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -93,7 +159,7 @@ const UploadXRay = () => {
                 }}
               />
               <ButtonDark
-                className="mt-12"
+                className="mt-12 upload-button"
                 onClick={() => {
                   const fileElem = document.getElementById("fileElem");
                   fileElem.click();
@@ -132,6 +198,7 @@ const UploadXRay = () => {
                       handleUpload();
                     }}
                     className="submit-button"
+                    loading={updateLoading}
                   >
                     Submit
                   </ButtonDark>
