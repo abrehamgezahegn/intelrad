@@ -8,6 +8,8 @@ import {
 import Layout from "../components/Layout";
 import UploadXRay from "../pages/Radiographer/UploadXRay";
 import Requests from "../pages/Shared/Requests";
+import Diagnose from "../pages/Shared/Diagnose";
+import Records from "../pages/Shared/Records";
 
 const Radiographer = () => {
   return (
@@ -19,6 +21,12 @@ const Radiographer = () => {
             exact
             path="/upload-x-ray/:patientId/:diagnosisId"
             component={UploadXRay}
+          />
+          <Route exact path="/history" component={Records} />
+          <Route
+            exact
+            path="/diagnose/:patientId/:diagnosisId"
+            component={Diagnose}
           />
           <Redirect to="/" />
         </Switch>

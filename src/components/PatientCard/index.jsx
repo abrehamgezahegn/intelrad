@@ -2,7 +2,12 @@ import React from "react";
 import { Container } from "./styles";
 import { getDate } from "../../utils/dateFormat";
 
-const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
+const PatientCard = ({
+  patient = {},
+  showLastDiagnosisDate = true,
+  diagnosis,
+}) => {
+  console.log("diagnn", diagnosis);
   return (
     <Container>
       <div className="patient_card">
@@ -32,6 +37,25 @@ const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
           {showLastDiagnosisDate && (
             <h3 className="item">
               <span>Last Diagnosis:</span> {getDate(patient.updatedAt.seconds)}
+            </h3>
+          )}
+          <br />
+          {diagnosis.doctor && (
+            <h3 className="item">
+              <span>Doctor: </span>
+              {diagnosis.doctor.name}
+            </h3>
+          )}
+          {diagnosis.radiographer && (
+            <h3 className="item">
+              <span>Radiographer: </span>
+              {diagnosis.radiographer.name}
+            </h3>
+          )}{" "}
+          {diagnosis.radiologist && (
+            <h3 className="item">
+              <span>Radiologist: </span>
+              {diagnosis.radiologist.name}
             </h3>
           )}
         </div>

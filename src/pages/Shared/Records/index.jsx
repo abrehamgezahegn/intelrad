@@ -15,6 +15,7 @@ import { collection, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import { getDate, getTime } from "../../../utils/dateFormat";
 import Spinner from "../../../components/Spinner";
+import { useAuth } from "../../../context/AuthProvider";
 
 const Records = () => {
   const [allRecords, setAllRecords] = React.useState([]);
@@ -24,6 +25,8 @@ const Records = () => {
   const [status, setStatus] = React.useState("all");
   const [state, setState] = React.useState("loading");
   const [searchTerm, setSearchTerm] = React.useState("");
+
+  const auth = useAuth();
 
   const history = useHistory();
 
@@ -74,6 +77,14 @@ const Records = () => {
 
       data = data.sort((a, b) => b.updatedAt.seconds - a.updatedAt.seconds);
 
+      if (auth.user.role === "radiologist") {
+        data = data.filter((item) => item.status === "diagnosed");
+      } else if (auth.user.role === "radiographer") {
+        data = data.filter(
+          (item) => item.status === "imaged" || item.status === "diagnosed"
+        );
+      }
+
       setAllRecords(data);
       setRecords(data);
       setPatients(patients);
@@ -82,6 +93,8 @@ const Records = () => {
       setState("success");
     };
     fetchPatients();
+
+    // eslint-disable-next-line
   }, []);
 
   const onDiagnosisDelete = async (diagnosis) => {
@@ -97,9 +110,10 @@ const Records = () => {
         ...patient,
         diagnosis: updatedDiagnosis,
       });
-      const filteredData = allRecords.filter(
+      let filteredData = allRecords.filter(
         (item) => item.diagnosisId !== diagnosis.diagnosisId
       );
+
       setAllRecords(filteredData);
       setRecords(filteredData);
     } catch (error) {
@@ -110,6 +124,10 @@ const Records = () => {
   const noData = () => {
     if (searchTerm.length === 0 && status === "all" && allRecords.length === 0)
       return true;
+  };
+
+  const isDoctor = () => {
+    if (auth.user.role === "doctor") return true;
   };
 
   if (state === "loading") {
@@ -126,42 +144,44 @@ const Records = () => {
   return (
     <Container>
       <div className="inner">
-        <div className="card_container">
-          <div className="card_item">
-            <DataCard
-              icon={
-                <NoteOutlinedIcon
-                  style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
-                />
-              }
-              value={allRecords.length}
-              title="Records"
-            />
-          </div>
-          <div className="card_item">
-            <DataCard
-              icon={
-                <WcOutlinedIcon
-                  style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
-                />
-              }
-              value={patients.length}
-              title="Patients"
-            />{" "}
-          </div>
+        {isDoctor() && (
+          <div className="card_container">
+            <div className="card_item">
+              <DataCard
+                icon={
+                  <NoteOutlinedIcon
+                    style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
+                  />
+                }
+                value={allRecords.length}
+                title="Records"
+              />
+            </div>
+            <div className="card_item">
+              <DataCard
+                icon={
+                  <WcOutlinedIcon
+                    style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
+                  />
+                }
+                value={patients.length}
+                title="Patients"
+              />{" "}
+            </div>
 
-          <div className="card_item">
-            <DataCard
-              icon={
-                <PersonPinCircleOutlinedIcon
-                  style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
-                />
-              }
-              value={practitioners.length}
-              title="Practitioners"
-            />
+            <div className="card_item">
+              <DataCard
+                icon={
+                  <PersonPinCircleOutlinedIcon
+                    style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
+                  />
+                }
+                value={practitioners.length}
+                title="Practitioners"
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div>
           <div className="row d_header">
             <h1>Diagnosis</h1>
@@ -173,28 +193,32 @@ const Records = () => {
                   variant="outlined"
                 />
               </div>
-              <div className="select">
-                <Select
-                  options={[
-                    { label: "All", value: "all" },
-                    { label: "Diagnosed", value: "diagnosed" },
-                    { label: "Requested", value: "requested" },
-                    { label: "Imaged", value: "imaged" },
-                  ]}
-                  onChange={(item) => {
-                    setStatus(item.value);
+              {isDoctor() && (
+                <div className="select">
+                  <Select
+                    options={[
+                      { label: "All", value: "all" },
+                      { label: "Diagnosed", value: "diagnosed" },
+                      { label: "Requested", value: "requested" },
+                      { label: "Imaged", value: "imaged" },
+                    ]}
+                    onChange={(item) => {
+                      setStatus(item.value);
+                    }}
+                  />
+                </div>
+              )}
+              {isDoctor() && (
+                <Button
+                  onClick={() => {
+                    history.push("/request");
                   }}
-                />
-              </div>
-              <Button
-                onClick={() => {
-                  history.push("/request");
-                }}
-                color="primary"
-                className="button"
-              >
-                <AddOutlinedIcon /> New request
-              </Button>
+                  color="primary"
+                  className="button"
+                >
+                  <AddOutlinedIcon /> New request
+                </Button>
+              )}
             </div>
           </div>
           <RecordList

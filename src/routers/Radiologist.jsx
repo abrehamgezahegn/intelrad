@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Layout from "../components/Layout";
 import Diagnose from "../pages/Shared/Diagnose";
+import Records from "../pages/Shared/Records";
 import Requests from "../pages/Shared/Requests";
 
 const Radiologist = () => {
@@ -20,6 +21,8 @@ const Radiologist = () => {
             path="/diagnose/:patientId/:diagnosisId"
             component={Diagnose}
           />
+          <Route exact path="/history" component={Records} />
+
           <Redirect to="/" />
         </Switch>
       </Layout>

@@ -12,10 +12,10 @@ const radiographer = [
     title: "Requests",
     to: "/",
   },
-  // {
-  //   title: "History",
-  //   to: "/history",
-  // },
+  {
+    title: "History",
+    to: "/history",
+  },
 ];
 
 const radiologist = [
@@ -23,10 +23,10 @@ const radiologist = [
     title: "Requests",
     to: "/",
   },
-  // {
-  //   title: "History",
-  //   to: "/history",
-  // },
+  {
+    title: "History",
+    to: "/history",
+  },
 ];
 
 const doctor = [
