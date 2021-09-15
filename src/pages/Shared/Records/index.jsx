@@ -101,7 +101,7 @@ const Records = () => {
             <DataCard
               icon={
                 <NoteOutlinedIcon
-                  style={{ fontSize: 48, marginRight: 24, color: "#51BAF7" }}
+                  style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
                 />
               }
               value={allRecords.length}
@@ -112,7 +112,7 @@ const Records = () => {
             <DataCard
               icon={
                 <WcOutlinedIcon
-                  style={{ fontSize: 48, marginRight: 24, color: "#51BAF7" }}
+                  style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
                 />
               }
               value={patients.length}
@@ -124,7 +124,7 @@ const Records = () => {
             <DataCard
               icon={
                 <PersonPinCircleOutlinedIcon
-                  style={{ fontSize: 48, marginRight: 24, color: "#51BAF7" }}
+                  style={{ fontSize: 48, marginRight: 24, color: "#25AED0" }}
                 />
               }
               value={practitioners.length}

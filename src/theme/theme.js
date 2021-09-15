@@ -2,12 +2,12 @@ import { textSnippets } from "./textSnippets";
 import { cssSnippets } from "./cssSnippets";
 
 const theme = {
-  primary1: "#51BAF7",
-  primary2: "#3CAAEA",
-  primary3: "#73C4F3",
-  primary4: "#B2E0FB",
+  primary1: "#25AED0",
+  primary2: "#4EC3E0",
+  primary3: "#77D1E7",
+  primary4: "#92DAEC",
   primary5: "#EFF9FF",
-  secondary: "#102A43",
+  secondary: "#292F3D",
   grey1: "#1F2933",
   grey2: "#3E4C59",
   grey3: "#7B8794",

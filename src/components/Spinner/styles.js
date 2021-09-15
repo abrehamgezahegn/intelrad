@@ -9,7 +9,7 @@ export const Container = styled.div`
   .sk-cube-grid .sk-cube {
     width: 33%;
     height: 33%;
-    background-color: #333;
+    background-color: ${(props) => props.theme.secondary};
     float: left;
     -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
     animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
