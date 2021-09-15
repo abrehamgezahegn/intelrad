@@ -86,6 +86,7 @@ const UploadXRay = () => {
             xrayUrl: imageUrl,
             status: "imaged",
             radiographer: auth.user,
+            updatedAt: new Date(),
           };
         else return item;
       });
@@ -182,7 +183,7 @@ const UploadXRay = () => {
               <div>
                 {image && (
                   <img
-                    className="w-102 h-102 mb-8 x-ray-image"
+                    className="w-102 h-102 mb-12 x-ray-image"
                     src={image}
                     alt="x-ray"
                   />

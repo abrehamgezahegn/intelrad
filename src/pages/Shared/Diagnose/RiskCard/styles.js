@@ -3,6 +3,22 @@ import styled from "styled-components";
 export const Container = styled.div`
   .risk_card {
     ${(props) => props.theme.card};
+    min-width: 340px;
+    padding: 0px;
+  }
+
+  .risk_inner {
+    padding: 24px;
+    padding-top: 0px;
+  }
+
+  .header {
+    background-color: ${(props) => props.theme.primary1};
+    color: ${(props) => props.theme.white};
+    padding: 12px;
+    padding-bottom: 16px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
   }
 
   .main_title {

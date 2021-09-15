@@ -77,7 +77,7 @@ export const Button = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledButton {...buttonProps} disabled={loading}>
       {loading ? (
-        <CircularProgress size={30} thickness={4.2} color="inherit" />
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
       ) : (
         children
       )}
@@ -89,7 +89,7 @@ export const ButtonLight = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledLightButton disabled={loading} {...buttonProps}>
       {loading ? (
-        <CircularProgress size={30} thickness={4.2} color="inherit" />
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
       ) : (
         children
       )}
@@ -101,7 +101,7 @@ export const ButtonGrey = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledGreyButton disabled={loading} {...buttonProps}>
       {loading ? (
-        <CircularProgress size={30} thickness={4.2} color="inherit" />
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
       ) : (
         children
       )}
@@ -132,7 +132,7 @@ export const ButtonOutlined = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledOutlinedButton disabled={loading} {...buttonProps}>
       {loading ? (
-        <CircularProgress size={30} thickness={4.2} color="inherit" />
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
       ) : (
         children
       )}

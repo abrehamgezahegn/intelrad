@@ -4,7 +4,7 @@ import { Container } from "./styles";
 import TextField from "@material-ui/core/TextField";
 import RiskCard from "./RiskCard";
 import PatientCard from "../../../components/PatientCard";
-import { ButtonDark } from "../../../components/Button";
+import { ButtonDark, ButtonOutlined } from "../../../components/Button";
 import { useAuth } from "../../../context/AuthProvider";
 import imageZoom from "../../../utils/imageZoom";
 import { useState } from "react";
@@ -25,7 +25,6 @@ const Diagnose = () => {
   const history = useHistory();
   const [patient, setPatient] = useState();
   const [diagnosis, setDiagnosis] = useState();
-  // const [condition, setCondition] = useState();
   const [updateLoading, setUpdateLoading] = useState(false);
   const {
     register,
@@ -35,6 +34,7 @@ const Diagnose = () => {
   } = useForm();
 
   const submitReport = async (data) => {
+    console.log("data", data);
     setUpdateLoading(true);
     try {
       const updatedDiagnosis = patient.diagnosis.map((item) => {
@@ -44,6 +44,8 @@ const Diagnose = () => {
             status: "diagnosed",
             diagnosisReport: data.diagnosisReport,
             radiologist: auth.user,
+            condition: data.condition,
+            updatedAt: new Date(),
           };
         else return item;
       });
@@ -182,10 +184,20 @@ const Diagnose = () => {
           )}
 
           {diagnosis.status === "diagnosed" && (
-            <div className="mt-12">
-              <h3 className="text-3xl mb-4">Diagnosis report</h3>
-              <p className="text-2xl max-w-4xl	">{diagnosis.diagnosisReport}</p>
-            </div>
+            <>
+              <div className="mt-12 mb-16">
+                <h3 className="text-3xl mb-4">Diagnosis report</h3>
+                <p className="text-2xl max-w-4xl	">
+                  {diagnosis.diagnosisReport}
+                </p>
+              </div>
+              <div className="m">
+                <h3 className="mb-4 font-bold">Condition</h3>
+                <ButtonOutlined style={{ borderRadius: 22, fontSize: 22 }}>
+                  {diagnosis.condition}
+                </ButtonOutlined>
+              </div>
+            </>
           )}
         </div>
         <div className="right-content">

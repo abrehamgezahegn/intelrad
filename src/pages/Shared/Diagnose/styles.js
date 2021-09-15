@@ -33,8 +33,8 @@ export const Container = styled.div`
 
   .img-zoom-result {
     border: 1px solid #d4d4d4;
-    width: 600px;
-    height: 600px;
+    width: 500px;
+    height: 500px;
   }
 
   .image_label {
@@ -42,8 +42,8 @@ export const Container = styled.div`
   }
 
   .image {
-    width: 600px;
-    height: 600px;
+    width: 500px;
+    height: 500px;
     margin-right: 44px;
   }
   .text_area_container {

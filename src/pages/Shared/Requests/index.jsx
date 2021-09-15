@@ -7,6 +7,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import { useAuth } from "../../../context/AuthProvider";
 import { getDate, getTime } from "../../../utils/dateFormat";
+import Spinner from "../../../components/Spinner";
 
 const filter = {
   radiologist: "imaged",
@@ -17,6 +18,7 @@ const Requests = () => {
   const [allRecords, setAllRecords] = React.useState([]);
   const [records, setRecords] = React.useState([]);
   const [priority, setPriority] = React.useState("all");
+  const [state, setState] = React.useState("loading");
   const auth = useAuth();
 
   const handleFilter = (e) => {
@@ -52,16 +54,26 @@ const Requests = () => {
         });
         data = [...data, ...dignosises];
       });
-      console.log("data", data);
       const filteredData = data.filter(
         (item) => item.status === filter[auth.user.role]
       );
-      console.log("data", filteredData);
       setAllRecords(filteredData);
       setRecords(filteredData);
+      setState("sucess");
     };
     fetchPatients();
   }, [auth.user.role]);
+
+  if (state === "loading") {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "70vh" }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <Container>
