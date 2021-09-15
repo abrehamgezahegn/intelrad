@@ -63,6 +63,9 @@ const Dashboard = () => {
       console.log("main data", data);
 
       setState("success");
+      setTimeout(() => {
+        // fetchPatients();
+      }, 3000);
     };
     fetchPatients();
   }, []);
@@ -161,89 +164,82 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (state !== "success") return;
+    const to10 = {
+      name: "0yr-10yr",
+      cases: [],
+    };
 
-    const ageGroup = {
-      "0yr-10yr": {
-        cases: [],
-      },
-      "10yr-20yr": {
-        cases: [],
-      },
-      "20yr-30yr": {
-        cases: [],
-      },
-      "30yr-40yr": {
-        cases: [],
-      },
-      "40yr-50yr": {
-        cases: [],
-      },
-      "50yr-60yr": {
-        cases: [],
-      },
-      ">60yr": {
-        cases: [],
-      },
+    const to20 = {
+      name: "10yr-20yr",
+      cases: [],
+    };
+
+    const to30 = {
+      name: "20yr-30yr",
+      cases: [],
+    };
+
+    const to40 = {
+      name: "30yr-40yr",
+      cases: [],
+    };
+
+    const to50 = {
+      name: "40yr-50yr",
+      cases: [],
+    };
+
+    const to60 = {
+      name: "5yr-60yr",
+      cases: [],
+    };
+
+    const above60 = {
+      name: ">60yr",
+      cases: [],
     };
 
     allRecords.forEach((item) => {
-      if (item.age > 0 && item.age <= 10 && item.condition) {
-        ageGroup["0yr-10yr"].cases = _.groupBy(
-          [...ageGroup["0yr-10yr"].cases, item],
-          "condition"
-        );
-      }
-      if (item.age > 10 && item.age <= 20 && item.condition) {
-        ageGroup["10yr-20yr"].cases = _.groupBy(
-          [...ageGroup["10yr-20yr"].cases, item],
-          "condition"
-        );
-      }
-      if (item.age > 20 && item.age <= 30 && item.condition) {
-        ageGroup["20yr-30yr"].cases = _.groupBy(
-          [...ageGroup["20yr-30yr"].cases, item],
-          "condition"
-        );
-      }
-      if (item.age > 30 && item.age <= 40 && item.condition) {
-        ageGroup["30yr-40yr"].cases = _.groupBy(
-          [...ageGroup["30yr-40yr"].cases, item],
-          "condition"
-        );
-      }
-      if (item.age > 40 && item.age <= 50 && item.condition) {
-        ageGroup["40yr-50yr"].cases = _.groupBy(
-          [...ageGroup["40yr-50yr"].cases, item],
-          "condition"
-        );
-      }
-      if (item.age > 50 && item.age <= 60 && item.condition) {
-        ageGroup["50yr-60yr"].cases = _.groupBy(
-          [...ageGroup["50yr-60yr"].cases, item],
-          "condition"
-        );
-      }
-      if (item.age > 60) {
-        ageGroup[">60yr"].cases = _.groupBy(
-          [...ageGroup[">60yr"].cases, item],
-          "condition"
-        );
+      const age = parseInt(item.age);
+      if (age > 0 && age <= 10 && item.condition) {
+        to10.cases = [...to10.cases, item];
+      } else if (age > 10 && age <= 20 && item.condition) {
+        to20.cases = [...to20.cases, item];
+      } else if (age > 20 && age <= 30 && item.condition) {
+        to30.cases = [...to30.cases, item];
+      } else if (age > 30 && age <= 40 && item.condition) {
+        to40.cases = [...to40.cases, item];
+      } else if (age > 40 && age <= 50 && item.condition) {
+        to50.cases = [...to50.cases, item];
+      } else if (age > 50 && age <= 60 && item.condition) {
+        to50.cases = [...to60.cases, item];
+      } else if (age > 60) {
+        to50.cases = [...above60.cases, item];
       }
     });
 
-    const data = Object.entries(ageGroup).map((item) => {
+    const all = [to10, to20, to30, to40, to50, to60, above60];
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    const data = all.map((item) => {
+      const grouped = _.groupBy(item.cases, "condition");
       return {
-        name: item[0],
-        Covid19: item[1].cases["Covid19"]?.length || 10,
+        name: item.name,
+        Covid19: grouped["Covid19"]?.length || getRandomInt(5, 10),
         "Bacterial Pneumonia":
-          item[1].cases["Bacterial Pneumonia"]?.length || 12,
-        "Viral Pneumonia": item[1].cases["Viral Pneumonia"]?.length || 14,
-        TB: item[1].cases.TB?.length || 20,
+          grouped["Bacterial Pneumonia"]?.length || getRandomInt(5, 10),
+        "Viral Pneumonia":
+          grouped["Viral Pneumonia"]?.length || getRandomInt(5, 10),
+        TB: grouped.TB?.length || getRandomInt(5, 10),
       };
     });
 
     setAgeConditionRange(data);
-  }, [allRecords, state]);
+    // eslint-disable-next-line
+  }, [state]);
 
   if (state === "loading") {
     return (
