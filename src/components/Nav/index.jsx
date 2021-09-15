@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -31,7 +31,7 @@ const radiologist = [
 
 const doctor = [
   {
-    title: "Records",
+    title: "Diagnosis",
     to: "/",
   },
   // {
@@ -61,6 +61,7 @@ const navItems = {
 const Nav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const auth = useAuth();
+  const location = useLocation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -75,7 +76,7 @@ const Nav = () => {
       <div className="inner">
         <div className="logo">
           <NavLink to="/">
-            <h1>INTELRAD</h1>
+            <h1 className="font-bold">INTELRAD</h1>
           </NavLink>
         </div>
         <div className="nav-items">
@@ -85,6 +86,9 @@ const Nav = () => {
                 to={navItem.to}
                 className="nav-item"
                 activeClassName="nav_item__active"
+                style={{
+                  color: location.pathname === navItem.to ? "white" : "#7B8794",
+                }}
               >
                 {navItem.title}
               </NavLink>

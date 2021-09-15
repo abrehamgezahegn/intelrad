@@ -35,7 +35,6 @@ export const Container = styled.div`
 
   .nav_item__active {
     color: ${(props) => props.theme.white};
-    color: red;
   }
 
   .menu-trigger {
