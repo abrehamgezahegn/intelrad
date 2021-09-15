@@ -7,6 +7,57 @@ import { Container } from "./styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useAuth } from "../../context/AuthProvider";
 
+const radiographer = [
+  {
+    title: "Requests",
+    to: "/",
+  },
+  // {
+  //   title: "History",
+  //   to: "/history",
+  // },
+];
+
+const radiologist = [
+  {
+    title: "Requests",
+    to: "/",
+  },
+  // {
+  //   title: "History",
+  //   to: "/history",
+  // },
+];
+
+const doctor = [
+  {
+    title: "Records",
+    to: "/",
+  },
+  // {
+  //   title: "Patients",
+  //   to: "/patients",
+  // },
+];
+
+const superAdmin = [
+  {
+    title: "Dashboard",
+    to: "/",
+  },
+  // {
+  //   title: "Patients",
+  //   to: "/patients",
+  // },
+];
+
+const navItems = {
+  radiographer,
+  radiologist,
+  doctor,
+  superAdmin,
+};
+
 const Nav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const auth = useAuth();
@@ -28,20 +79,17 @@ const Nav = () => {
           </NavLink>
         </div>
         <div className="nav-items">
-          <NavLink
-            to="/new-cases"
-            className="nav-item"
-            activeClassName="nav_item__active"
-          >
-            New cases
-          </NavLink>
-          <NavLink
-            to="/diagnosed"
-            className="nav-item"
-            activeClassName="nav_item__active"
-          >
-            Diagnosed
-          </NavLink>
+          {navItems[auth.user.role].map((navItem) => {
+            return (
+              <NavLink
+                to={navItem.to}
+                className="nav-item"
+                activeClassName="nav_item__active"
+              >
+                {navItem.title}
+              </NavLink>
+            );
+          })}
         </div>
 
         <div className="user-items row">

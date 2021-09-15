@@ -183,7 +183,7 @@ const UploadXRay = () => {
               <input
                 type="file"
                 id="fileElem"
-                accept="image/*"
+                accept="image/png, image/jpeg, image/jpg"
                 style={{ display: "none" }}
                 onChange={(e) => {
                   const file = e.target.files[0];
