@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyledInput } from "../../../../components/Form/Input";
 import { ButtonOutlined } from "../../../../components/Button";
 import Select from "../../../../components/Form/Select";
@@ -11,11 +11,19 @@ const PatientForm = ({
   patient,
   register,
   setValue,
+  unregister,
   errors = {},
 }) => {
   const handleChange = (e) => {
     setPatient((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  useEffect(() => {
+    return () => {
+      unregister("sex");
+    };
+    // eslint-disable-next-line
+  }, []);
   return (
     <div>
       <div className="flex flex-row">

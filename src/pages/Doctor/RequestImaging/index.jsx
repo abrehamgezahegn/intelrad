@@ -36,6 +36,7 @@ const RequestImaging = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    unregister,
   } = useForm();
 
   const createPatient = async (data) => {
@@ -188,6 +189,7 @@ const RequestImaging = () => {
                     errors={errors}
                     patient={patient}
                     setValue={setValue}
+                    unregister={unregister}
                   />
                 </div>
               )}
