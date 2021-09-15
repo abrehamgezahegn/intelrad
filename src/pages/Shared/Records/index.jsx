@@ -54,8 +54,8 @@ const Records = () => {
           const date = getDate(rec.createdAt.seconds);
           const time = getTime(rec.createdAt.seconds);
           return {
-            ...rec,
             ...item.data(),
+            ...rec,
             radiographer: rec.radiographer?.name,
             radiologist: rec.radiologist?.name,
             date,
@@ -69,6 +69,8 @@ const Records = () => {
       usersQuerySnapshot.forEach((item) => {
         practitioners = [...practitioners, item.data()];
       });
+
+      data = data.sort((a, b) => b.updatedAt.seconds - a.updatedAt.seconds);
 
       setAllRecords(data);
       setRecords(data);
@@ -149,8 +151,8 @@ const Records = () => {
                     { label: "Requested", value: "requested" },
                     { label: "Imaged", value: "imaged" },
                   ]}
-                  onChange={(value) => {
-                    setStatus(value);
+                  onChange={(item) => {
+                    setStatus(item.value);
                   }}
                   selectProps={{ placeholder: "Status" }}
                 />

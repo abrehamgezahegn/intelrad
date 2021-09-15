@@ -113,7 +113,6 @@ export default function StickyHeadTable({ records = [] }) {
 
             {records
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .sort((item) => (item.status !== "diagnosed" ? 1 : -1))
               .map((row) => {
                 return (
                   <StyledTableRow

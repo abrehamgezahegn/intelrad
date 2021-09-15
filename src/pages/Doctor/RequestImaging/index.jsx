@@ -24,7 +24,6 @@ const RequestImaging = () => {
   const [showPatientFrom, togglePatientForm] = useState(false);
   const [patient, setPatient] = useState();
   const [patients, setPatients] = useState([]);
-  const [priority, setPriority] = useState("low");
   const [isModalOpen, toggleModal] = useState("");
   const [status, setStatus] = useState("idle");
   const [shouldCreatePatient, toggleShouldCretePatient] = useState(false);
@@ -36,6 +35,7 @@ const RequestImaging = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const createPatient = async (data) => {
@@ -119,6 +119,7 @@ const RequestImaging = () => {
       updatePatientHistory(data);
     }
   };
+  console.log("errors  ", errors);
 
   return (
     <Container>
@@ -200,20 +201,17 @@ const RequestImaging = () => {
                   { label: "High", value: "high" },
                   { label: "Emergency", value: "emergency" },
                 ]}
-                value={priority}
-                placeholder="priority"
-                selectProps={{
-                  ...register("priority", {
-                    required: "This is a required field",
-                    minLength: 1,
-                  }),
-                  className: "patient_select",
+                {...register("priority", {
+                  required: "This is a required field",
+                  minLength: 1,
+                })}
+                onChange={(item) => {
+                  console.log("patient ", item);
+                  setValue("priority", item.value);
                 }}
-                onChange={(value) => {
-                  console.log("patient ", value);
-                  setPriority(value);
-                }}
+                name="priority"
               />
+              <FormErrorMessage name="priority" errors={errors} />
             </div>
             <div className="flex flex-col mb-8">
               <StyledLabel>Request note</StyledLabel>
@@ -226,6 +224,7 @@ const RequestImaging = () => {
             </div>
             <ButtonDark
               onClick={handleSubmit((data) => {
+                console.log("data", data);
                 submitRequest({ ...data });
               })}
               style={{ width: "100%" }}

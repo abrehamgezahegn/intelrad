@@ -3,7 +3,6 @@ import { Container } from "./styles";
 import { getDate } from "../../utils/dateFormat";
 
 const PatientCard = ({ patient = {}, showLastDiagnosisDate = true }) => {
-  console.log("patien in patien card", patient);
   return (
     <Container>
       <div className="patient_card">
