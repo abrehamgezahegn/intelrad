@@ -49,6 +49,7 @@ const Records = () => {
 
   useEffect(() => {
     const fetchPatients = async () => {
+      console.log("polling");
       const querySnapshot = await getDocs(collection(db, "patients"));
       let data = [];
       let patients = [];
@@ -91,6 +92,10 @@ const Records = () => {
       setPractitioners(practitioners);
 
       setState("success");
+
+      setTimeout(() => {
+        fetchPatients();
+      }, 2000);
     };
     fetchPatients();
 

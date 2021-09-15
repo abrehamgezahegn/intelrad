@@ -21,12 +21,12 @@ const columns = [
   { id: "sex", label: "Sex", minWidth: 100 },
   // { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
   { id: "priority", label: "Priority", minWidth: 120 },
-  { id: "date", label: "Date", minWidth: 170 },
-  { id: "visitTime", label: "Visit Time", minWidth: 170 },
+  { id: "status", label: "Status", minWidth: 170 },
+  { id: "condition", label: "Condition", minWidth: 170 },
   { id: "radiologist", label: "Radiologist", minWidth: 170 },
   { id: "radiographer", label: "Radiographer", minWidth: 170 },
-  { id: "condition", label: "Condition", minWidth: 170 },
-  { id: "status", label: "Status", minWidth: 170 },
+  { id: "date", label: "Date", minWidth: 170 },
+  { id: "visitTime", label: "Visit Time", minWidth: 170 },
 ];
 
 const useStyles = makeStyles({
@@ -151,18 +151,6 @@ export default function StickyHeadTable({
                                     : value}
                                 </ButtonOutlined>
                               </div>
-                              <DeleteIcon
-                                onClick={() => {
-                                  console.log("delete click");
-                                  openAlert(row);
-                                }}
-                                className="icon"
-                                color={"#fff"}
-                                style={{
-                                  color: "#D64545",
-                                  marginLeft: 48,
-                                }}
-                              />
                             </div>
                           </TableCell>
                         );
@@ -183,6 +171,20 @@ export default function StickyHeadTable({
                           align={column.align}
                         >
                           {showItem(column, value)}
+                          {column.id === "visitTime" && (
+                            <DeleteIcon
+                              onClick={() => {
+                                console.log("delete click");
+                                openAlert(row);
+                              }}
+                              className="icon"
+                              color={"#fff"}
+                              style={{
+                                color: "#D64545",
+                                marginLeft: 48,
+                              }}
+                            />
+                          )}
                         </TableCell>
                       );
                     })}
