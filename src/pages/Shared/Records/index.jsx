@@ -11,7 +11,7 @@ import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import Select from "../../../components/Form/Select";
 import { useHistory } from "react-router-dom";
 import { StyledInput } from "../../../components/Form/Input";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import { getDate, getTime } from "../../../utils/dateFormat";
 import Spinner from "../../../components/Spinner";
@@ -23,11 +23,13 @@ const Records = () => {
   const [practitioners, setPractitioners] = React.useState([]);
   const [status, setStatus] = React.useState("all");
   const [state, setState] = React.useState("loading");
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   const history = useHistory();
 
   const handleFilter = (e) => {
     const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
 
     const filtered = allRecords.filter((item) => {
       if (
@@ -81,6 +83,34 @@ const Records = () => {
     };
     fetchPatients();
   }, []);
+
+  const onDiagnosisDelete = async (diagnosis) => {
+    try {
+      const docRef = doc(db, "patients", diagnosis.id);
+      const docSnap = await getDoc(docRef);
+      const patient = docSnap.data();
+
+      const updatedDiagnosis = patient.diagnosis.filter(
+        (item) => item.diagnosisId !== diagnosis.diagnosisId
+      );
+      await setDoc(doc(db, "patients", patient.id), {
+        ...patient,
+        diagnosis: updatedDiagnosis,
+      });
+      const filteredData = allRecords.filter(
+        (item) => item.diagnosisId !== diagnosis.diagnosisId
+      );
+      setAllRecords(filteredData);
+      setRecords(filteredData);
+    } catch (error) {
+      console.log("on diagnosis delete", error);
+    }
+  };
+
+  const noData = () => {
+    if (searchTerm.length === 0 && status === "all" && allRecords.length === 0)
+      return true;
+  };
 
   if (state === "loading") {
     return (
@@ -174,6 +204,8 @@ const Records = () => {
                 return true;
               return false;
             })}
+            onDiagnosisDelete={onDiagnosisDelete}
+            noData={noData()}
           />
         </div>
       </div>

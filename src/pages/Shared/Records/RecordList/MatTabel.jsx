@@ -38,12 +38,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable({ records = [] }) {
+export default function StickyHeadTable({
+  records = [],
+  onDiagnosisDelete,
+  noData,
+}) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const history = useHistory();
   const [isAlertOPen, toggleAlert] = React.useState(false);
+  const [diagnosisToDelete, setToDelete] = React.useState({});
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -60,12 +65,13 @@ export default function StickyHeadTable({ records = [] }) {
   };
 
   const openAlert = (record) => {
+    setToDelete(record);
     toggleAlert(true);
   };
 
   const onDelete = () => {
-    console.log("deleting record");
     // fetch fresh records
+    onDiagnosisDelete(diagnosisToDelete);
     toggleAlert(false);
   };
 
@@ -102,7 +108,14 @@ export default function StickyHeadTable({ records = [] }) {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {records.length === 0 && (
+            {noData && (
+              <div className="w-full ml-4 mb-12">
+                <h1 className="whitespace-nowrap	text-lg text-center mt-8">
+                  No data found
+                </h1>
+              </div>
+            )}
+            {!noData && records.length === 0 && (
               <div className="w-full ml-4 mb-12">
                 <h1 className="whitespace-nowrap	text-lg text-center mt-8">
                   No data found matching your filter
