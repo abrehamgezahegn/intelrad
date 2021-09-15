@@ -36,7 +36,8 @@ function CircularProgressWithLabel(props) {
   );
 }
 
-const RiskCard = () => {
+const RiskCard = ({ diagnosis }) => {
+  console.log("diagnosis risk card", diagnosis);
   return (
     <Container>
       <div className="risk_card">
@@ -50,7 +51,22 @@ const RiskCard = () => {
               <h2 className="title text-xs">Risk</h2>
             </div>
             <div className="w-100">
-              <div className="item-container row justify-sb">
+              {diagnosis.riskProbability &&
+                diagnosis.riskProbability.map((item) => {
+                  return (
+                    <div className="item-container row justify-sb">
+                      <h3 className="item text-lg font-bold">
+                        {item.condition}
+                      </h3>
+                      <div className="item">
+                        <CircularProgressWithLabel
+                          value={item.probability * 100}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              {/* <div className="item-container row justify-sb">
                 <h3 className="item text-lg font-bold">Covid19</h3>
                 <div className="item">
                   <CircularProgressWithLabel value={90} />
@@ -73,7 +89,7 @@ const RiskCard = () => {
                 <div className="item">
                   <CircularProgressWithLabel value={67} />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

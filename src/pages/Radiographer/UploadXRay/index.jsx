@@ -13,6 +13,7 @@ import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../utils/firebase";
 import Spinner from "../../../components/Spinner";
 import { useAuth } from "../../../context/AuthProvider";
+import axios from "axios";
 
 // const getRandomInt = (max) => {
 //   return Math.floor(Math.random() * max);
@@ -79,6 +80,7 @@ const UploadXRay = () => {
 
   const updateDiagnosis = async (imageUrl) => {
     try {
+      const res = await getPrediction(imageUrl);
       const updatedDiagnosis = patient.diagnosis.map((item) => {
         if (item.diagnosisId === diagnosis.diagnosisId)
           return {
@@ -87,6 +89,24 @@ const UploadXRay = () => {
             status: "imaged",
             radiographer: auth.user,
             updatedAt: new Date(),
+            riskProbability: [
+              {
+                condition: "Covid19",
+                probability: res.data[0],
+              },
+              {
+                condition: "Bacterial Pneumonia",
+                probability: res.data[1],
+              },
+              {
+                condition: "Viral Pneumonia",
+                probability: res.data[2],
+              },
+              {
+                condition: "TB",
+                probability: res.data[3],
+              },
+            ],
           };
         else return item;
       });
@@ -126,6 +146,21 @@ const UploadXRay = () => {
     fetchPatients();
   }, [params.diagnosisId, params.patientId]);
 
+  const getPrediction = async (imageUrl) => {
+    try {
+      const res = await axios({
+        method: "post",
+        data: {
+          url: imageUrl,
+        },
+        url: "http://fc33-196-188-245-116.ngrok.io/api/multiclass",
+      });
+      return res;
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   if (state === "loading") {
     return (
       <div
@@ -141,6 +176,7 @@ const UploadXRay = () => {
     <>
       <Container>
         <div className="flex justify-center">
+          {/* <ButtonDark onClick={test}>Make request to flask</ButtonDark> */}
           <div className="mt-12 w-screen max-w-screen-lg flex justify-between">
             <div>
               <PatientDataCard requestData={requestData} />

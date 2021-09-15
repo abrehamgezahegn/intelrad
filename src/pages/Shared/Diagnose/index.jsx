@@ -202,7 +202,7 @@ const Diagnose = () => {
         </div>
         <div className="right-content">
           <div className="risk_card">
-            <RiskCard />
+            <RiskCard diagnosis={diagnosis} />
           </div>
           <PatientCard patient={patient} />
         </div>
