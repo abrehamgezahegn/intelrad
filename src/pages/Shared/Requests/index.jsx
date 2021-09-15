@@ -86,8 +86,8 @@ const Requests = () => {
                     { label: "Medium", value: "medium" },
                     { label: "Low", value: "low" },
                   ]}
-                  onChange={(value) => {
-                    setPriority(value);
+                  onChange={(item) => {
+                    setPriority(item.value);
                   }}
                 />
               </div>

@@ -10,6 +10,7 @@ const PatientForm = ({
   setPatient,
   patient,
   register,
+  setValue,
   errors = {},
 }) => {
   const handleChange = (e) => {
@@ -78,18 +79,14 @@ const PatientForm = ({
             { label: "Female", value: "female" },
           ]}
           error={Boolean(errors.sex)}
-          selectProps={{
-            ...register("sex", {
-              required: "This is a required field",
-              minLength: 1,
-            }),
-            className: "patient_select",
-          }}
-          placeholder="sex"
+          {...register("sex", {
+            required: "This is a required field",
+            minLength: 1,
+          })}
           name="sex"
-          value={patient?.sex || "male"}
-          onChange={(value) => {
-            setPatient((prev) => ({ ...prev, sex: value }));
+          onChange={(item) => {
+            setPatient((prev) => ({ ...prev, sex: item.value }));
+            setValue("sex", item.value);
           }}
         />
         <FormErrorMessage errors={errors} name="sex" />

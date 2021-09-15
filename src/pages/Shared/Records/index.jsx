@@ -154,7 +154,6 @@ const Records = () => {
                   onChange={(item) => {
                     setStatus(item.value);
                   }}
-                  selectProps={{ placeholder: "Status" }}
                 />
               </div>
               <Button

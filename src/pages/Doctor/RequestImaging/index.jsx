@@ -187,6 +187,7 @@ const RequestImaging = () => {
                     setPatient={setPatient}
                     errors={errors}
                     patient={patient}
+                    setValue={setValue}
                   />
                 </div>
               )}

@@ -25,16 +25,16 @@ const Diagnose = () => {
   const history = useHistory();
   const [patient, setPatient] = useState();
   const [diagnosis, setDiagnosis] = useState();
-  const [condition, setCondition] = useState();
+  // const [condition, setCondition] = useState();
   const [updateLoading, setUpdateLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const submitReport = async (data) => {
-    console.log("data", data);
     setUpdateLoading(true);
     try {
       const updatedDiagnosis = patient.diagnosis.map((item) => {
@@ -54,7 +54,7 @@ const Diagnose = () => {
         diagnosis: updatedDiagnosis,
       });
       setUpdateLoading(false);
-      // history.push("/");
+      history.push("/");
     } catch (error) {
       setUpdateLoading(false);
       console.error("submit report err: ", error);
@@ -140,22 +140,16 @@ const Diagnose = () => {
                     { label: "TB", value: "TB" },
                     { label: "Healthy", value: "Healthy" },
                   ]}
-                  placeholder="condition"
-                  // error={true}
-                  value={condition}
-                  onChange={(value) => {
-                    setCondition(value);
-                  }}
-                  selectProps={{
-                    ...register("condition", {
-                      required: "This is a required field",
-                      minLength: 1,
-                    }),
-
-                    name: "condition",
+                  {...register("condition", {
+                    required: "This is a required field",
+                    minLength: 1,
+                  })}
+                  onChange={(item) => {
+                    setValue("condition", item.value);
                   }}
                   name="condition"
                 />
+                <FormErrorMessage name="condition" errors={errors} />
               </div>
               <div className="text_area_container">
                 <TextField
