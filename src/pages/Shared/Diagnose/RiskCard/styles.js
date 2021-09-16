@@ -5,6 +5,7 @@ export const Container = styled.div`
     ${(props) => props.theme.card};
     min-width: 340px;
     padding: 0px;
+    min-height: 200px;
   }
 
   .risk_inner {
@@ -53,5 +54,13 @@ export const Container = styled.div`
         return props.theme.warning;
       } else return props.theme.error;
     }};
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 36px;
   }
 `;

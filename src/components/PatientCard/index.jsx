@@ -7,7 +7,6 @@ const PatientCard = ({
   showLastDiagnosisDate = true,
   diagnosis = {},
 }) => {
-  console.log("diagnn", diagnosis);
   return (
     <Container>
       <div className="patient_card">

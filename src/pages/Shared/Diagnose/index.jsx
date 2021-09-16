@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import FormErrorMessage from "../../../components/Form/FormErrorMessage";
 import Select from "../../../components/Form/Select";
 import { StyledLabel } from "../../../components/Form/StyledElements";
+import axios from "axios";
 
 const Diagnose = () => {
   const getFullScreen = () => {};
@@ -34,7 +35,6 @@ const Diagnose = () => {
   } = useForm();
 
   const submitReport = async (data) => {
-    console.log("data", data);
     setUpdateLoading(true);
     try {
       const updatedDiagnosis = patient.diagnosis.map((item) => {
@@ -73,6 +73,7 @@ const Diagnose = () => {
           const diagnosis = patient.diagnosis.find(
             (item) => item.diagnosisId === params.diagnosisId
           );
+
           if (!diagnosis) {
             console.log("Diagnosis not found!");
             history.push("/");
@@ -82,6 +83,10 @@ const Diagnose = () => {
           setPatient(patient);
           setState("success");
           imageZoom("myimage", "myresult");
+          // if (!diagnosis.riskProbability) {
+          if (true) {
+            await getPrediction(diagnosis.xrayUrl, patient, diagnosis);
+          }
         } else {
           history.push("/");
           console.log("No such document!");
@@ -95,6 +100,61 @@ const Diagnose = () => {
     fetchDiagnosis();
     // eslint-disable-next-line
   }, []);
+
+  const getPrediction = async (imageUrl, patient, diagnosis) => {
+    console.log("get prediction", imageUrl);
+    console.log("patient", patient);
+    console.log("diagnosis", diagnosis);
+    try {
+      const res = await axios({
+        method: "post",
+        data: {
+          url: diagnosis.xrayUrl,
+        },
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/multiclass`,
+      });
+
+      console.log("get pred red", res);
+
+      const prediction = JSON.parse(res.data.prediction);
+      const riskProbability = [
+        {
+          condition: "Covid19",
+          probability: prediction[0],
+        },
+        {
+          condition: "Bacterial Pneumonia",
+          probability: prediction[1],
+        },
+        {
+          condition: "Viral Pneumonia",
+          probability: prediction[2],
+        },
+        {
+          condition: "TB",
+          probability: prediction[3],
+        },
+      ];
+
+      const updatedDiagnosis = patient.diagnosis.map((item) => {
+        if (item.diagnosisId === diagnosis.diagnosisId) {
+          setDiagnosis({ ...item, riskProbability: riskProbability });
+          return {
+            ...item,
+            riskProbability: riskProbability,
+          };
+        } else return item;
+      });
+
+      await setDoc(doc(db, "patients", patient.id), {
+        ...patient,
+        updatedAt: new Date(),
+        diagnosis: updatedDiagnosis,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   if (state === "loading") {
     return (

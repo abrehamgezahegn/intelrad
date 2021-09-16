@@ -34,7 +34,7 @@ const CreateUser = () => {
     try {
       await axios({
         method: "post",
-        url: "http://30bd-196-188-245-116.ngrok.io/api/create-user",
+        url: `${process.env.REACT_APP_BACKEND_URL}/api/create-user`,
         data: {
           email: data.email,
           password: data.password,

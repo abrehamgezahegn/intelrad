@@ -37,22 +37,29 @@ function CircularProgressWithLabel(props) {
 }
 
 const RiskCard = ({ diagnosis }) => {
-  console.log("diagnosis risk card", diagnosis);
   return (
     <Container>
       <div className="risk_card">
         <div className="header">
           <h2 className="main_title font-bold text-xl">Model prediction</h2>
         </div>
-        <div className="risk_inner">
-          <div className="w-100">
-            <div className="row justify-sb">
-              <h2 className="title text-xs">Disease</h2>
-              <h2 className="title text-xs">Risk</h2>
-            </div>
+        {(!diagnosis.riskProbability ||
+          diagnosis.riskProbability.length === 0) && (
+          <div className="loading-container">
+            {" "}
+            <CircularProgress size={24} thickness={4.2} color="inherit" />{" "}
+            <h1>Processing image...</h1>{" "}
+          </div>
+        )}
+        {diagnosis.riskProbability && diagnosis.riskProbability.length > 0 && (
+          <div className="risk_inner">
             <div className="w-100">
-              {diagnosis.riskProbability &&
-                diagnosis.riskProbability.map((item) => {
+              <div className="row justify-sb">
+                <h2 className="title text-xs">Disease</h2>
+                <h2 className="title text-xs">Risk</h2>
+              </div>
+              <div className="w-100">
+                {diagnosis.riskProbability.map((item) => {
                   return (
                     <div className="item-container row justify-sb">
                       <h3 className="item text-lg font-bold">
@@ -66,33 +73,10 @@ const RiskCard = ({ diagnosis }) => {
                     </div>
                   );
                 })}
-              {/* <div className="item-container row justify-sb">
-                <h3 className="item text-lg font-bold">Covid19</h3>
-                <div className="item">
-                  <CircularProgressWithLabel value={90} />
-                </div>
               </div>
-              <div className="item-container row justify-sb">
-                <h3 className="item text-lg font-bold">Viral Puemonia</h3>
-                <div className="item">
-                  <CircularProgressWithLabel value={40} />
-                </div>
-              </div>{" "}
-              <div className="item-container row justify-sb">
-                <h3 className="item text-lg font-bold">Bacterial Puemonia</h3>
-                <div className="item">
-                  <CircularProgressWithLabel value={75} />
-                </div>
-              </div>{" "}
-              <div className="item-container row justify-sb">
-                <h3 className="item text-lg font-bold">TB</h3>
-                <div className="item">
-                  <CircularProgressWithLabel value={67} />
-                </div>
-              </div> */}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </Container>
   );
