@@ -8,7 +8,7 @@ export const Container = styled.div`
   }
 
   .logo {
-    margin-bottom: 24px;
+    margin-bottom: 42px;
     ${(props) => props.theme.bold_24}
   }
 
