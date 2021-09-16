@@ -153,7 +153,7 @@ const UploadXRay = () => {
         data: {
           url: imageUrl,
         },
-        url: "http://fc33-196-188-245-116.ngrok.io/api/multiclass",
+        url: "https://respiratory-disorder-detection.azurewebsites.net/api/multiclass",
       });
       return res;
     } catch (error) {

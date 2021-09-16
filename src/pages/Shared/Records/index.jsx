@@ -16,6 +16,7 @@ import { db } from "../../../utils/firebase";
 import { getDate, getTime } from "../../../utils/dateFormat";
 import Spinner from "../../../components/Spinner";
 import { useAuth } from "../../../context/AuthProvider";
+// import RefreshIcon from "@material-ui/icons-material/Refresh";
 
 const Records = () => {
   const [allRecords, setAllRecords] = React.useState([]);
@@ -190,6 +191,7 @@ const Records = () => {
         <div>
           <div className="row d_header">
             <h1>Diagnosis</h1>
+            {/* <RefreshIcon /> */}
             <div className="row">
               <div className="mr-5">
                 <StyledInput

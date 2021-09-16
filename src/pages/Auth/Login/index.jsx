@@ -25,6 +25,7 @@ const Login = () => {
       }
     } catch (error) {
       setState("error");
+      console.log("error ", error.message);
       if (error.message === "Firebase: Error (auth/invalid-email).") {
         setError("Invalid email");
       } else if (error.message === "Firebase: Error (auth/user-not-found).") {

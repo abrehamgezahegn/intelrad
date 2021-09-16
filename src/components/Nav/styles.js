@@ -12,6 +12,7 @@ export const Container = styled.div`
   .logo {
     display: flex;
     align-items: center;
+    margin-left: -76px;
   }
   .logo a {
     color: ${(props) => props.theme.white};
@@ -20,6 +21,7 @@ export const Container = styled.div`
   .nav-items {
     display: flex;
     align-items: center;
+    margin-left: -178px;
   }
 
   .inner {
