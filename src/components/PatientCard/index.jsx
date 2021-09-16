@@ -5,7 +5,7 @@ import { getDate } from "../../utils/dateFormat";
 const PatientCard = ({
   patient = {},
   showLastDiagnosisDate = true,
-  diagnosis,
+  diagnosis = {},
 }) => {
   console.log("diagnn", diagnosis);
   return (

@@ -89,24 +89,24 @@ const UploadXRay = () => {
             status: "imaged",
             radiographer: auth.user,
             updatedAt: new Date(),
-            riskProbability: [
-              // {
-              //   condition: "Covid19",
-              //   probability: res.data[0],
-              // },
-              // {
-              //   condition: "Bacterial Pneumonia",
-              //   probability: res.data[1],
-              // },
-              // {
-              //   condition: "Viral Pneumonia",
-              //   probability: res.data[2],
-              // },
-              // {
-              //   condition: "TB",
-              //   probability: res.data[3],
-              // },
-            ],
+            // riskProbability: [
+            //   {
+            //     condition: "Covid19",
+            //     probability: res.data[0],
+            //   },
+            //   {
+            //     condition: "Bacterial Pneumonia",
+            //     probability: res.data[1],
+            //   },
+            //   {
+            //     condition: "Viral Pneumonia",
+            //     probability: res.data[2],
+            //   },
+            //   {
+            //     condition: "TB",
+            //     probability: res.data[3],
+            //   },
+            // ],
           };
         else return item;
       });

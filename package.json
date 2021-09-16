@@ -16,6 +16,7 @@
     "axios": "^0.21.4",
     "cropperjs": "^1.5.12",
     "firebase": "^9.0.2",
+    "firebase-admin": "^9.11.1",
     "lodash": "^4.17.21",
     "panzoom": "^9.4.2",
     "postcss": "^7",

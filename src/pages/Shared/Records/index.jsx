@@ -93,9 +93,9 @@ const Records = () => {
 
       setState("success");
 
-      setTimeout(() => {
-        fetchPatients();
-      }, 2000);
+      // setTimeout(() => {
+      //   fetchPatients();
+      // }, 2000);
     };
     fetchPatients();
 

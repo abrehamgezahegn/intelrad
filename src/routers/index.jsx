@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthProvider";
 import Doctor from "./Doctor";
 import Radiographer from "./Radiographer";
 import SuperAdmin from "./SuperAdmin";
+import Admin from "./Admin";
 
 const IndexRoute = () => {
   const {
@@ -20,7 +21,7 @@ const IndexRoute = () => {
       case "radiologist":
         return <Radiologist />;
       case "admin":
-        return <h1>admin</h1>;
+        return <Admin />;
       case "superAdmin":
         return <SuperAdmin />;
       default:

@@ -51,11 +51,23 @@ const superAdmin = [
   // },
 ];
 
+const admin = [
+  {
+    title: "Create user",
+    to: "/",
+  },
+  // {
+  //   title: "Patients",
+  //   to: "/patients",
+  // },
+];
+
 const navItems = {
   radiographer,
   radiologist,
   doctor,
   superAdmin,
+  admin,
 };
 
 const Nav = () => {
