@@ -3,6 +3,7 @@ import { Container } from "./styles";
 // import Button from "@material-ui/core/Button";
 import { Button } from "../Button";
 import { StyledInput } from "../Form/Input";
+import Logo from "../Logo";
 
 const LoginForm = (props) => {
   const [email, setEmail] = React.useState("");
@@ -26,7 +27,7 @@ const LoginForm = (props) => {
           }}
         >
           <div className="logo">
-            <h1>INTELRAD</h1>
+            <Logo />
           </div>
           <p className="subtitle">Login to your account</p>
           {props.errorMessage && (

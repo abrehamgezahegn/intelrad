@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Container } from "./styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useAuth } from "../../context/AuthProvider";
+import Logo from "../Logo";
 
 const radiographer = [
   {
@@ -88,7 +89,7 @@ const Nav = () => {
       <div className="inner">
         <div className="logo">
           <NavLink to="/">
-            <h1 className="font-bold">INTELRAD</h1>
+            <Logo />
           </NavLink>
         </div>
         <div className="nav-items">
