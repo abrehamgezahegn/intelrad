@@ -8,6 +8,8 @@ import { db } from "../../../utils/firebase";
 import { useAuth } from "../../../context/AuthProvider";
 import { getDate, getTime } from "../../../utils/dateFormat";
 import Spinner from "../../../components/Spinner";
+import RefreshIcon from "@material-ui/icons/RefreshRounded";
+import { Button } from "@material-ui/core";
 
 const filter = {
   radiologist: "imaged",
@@ -35,33 +37,34 @@ const Requests = () => {
     setRecords(filtered);
   };
 
-  useEffect(() => {
-    const fetchPatients = async () => {
-      const querySnapshot = await getDocs(collection(db, "patients"));
-      let data = [];
-      querySnapshot.forEach((item) => {
-        const dignosises = item.data().diagnosis.map((rec) => {
-          const date = getDate(rec.createdAt.seconds);
-          const time = getTime(rec.createdAt.seconds);
+  const fetchPatients = async () => {
+    const querySnapshot = await getDocs(collection(db, "patients"));
+    let data = [];
+    querySnapshot.forEach((item) => {
+      const dignosises = item.data().diagnosis.map((rec) => {
+        const date = getDate(rec.createdAt.seconds);
+        const time = getTime(rec.createdAt.seconds);
 
-          return {
-            ...rec,
-            doctor: rec.doctor.name,
-            ...item.data(),
-            date,
-            visitTime: time,
-          };
-        });
-        data = [...data, ...dignosises];
+        return {
+          ...rec,
+          doctor: rec.doctor.name,
+          ...item.data(),
+          date,
+          visitTime: time,
+        };
       });
-      const filteredData = data.filter(
-        (item) => item.status === filter[auth.user.role]
-      );
-      setAllRecords(filteredData);
-      setRecords(filteredData);
-      setState("sucess");
-    };
+      data = [...data, ...dignosises];
+    });
+    const filteredData = data.filter(
+      (item) => item.status === filter[auth.user.role]
+    );
+    setAllRecords(filteredData);
+    setRecords(filteredData);
+    setState("success");
+  };
+  useEffect(() => {
     fetchPatients();
+    // eslint-disable-next-line
   }, [auth.user.role]);
 
   if (state === "loading") {
@@ -80,7 +83,22 @@ const Requests = () => {
       <div className="inner">
         <div>
           <div className="row d_header">
-            <h1 className="text-2xl">Requests</h1>
+            <div className="flex items-center">
+              <h1 className="text-2xl">Requests</h1>
+              <Button
+                onClick={() => {
+                  fetchPatients();
+                }}
+                className="ml-4"
+                style={{ marginLeft: 8 }}
+              >
+                <RefreshIcon
+                  onClick={() => {
+                    fetchPatients();
+                  }}
+                />
+              </Button>
+            </div>
             <div className="row">
               <div className="mr-5">
                 <StyledInput

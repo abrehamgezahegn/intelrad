@@ -249,6 +249,9 @@ const UploadXRay = () => {
         type="success"
         message="Successfully uploaded image"
         isOpen={snackBarOpen}
+        onClose={() => {
+          toggleSnackbar(false);
+        }}
       />
     </>
   );

@@ -16,7 +16,7 @@ import { db } from "../../../utils/firebase";
 import { getDate, getTime } from "../../../utils/dateFormat";
 import Spinner from "../../../components/Spinner";
 import { useAuth } from "../../../context/AuthProvider";
-// import RefreshIcon from "@material-ui/icons-material/Refresh";
+import RefreshIcon from "@material-ui/icons/RefreshRounded";
 
 const Records = () => {
   const [allRecords, setAllRecords] = React.useState([]);
@@ -47,57 +47,58 @@ const Records = () => {
     });
     setRecords(filtered);
   };
+  const fetchPatients = async () => {
+    const querySnapshot = await getDocs(collection(db, "patients"));
+    let data = [];
+    let patients = [];
+    let practitioners = [];
+    querySnapshot.forEach((item) => {
+      patients = [...patients, item.data()];
+      const dignosises = item.data().diagnosis.map((rec) => {
+        const date = getDate(rec.createdAt.seconds);
+        const time = getTime(rec.createdAt.seconds);
+        return {
+          ...item.data(),
+          ...rec,
+          radiographer: rec.radiographer?.name,
+          radiologist: rec.radiologist?.name,
+          date,
+          visitTime: time,
+        };
+      });
+      data = [...data, ...dignosises];
+    });
+
+    const usersQuerySnapshot = await getDocs(collection(db, "users"));
+    usersQuerySnapshot.forEach((item) => {
+      practitioners = [...practitioners, item.data()];
+    });
+
+    data = data.sort((a, b) => b.updatedAt.seconds - a.updatedAt.seconds);
+
+    if (auth.user.role === "radiologist") {
+      data = data.filter((item) => item.status === "diagnosed");
+    } else if (auth.user.role === "radiographer") {
+      data = data.filter(
+        (item) => item.status === "imaged" || item.status === "diagnosed"
+      );
+    }
+
+    console.log("data", data);
+
+    setAllRecords(data);
+    setRecords(data);
+    setPatients(patients);
+    setPractitioners(practitioners);
+
+    setState("success");
+
+    // setTimeout(() => {
+    //   fetchPatients();
+    // }, 2000);
+  };
 
   useEffect(() => {
-    const fetchPatients = async () => {
-      console.log("polling");
-      const querySnapshot = await getDocs(collection(db, "patients"));
-      let data = [];
-      let patients = [];
-      let practitioners = [];
-      querySnapshot.forEach((item) => {
-        patients = [...patients, item.data()];
-        const dignosises = item.data().diagnosis.map((rec) => {
-          const date = getDate(rec.createdAt.seconds);
-          const time = getTime(rec.createdAt.seconds);
-          return {
-            ...item.data(),
-            ...rec,
-            radiographer: rec.radiographer?.name,
-            radiologist: rec.radiologist?.name,
-            date,
-            visitTime: time,
-          };
-        });
-        data = [...data, ...dignosises];
-      });
-
-      const usersQuerySnapshot = await getDocs(collection(db, "users"));
-      usersQuerySnapshot.forEach((item) => {
-        practitioners = [...practitioners, item.data()];
-      });
-
-      data = data.sort((a, b) => b.updatedAt.seconds - a.updatedAt.seconds);
-
-      if (auth.user.role === "radiologist") {
-        data = data.filter((item) => item.status === "diagnosed");
-      } else if (auth.user.role === "radiographer") {
-        data = data.filter(
-          (item) => item.status === "imaged" || item.status === "diagnosed"
-        );
-      }
-
-      setAllRecords(data);
-      setRecords(data);
-      setPatients(patients);
-      setPractitioners(practitioners);
-
-      setState("success");
-
-      // setTimeout(() => {
-      //   fetchPatients();
-      // }, 2000);
-    };
     fetchPatients();
 
     // eslint-disable-next-line
@@ -190,8 +191,22 @@ const Records = () => {
         )}
         <div>
           <div className="row d_header">
-            <h1>Diagnosis</h1>
-            {/* <RefreshIcon /> */}
+            <div className="flex items-center">
+              <h1>Diagnosis</h1>
+              <Button
+                onClick={() => {
+                  fetchPatients();
+                }}
+                className="ml-4"
+                style={{ marginLeft: 8 }}
+              >
+                <RefreshIcon
+                  onClick={() => {
+                    fetchPatients();
+                  }}
+                />
+              </Button>
+            </div>
             <div className="row">
               <div className="mr-5">
                 <StyledInput
