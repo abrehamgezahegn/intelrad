@@ -86,6 +86,7 @@ const CreateUser = () => {
               <Select
                 options={[
                   { label: "Admin", value: "admin" },
+                  { label: "Super admin", value: "superAdmin" },
                   { label: "Doctor", value: "doctor" },
                   { label: "Radiologist", value: "radiologist" },
                   { label: "Radiographer", value: "radiographer" },

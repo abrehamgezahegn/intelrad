@@ -102,12 +102,6 @@ const Diagnose = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (!showSaliency) {
-      // imageZoom("myimage", "myresult");
-    }
-  }, [showSaliency]);
-
   const getPrediction = async (imageUrl, patient, diagnosis) => {
     console.log("get prediction", imageUrl);
     console.log("patient", patient);
@@ -145,6 +139,11 @@ const Diagnose = () => {
 
       const updatedDiagnosis = patient.diagnosis.map((item) => {
         if (item.diagnosisId === diagnosis.diagnosisId) {
+          console.log("setting diagnosis", {
+            ...item,
+            riskProbability: riskProbability,
+            saliencyImage: `${process.env.REACT_APP_BACKEND_URL}${res.data.saliency}`,
+          });
           setDiagnosis({
             ...item,
             riskProbability: riskProbability,
@@ -178,6 +177,9 @@ const Diagnose = () => {
       </div>
     );
   }
+
+  console.log("show sailency", showSaliency);
+  console.log("dianosisi emmmm", diagnosis);
 
   return (
     <Container>
