@@ -10,7 +10,7 @@ function CircularProgressWithLabel(props) {
       <Box position="relative" display="inline-flex">
         <CircularProgress
           variant="determinate"
-          size={64}
+          size={74}
           className="progress"
           {...props}
         />
@@ -24,7 +24,9 @@ function CircularProgressWithLabel(props) {
           alignItems="center"
           justifyContent="center"
         >
-          <h4 className="font-bold">{Math.round(props.value)}%</h4>
+          <h4 style={{ fontSize: 16 }} className="font-bold">
+            {Math.round(props.value * 100) / 100}%
+          </h4>
           {/* <Typography
             variant="caption"
             component="div"

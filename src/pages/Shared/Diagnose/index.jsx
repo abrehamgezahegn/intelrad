@@ -287,14 +287,16 @@ const Diagnose = () => {
         <div className="right-content">
           <div className="risk_card">
             <RiskCard diagnosis={diagnosis} />
-            <ButtonDark
-              onClick={() => {
-                toggleSaliency((prev) => !prev);
-              }}
-              style={{ width: "100%" }}
-            >
-              Show saliency map
-            </ButtonDark>
+            {diagnosis.riskProbability && (
+              <ButtonDark
+                onClick={() => {
+                  toggleSaliency((prev) => !prev);
+                }}
+                style={{ width: "100%" }}
+              >
+                Show saliency map
+              </ButtonDark>
+            )}
           </div>
           <PatientCard patient={patient} diagnosis={diagnosis} />
         </div>
