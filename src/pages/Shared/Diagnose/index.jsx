@@ -26,6 +26,7 @@ const Diagnose = () => {
   const history = useHistory();
   const [patient, setPatient] = useState();
   const [diagnosis, setDiagnosis] = useState();
+  const [showSaliency, toggleSaliency] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const {
     register,
@@ -101,6 +102,12 @@ const Diagnose = () => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (!showSaliency) {
+      // imageZoom("myimage", "myresult");
+    }
+  }, [showSaliency]);
+
   const getPrediction = async (imageUrl, patient, diagnosis) => {
     console.log("get prediction", imageUrl);
     console.log("patient", patient);
@@ -138,10 +145,15 @@ const Diagnose = () => {
 
       const updatedDiagnosis = patient.diagnosis.map((item) => {
         if (item.diagnosisId === diagnosis.diagnosisId) {
-          setDiagnosis({ ...item, riskProbability: riskProbability });
+          setDiagnosis({
+            ...item,
+            riskProbability: riskProbability,
+            saliencyImage: `${process.env.REACT_APP_BACKEND_URL}${res.data.saliency}`,
+          });
           return {
             ...item,
             riskProbability: riskProbability,
+            saliencyImage: `${process.env.REACT_APP_BACKEND_URL}${res.data.saliency}`,
           };
         } else return item;
       });
@@ -171,20 +183,32 @@ const Diagnose = () => {
     <Container>
       <div className="inner">
         <div className="diagnosis_area">
-          <div className="images">
-            <div>
-              <img
-                onClick={() => {
-                  getFullScreen();
-                }}
-                id="myimage"
-                alt=""
-                className="image"
-                src={diagnosis.xrayUrl}
-              />
-            </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div className="images">
+              <div className="main-image-container">
+                <img
+                  onClick={() => {
+                    getFullScreen();
+                  }}
+                  id="myimage"
+                  alt=""
+                  className="image"
+                  src={diagnosis.xrayUrl}
+                />
+                <img
+                  className="saliency-image"
+                  src={
+                    diagnosis.saliencyImage
+                      ? diagnosis.saliencyImage
+                      : `${process.env.REACT_APP_BACKEND_URL}/static/img/saliency/2021-09-17 07:50:45.876596.svg`
+                  }
+                  alt="sailcyy"
+                  style={{ display: showSaliency ? "block" : "none" }}
+                />
+              </div>
 
-            <div id="myresult" class="img-zoom-result"></div>
+              <div id="myresult" class="img-zoom-result"></div>
+            </div>
           </div>
           {diagnosis.status === "imaged" && (
             <div>
@@ -263,6 +287,14 @@ const Diagnose = () => {
         <div className="right-content">
           <div className="risk_card">
             <RiskCard diagnosis={diagnosis} />
+            <ButtonDark
+              onClick={() => {
+                toggleSaliency((prev) => !prev);
+              }}
+              style={{ width: "100%" }}
+            >
+              Show saliency map
+            </ButtonDark>
           </div>
           <PatientCard patient={patient} diagnosis={diagnosis} />
         </div>

@@ -82,4 +82,14 @@ export const Container = styled.div`
   .select {
     width: 30%;
   }
+  .main-image-container {
+    position: relative;
+  }
+  .saliency-image {
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    top: 0px;
+    opacity: 0.4;
+  }
 `;
