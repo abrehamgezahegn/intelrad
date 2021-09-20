@@ -9,104 +9,24 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { StyledTableRow } from "./styles";
-import { Button, ButtonOutlined } from "../../../../components/Button";
+import { ButtonOutlined } from "../../../../components/Button";
+import AlertDialog from "../../../../components/AlertDialog";
 
-import { useTheme } from "styled-components";
+import { useHistory } from "react-router";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
-  { id: "date", label: "Date", minWidth: 170 },
-  { id: "visitTime", label: "Visit Time", minWidth: 170 },
+  { id: "firstName", label: "First Name", minWidth: 170 },
+  { id: "lastName", label: "Last Name", minWidth: 170 },
+  { id: "age", label: "Age", minWidth: 80 },
+  { id: "sex", label: "Sex", minWidth: 100 },
+  // { id: "phoneNumber", label: "Phone Number", minWidth: 170 },
+  { id: "priority", label: "Priority", minWidth: 120 },
+  { id: "status", label: "Status", minWidth: 170 },
+  { id: "condition", label: "Condition", minWidth: 170 },
   { id: "radiologist", label: "Radiologist", minWidth: 170 },
   { id: "radiographer", label: "Radiographer", minWidth: 170 },
-  { id: "condition", label: "Condition", minWidth: 170 },
-  { id: "status", label: "Status", minWidth: 170 },
-];
-
-const rows = [
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "requested",
-  },
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "diagnosed",
-  },
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "requested",
-  },
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "viewed",
-  },
-
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "diagnosed",
-  },
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "requested",
-  },
-
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "viewed",
-  },
-  {
-    name: "Abebech Bersabeh",
-    phoneNumber: "09124115125",
-    date: "10-10-2021",
-    visitTime: "12:40PM",
-    radiologist: "Dr.Someone",
-    radiographer: "Dr.Radiographer",
-    condition: "Bacterial Puemonia",
-    status: "viewed",
-  },
+  { id: "date", label: "Date", minWidth: 170 },
+  { id: "visitTime", label: "Visit Time", minWidth: 170 },
 ];
 
 const useStyles = makeStyles({
@@ -118,10 +38,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable({
+  records = [],
+  onDiagnosisDelete,
+  noData,
+}) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const history = useHistory();
+  const [isAlertOPen, toggleAlert] = React.useState(false);
+  const [diagnosisToDelete, setToDelete] = React.useState({});
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -137,8 +64,34 @@ export default function StickyHeadTable() {
     else if (value === "diagnosed") return "green";
   };
 
+  const openAlert = (record) => {
+    setToDelete(record);
+    toggleAlert(true);
+  };
+
+  const onDelete = () => {
+    // fetch fresh records
+    onDiagnosisDelete(diagnosisToDelete);
+    toggleAlert(false);
+  };
+
+  const showItem = (column, value) => {
+    if (!value) return "-";
+    if (column.format && typeof value === "number") return column.format(value);
+    return value;
+  };
+
   return (
     <Paper className={classes.root}>
+      <AlertDialog
+        open={isAlertOPen}
+        onCancel={() => {
+          toggleAlert(false);
+        }}
+        onConfirm={onDelete}
+        title="Are you sure you want to delete this record?"
+        description="Warning: The diagnosis data will be lost!"
+      />
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -155,9 +108,24 @@ export default function StickyHeadTable() {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {noData && (
+              <div className="w-full ml-4 mb-12">
+                <h1 className="whitespace-nowrap	text-lg text-center mt-8">
+                  No data found
+                </h1>
+              </div>
+            )}
+            {!noData && records.length === 0 && (
+              <div className="w-full ml-4 mb-12">
+                <h1 className="whitespace-nowrap	text-lg text-center mt-8">
+                  No data found matching your filter
+                  {/* <span className="font-bold">"{searchTerm}"</span> */}
+                </h1>
+              </div>
+            )}
+
+            {records
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .sort((item) => (item.status !== "diagnosed" ? 1 : -1))
               .map((row) => {
                 return (
                   <StyledTableRow
@@ -169,8 +137,7 @@ export default function StickyHeadTable() {
                   >
                     {columns.map((column, index) => {
                       const value = row[column.id];
-
-                      if (index === columns.length - 1) {
+                      if (column.id === "status") {
                         return (
                           <TableCell key={column.id} align={column.align}>
                             <div className="row">
@@ -184,26 +151,40 @@ export default function StickyHeadTable() {
                                     : value}
                                 </ButtonOutlined>
                               </div>
-                              <DeleteIcon
-                                className="icon"
-                                color={"#fff"}
-                                style={{ color: "#D64545", marginLeft: 48 }}
-                              />
                             </div>
                           </TableCell>
                         );
                       }
                       return (
                         <TableCell
+                          onClick={() => {
+                            if (row.status === "diagnosed")
+                              history.push(
+                                `/diagnose/${row.id}/${row.diagnosisId}`
+                              );
+                          }}
                           style={{
                             color: !row.opened && "#000",
+                            textTransform: "capitalize",
                           }}
                           key={column.id}
                           align={column.align}
                         >
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {showItem(column, value)}
+                          {column.id === "visitTime" && (
+                            <DeleteIcon
+                              onClick={() => {
+                                console.log("delete click");
+                                openAlert(row);
+                              }}
+                              className="icon"
+                              color={"#fff"}
+                              style={{
+                                color: "#D64545",
+                                marginLeft: 48,
+                              }}
+                            />
+                          )}
                         </TableCell>
                       );
                     })}
@@ -216,7 +197,7 @@ export default function StickyHeadTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={records.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

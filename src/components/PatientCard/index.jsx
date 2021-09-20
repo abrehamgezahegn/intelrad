@@ -1,7 +1,12 @@
 import React from "react";
 import { Container } from "./styles";
+import { getDate } from "../../utils/dateFormat";
 
-const PatientCard = () => {
+const PatientCard = ({
+  patient = {},
+  showLastDiagnosisDate = true,
+  diagnosis = {},
+}) => {
   return (
     <Container>
       <div className="patient_card">
@@ -13,16 +18,45 @@ const PatientCard = () => {
         />
         <div>
           <h3 className="item">
-            <span> Name: </span> Jhon Doe
+            <span> Name: </span>{" "}
+            {`${patient.firstName || ""} ${patient.lastName || ""}`}
           </h3>
           <h3 className="item">
-            <span>Age:</span>
-            39
+            <span>Age: </span>
+            {patient.age}
           </h3>
-
           <h3 className="item">
-            <span>Last Diagnosis:</span> Tue, 23 June, 2019
+            <span>Sex: </span>
+            {patient.sex}
           </h3>
+          <h3 className="item">
+            <span>Phone number: </span>
+            {patient.phoneNumber}
+          </h3>
+          {showLastDiagnosisDate && (
+            <h3 className="item">
+              <span>Last Diagnosis:</span> {getDate(patient.updatedAt.seconds)}
+            </h3>
+          )}
+          <br />
+          {diagnosis.doctor && (
+            <h3 className="item">
+              <span>Doctor: </span>
+              {diagnosis.doctor.name}
+            </h3>
+          )}
+          {diagnosis.radiographer && (
+            <h3 className="item">
+              <span>Radiographer: </span>
+              {diagnosis.radiographer.name}
+            </h3>
+          )}{" "}
+          {diagnosis.radiologist && (
+            <h3 className="item">
+              <span>Radiologist: </span>
+              {diagnosis.radiologist.name}
+            </h3>
+          )}
         </div>
       </div>
     </Container>

@@ -1,15 +1,80 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Container } from "./styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useAuth } from "../../context/AuthProvider";
+import Logo from "../Logo";
+
+const radiographer = [
+  {
+    title: "Requests",
+    to: "/",
+  },
+  {
+    title: "History",
+    to: "/history",
+  },
+];
+
+const radiologist = [
+  {
+    title: "Requests",
+    to: "/",
+  },
+  {
+    title: "History",
+    to: "/history",
+  },
+];
+
+const doctor = [
+  {
+    title: "Diagnosis",
+    to: "/",
+  },
+  // {
+  //   title: "Patients",
+  //   to: "/patients",
+  // },
+];
+
+const superAdmin = [
+  {
+    title: "Dashboard",
+    to: "/",
+  },
+  // {
+  //   title: "Patients",
+  //   to: "/patients",
+  // },
+];
+
+const admin = [
+  {
+    title: "Create user",
+    to: "/",
+  },
+  // {
+  //   title: "Patients",
+  //   to: "/patients",
+  // },
+];
+
+const navItems = {
+  radiographer,
+  radiologist,
+  doctor,
+  superAdmin,
+  admin,
+};
 
 const Nav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const auth = useAuth();
+  const location = useLocation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,24 +89,24 @@ const Nav = () => {
       <div className="inner">
         <div className="logo">
           <NavLink to="/">
-            <h1>INTELRAD</h1>
+            <Logo />
           </NavLink>
         </div>
         <div className="nav-items">
-          <NavLink
-            to="/new-cases"
-            className="nav-item"
-            activeClassName="nav_item__active"
-          >
-            New cases
-          </NavLink>
-          <NavLink
-            to="/diagnosed"
-            className="nav-item"
-            activeClassName="nav_item__active"
-          >
-            Diagnosed
-          </NavLink>
+          {navItems[auth.user.role].map((navItem) => {
+            return (
+              <NavLink
+                to={navItem.to}
+                className="nav-item"
+                activeClassName="nav_item__active"
+                style={{
+                  color: location.pathname === navItem.to ? "white" : "#7B8794",
+                }}
+              >
+                {navItem.title}
+              </NavLink>
+            );
+          })}
         </div>
 
         <div className="user-items row">
@@ -57,7 +122,7 @@ const Nav = () => {
               onClick={handleClick}
               className="menu-trigger"
             >
-              Rad. Never Given Name
+              {auth.user.name}
             </Button>
             <Menu
               id="simple-menu"

@@ -1,13 +1,13 @@
 import React from "react";
-import Spinner from "../Spinner";
 import styled, { css } from "styled-components";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const baseButton = css`
   outline: none;
   border: none;
   border-radius: 10px;
   background: ${(props) => props.theme.primary1};
-  padding: 12px 4px;
+  padding: 12px 12px;
   color: ${(props) => props.theme.white};
   ${(props) => props.theme.bold_16};
   cursor: pointer;
@@ -58,12 +58,15 @@ const StyledOutlinedButton = styled.button`
   ${baseButton};
   background: ${(props) => props.theme.white};
   color: ${(props) => {
+    if (props.color === "red") return props.theme.error;
     if (props.color === "green") return props.theme.success;
     if (props.color === "yellow") return props.theme.warning;
     return props.theme.grey3;
   }};
   border: 2px solid
     ${(props) => {
+      if (props.color === "red") return props.theme.error;
+
       if (props.color === "green") return props.theme.success;
       if (props.color === "yellow") return props.theme.warning;
       return props.theme.grey3;
@@ -73,7 +76,11 @@ const StyledOutlinedButton = styled.button`
 export const Button = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledButton {...buttonProps} disabled={loading}>
-      {loading ? <Spinner size="S" /> : children}
+      {loading ? (
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
+      ) : (
+        children
+      )}
     </StyledButton>
   );
 };
@@ -81,7 +88,11 @@ export const Button = ({ children, loading, ...buttonProps }) => {
 export const ButtonLight = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledLightButton disabled={loading} {...buttonProps}>
-      {loading ? <Spinner color="dark" size="S" /> : children}
+      {loading ? (
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
+      ) : (
+        children
+      )}
     </StyledLightButton>
   );
 };
@@ -89,7 +100,11 @@ export const ButtonLight = ({ children, loading, ...buttonProps }) => {
 export const ButtonGrey = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledGreyButton disabled={loading} {...buttonProps}>
-      {loading ? <Spinner color="dark" size="S" /> : children}
+      {loading ? (
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
+      ) : (
+        children
+      )}
     </StyledGreyButton>
   );
 };
@@ -102,7 +117,13 @@ export const ButtonDark = ({
 }) => {
   return (
     <StyledDarkButton disabled={loading} {...buttonProps} type="submit">
-      {loading ? <Spinner color="light" size="S" /> : children}
+      {loading ? (
+        <div style={{ width: "100%" }}>
+          <CircularProgress size={24} thickness={4.2} color="inherit" />
+        </div>
+      ) : (
+        children
+      )}
     </StyledDarkButton>
   );
 };
@@ -110,7 +131,11 @@ export const ButtonDark = ({
 export const ButtonOutlined = ({ children, loading, ...buttonProps }) => {
   return (
     <StyledOutlinedButton disabled={loading} {...buttonProps}>
-      {loading ? <Spinner color="dark" size="S" /> : children}
+      {loading ? (
+        <CircularProgress size={24} thickness={4.2} color="inherit" />
+      ) : (
+        children
+      )}
     </StyledOutlinedButton>
   );
 };

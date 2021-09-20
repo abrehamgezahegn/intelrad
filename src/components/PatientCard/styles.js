@@ -12,6 +12,8 @@ export const Container = styled.div`
 
   .item {
     margin-bottom: 24px;
+    text-transform: capitalize;
+    word-break: break-all;
   }
 
   .item span {

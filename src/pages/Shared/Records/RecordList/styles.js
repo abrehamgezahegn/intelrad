@@ -2,6 +2,7 @@ import styled from "styled-components";
 import TableRow from "@material-ui/core/TableRow";
 
 export const StyledTableRow = styled(TableRow)`
+  height: 74px !important;
   td {
     color: ${(props) => {
       if (!props.opened) return props.theme.grey1;

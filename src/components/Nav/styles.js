@@ -12,6 +12,7 @@ export const Container = styled.div`
   .logo {
     display: flex;
     align-items: center;
+    margin-left: -76px;
   }
   .logo a {
     color: ${(props) => props.theme.white};
@@ -20,6 +21,7 @@ export const Container = styled.div`
   .nav-items {
     display: flex;
     align-items: center;
+    margin-left: -178px;
   }
 
   .inner {
@@ -35,7 +37,6 @@ export const Container = styled.div`
 
   .nav_item__active {
     color: ${(props) => props.theme.white};
-    color: red;
   }
 
   .menu-trigger {

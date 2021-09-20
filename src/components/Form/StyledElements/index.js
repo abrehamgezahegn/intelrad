@@ -26,6 +26,8 @@ export const baseInput = css`
 export const StyledTextArea = styled.textarea`
   ${baseInput}
   resize: none;
+  font-size: 20px;
+  padding: 12px 32px 7px 18px;
 `;
 
 export const StyledLabel = styled.label`

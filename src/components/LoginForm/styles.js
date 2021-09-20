@@ -5,7 +5,7 @@ export const Container = styled.div`
   max-width: 480px;
 
   .subtitle {
-    margin-bottom: 36px;
+    margin-bottom: 16px;
     color: ${(props) => props.theme.grey3};
   }
 

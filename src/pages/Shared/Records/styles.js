@@ -39,4 +39,14 @@ export const Container = styled.div`
     margin-right: 24px;
     width: 200px;
   }
+
+  .refresh-button {
+    padding: 16px;
+  }
+
+  .refresh-button:hover {
+    padding: 16px;
+    transform: scale(1.5);
+    transition: 0.4s ease-in-out;
+  }
 `;
