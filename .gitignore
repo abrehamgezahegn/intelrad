@@ -17,7 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
-# .env
+.env
 firebase_admin.json
 
 npm-debug.log*
