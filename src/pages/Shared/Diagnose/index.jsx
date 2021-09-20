@@ -84,8 +84,8 @@ const Diagnose = () => {
           setPatient(patient);
           setState("success");
           imageZoom("myimage", "myresult");
-          // if (!diagnosis.riskProbability) {
-          if (true) {
+          console.log("DIAGOIISISI ", diagnosis);
+          if (!diagnosis.riskProbability) {
             await getPrediction(diagnosis.xrayUrl, patient, diagnosis);
           }
         } else {

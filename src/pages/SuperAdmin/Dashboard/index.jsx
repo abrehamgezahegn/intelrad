@@ -34,6 +34,7 @@ const Dashboard = () => {
       let practitioners = [];
       querySnapshot.forEach((item) => {
         patients = [...patients, item.data()];
+        if (!item.data().diagnosis) return;
         const dignosises = item.data().diagnosis.map((rec) => {
           const date = getDate(rec.createdAt.seconds);
           const time = getTime(rec.createdAt.seconds);

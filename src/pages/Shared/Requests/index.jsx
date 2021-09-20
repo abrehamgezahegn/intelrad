@@ -41,6 +41,9 @@ const Requests = () => {
     const querySnapshot = await getDocs(collection(db, "patients"));
     let data = [];
     querySnapshot.forEach((item) => {
+      if (!item.data().diagnosis) {
+        return;
+      }
       const dignosises = item.data().diagnosis.map((rec) => {
         const date = getDate(rec.createdAt.seconds);
         const time = getTime(rec.createdAt.seconds);
